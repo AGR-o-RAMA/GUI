@@ -26,7 +26,9 @@ Window {
 
             Menu {
                 title: qsTr("&File")
-                Action { text: qsTr("&New...") }
+                Action { text: qsTr("&New...")
+                    onTriggered: print("OK")
+                }
                 Action { text: qsTr("&Open...") }
                 Action { text: qsTr("&Save") }
                 Action { text: qsTr("Save &As...") }
@@ -100,6 +102,7 @@ Window {
                     z: 1
                     width: 40
                     text: qsTr("+")
+                    onPressed: ++map.zoomLevel;
                 }
 
                 Button {
@@ -110,6 +113,7 @@ Window {
                     anchors.top: plusButton.bottom
                     anchors.left: plusButton.left
                     anchors.topMargin: 1
+                    onPressed: --map.zoomLevel;
                 }
 
                 Canvas {
