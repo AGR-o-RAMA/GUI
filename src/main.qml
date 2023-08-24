@@ -97,26 +97,85 @@ Window {
                     id: plusButton
                     x: 0.95 * parent.width
                     y: 0.8 * parent.height
+                    z: 1
                     width: 40
                     text: qsTr("+")
                 }
 
                 Button {
                     id: minusButton
-
+                    z: 1
                     width: 40
                     text: qsTr("-")
                     anchors.top: plusButton.bottom
                     anchors.left: plusButton.left
                     anchors.topMargin: 1
                 }
+
+                Canvas {
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onPressAndHold: {
+                                grid.rectX = Math.floor(mouseX/grid.wgrid) * grid.wgrid;
+                                grid.rectY = Math.floor(mouseY/grid.wgrid) * grid.wgrid;
+
+                                grid.operation = 1;
+                                grid.requestPaint()
+                            }
+                        }
+
+                        id: grid
+                        anchors.fill : parent
+
+                        property int wgrid: 40
+                        property int operation: 0 // 0 -> tiles 1 -> mark
+                        property int rectX: 0;
+                        property int rectY: 0;
+
+                        onPaint: {
+                            const ctx = getContext("2d")
+                            if(operation == 0){
+                                ctx.reset()
+                                ctx.lineWidth = 1
+                                ctx.strokeStyle = "black"
+                                ctx.beginPath()
+                                var nrows = height/wgrid;
+                                for(var i=0; i < nrows+1; i++){
+
+                                    ctx.moveTo(0, wgrid*i);
+                                    ctx.lineTo(width, wgrid*i);
+                                }
+
+                                var ncols = width/wgrid
+                                for(var j=0; j < ncols+1; j++){
+                                    ctx.moveTo(wgrid*j, 0);
+                                    ctx.lineTo(wgrid*j, height);
+                                }
+                                ctx.closePath()
+                                ctx.stroke()
+                            }
+                            else if(operation == 1){
+                                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.1);
+                                ctx.fillRect(rectX,rectY,wgrid,wgrid);
+                            }
+                        }
+                    }
             }
             Slider {
                 id: slider
                 width: parent.width / 24
                 height: 971
                 orientation: Qt.Vertical
-                value: 0.5
+                from: 20
+                to: 300
+                value: 100
+                onMoved: {
+                    grid.wgrid = value;
+                    grid.operation = 0;
+                    grid.requestPaint();
+                }
+
             }
 
 
