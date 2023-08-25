@@ -72,17 +72,35 @@ Window {
                 id: leftWindow
 
                 CheckDelegate {
-                    id: useCuda
-                    width: 134
-                    text: qsTr("use_cuda")
-                    anchors.top: parent.top
-                }
-                CheckDelegate {
                     id: editMode
                     text: qsTr("Edit Mode")
-                    anchors.top: useCuda.bottom
-
+                    anchors.top: parent.top
+                    onCheckedChanged: {
+                        if(checkState == Qt.Unchecked){
+                            plusButton.visible = true;
+                            minusButton.visible = true;
+                            slider.visible = false;
+                            grid.operation = 3;
+                            grid.requestPaint();
+                        }
+                        else if (checkState == Qt.Checked){
+                            plusButton.visible = false;
+                            minusButton.visible = false;
+                            slider.visible = true;
+                            map.gesture.enabled = false;
+                            grid.operation = 0;
+                            grid.requestPaint();
+                        }
+                    }
                 }
+
+                CheckDelegate {
+                    id: useCuda
+                    anchors.top: editMode.bottom
+                    width: 134
+                    text: qsTr("Use cuda")
+                }
+
             }
 
 
@@ -94,6 +112,7 @@ Window {
                 plugin: mapPlugin
                 center: QtPositioning.coordinate(41.902782, 12.496366)
                 zoomLevel: 14
+                gesture.enabled: true
 
                 Button {
                     id: plusButton
@@ -102,7 +121,7 @@ Window {
                     z: 1
                     width: 40
                     text: qsTr("+")
-                    onPressed: ++map.zoomLevel;
+                    onPressed: if(map.gesture.enabled) ++map.zoomLevel;
                 }
 
                 Button {
@@ -113,7 +132,7 @@ Window {
                     anchors.top: plusButton.bottom
                     anchors.left: plusButton.left
                     anchors.topMargin: 1
-                    onPressed: --map.zoomLevel;
+                    onPressed: if(map.gesture.enabled) --map.zoomLevel;
                 }
 
                 Canvas {
@@ -143,14 +162,17 @@ Window {
                         id: grid
                         anchors.fill : parent
 
-                        property int wgrid: 40
-                        property int operation: 0 // 0 -> tiles 1 -> mark 2 -> unmark
+                        property int wgrid: 100
+                        property int operation: 0 // 0 -> tiles 1 -> mark 2 -> unmark 3 -> clean
                         property int rectX: 0;
                         property int rectY: 0;
 
                         property int gridLineWidth: 1;
 
                         onPaint: {
+                            if(map.gesture.enabled)
+                               return;
+
                             const ctx = getContext("2d")
                             if(operation == 0){
                                 tileshandler.generateGrid(wgrid, map.width, map.height);
@@ -191,17 +213,23 @@ Window {
 
                                 ctx.clearRect(rectX,rectY,clippedW,clippedW);
                             }
+                            else if(operation == 3){
+                                ctx.reset()
+                                tileshandler.reset();
+                                map.gesture.enabled = true;
+                            }
                         }
                     }
             }
             Slider {
                 id: slider
+                visible: false
                 width: parent.width / 24
                 height: 971
                 orientation: Qt.Vertical
                 from: 20
                 to: 300
-                value: 100
+                value: grid.wgrid
                 onMoved: {
                     grid.wgrid = value;
                     grid.operation = 0;

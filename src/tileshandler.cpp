@@ -50,4 +50,9 @@ bool TilesHandler::isTileSelected(uint x_px, uint y_px)
     return tilesMatrix[idx.first][idx.second].isSelected();
 }
 
+void TilesHandler::reset()
+{
+    this->tilesMatrix.clear();
+}
+
 
