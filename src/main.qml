@@ -120,33 +120,46 @@ Window {
 
                     MouseArea {
                         anchors.fill: parent
-                        onPressAndHold: {
+                        acceptedButtons: Qt.LeftButton | Qt.RightButton
+
+                        onClicked: {
+                            if(mouse.button === Qt.RightButton){
+                                grid.rectX = Math.floor(mouseX/grid.wgrid) * grid.wgrid;
+                                grid.rectY = Math.floor(mouseY/grid.wgrid) * grid.wgrid;
+
+                                grid.operation = 2;
+                                grid.requestPaint();
+                            }
+                            else if (mouse.button === Qt.LeftButton){
                                 grid.rectX = Math.floor(mouseX/grid.wgrid) * grid.wgrid;
                                 grid.rectY = Math.floor(mouseY/grid.wgrid) * grid.wgrid;
 
                                 grid.operation = 1;
-                                grid.requestPaint()
+                                grid.requestPaint();
                             }
                         }
+                    }
 
                         id: grid
                         anchors.fill : parent
 
                         property int wgrid: 40
-                        property int operation: 0 // 0 -> tiles 1 -> mark
+                        property int operation: 0 // 0 -> tiles 1 -> mark 2 -> unmark
                         property int rectX: 0;
                         property int rectY: 0;
+
+                        property int gridLineWidth: 1;
 
                         onPaint: {
                             const ctx = getContext("2d")
                             if(operation == 0){
+                                tileshandler.generateGrid(wgrid, map.width, map.height);
                                 ctx.reset()
-                                ctx.lineWidth = 1
+                                ctx.lineWidth = gridLineWidth
                                 ctx.strokeStyle = "black"
                                 ctx.beginPath()
                                 var nrows = height/wgrid;
                                 for(var i=0; i < nrows+1; i++){
-
                                     ctx.moveTo(0, wgrid*i);
                                     ctx.lineTo(width, wgrid*i);
                                 }
@@ -159,9 +172,24 @@ Window {
                                 ctx.closePath()
                                 ctx.stroke()
                             }
-                            else if(operation == 1){
-                                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.1);
-                                ctx.fillRect(rectX,rectY,wgrid,wgrid);
+                            else if(operation == 1 && !tileshandler.isTileSelected(rectX,rectY)){
+                                rectX += gridLineWidth;
+                                rectY += gridLineWidth;
+                                const clippedW = wgrid - 2*gridLineWidth;
+
+                                tileshandler.selectTile(rectX,rectY);
+
+                                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.15);
+                                ctx.fillRect(rectX,rectY,clippedW,clippedW);
+                            }
+                            else if(operation == 2 && tileshandler.isTileSelected(rectX,rectY)){
+                                rectX += gridLineWidth;
+                                rectY += gridLineWidth;
+                                const clippedW = wgrid - 2*gridLineWidth;
+
+                                tileshandler.deselectTile(rectX,rectY);
+
+                                ctx.clearRect(rectX,rectY,clippedW,clippedW);
                             }
                         }
                     }

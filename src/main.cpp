@@ -3,6 +3,9 @@
 
 #include <QLocale>
 #include <QTranslator>
+#include <QQmlContext>
+
+#include "tileshandler.h"
 
 int main(int argc, char *argv[])
 {
@@ -29,6 +32,10 @@ int main(int argc, char *argv[])
                 QCoreApplication::exit(-1);
         }, Qt::QueuedConnection);
     engine.load(url);
+
+    QQmlContext* root = engine.rootContext();
+    TilesHandler* th = new TilesHandler;
+    root->setContextProperty("tileshandler",th);
 
     return app.exec();
 }
