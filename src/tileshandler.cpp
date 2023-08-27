@@ -3,8 +3,8 @@
 #include <QDebug>
 #include <QQmlProperty>
 
-TilesHandler::TilesHandler(QObject *parent)
-    : QObject{parent}
+TilesHandler::TilesHandler(QQuickItem *map_view, QObject *parent)
+    : QObject{parent}, map_view(map_view)
 {
 
 }
@@ -18,6 +18,7 @@ std::pair<u16, u16> TilesHandler::pixelToIdx(u16 x_px, u16 y_px)
 }
 
 void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
+
     this->tilesMatrix.clear();
 
     this->size_px = size;
@@ -25,7 +26,14 @@ void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
     for(uint r = 0; r < map_h; r+=size){
         std::vector<Tile> row;
         for(uint c = 0; c < map_w; c+=size){
-            Tile t(c+half_size, r+half_size);
+            QPoint point(c+half_size, r+half_size);
+            QGeoCoordinate coord;
+            QVariant res;
+            QMetaObject::invokeMethod(map_view, "generateCoordinates", Q_RETURN_ARG(QVariant, res), Q_ARG(QVariant, point));
+
+            Tile t(point, coord);
+            qDebug() << res << "     " << point;
+
             row.push_back(t);
         }
         this->tilesMatrix.push_back(row);

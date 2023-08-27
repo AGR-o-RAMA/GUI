@@ -2,6 +2,8 @@
 #define TILESHANDLER_H
 
 #include <QObject>
+#include <QMetaObject>
+#include <QQuickItem>
 #include "tile.h"
 
 class TilesHandler : public QObject
@@ -11,11 +13,11 @@ class TilesHandler : public QObject
 private:
     std::vector<std::vector<Tile>> tilesMatrix;
     u16 size_px;
-
+    QQuickItem* map_view;
     std::pair<u16,u16> pixelToIdx(u16 x_px, u16 y_px);
 
 public:
-    explicit TilesHandler(QObject *parent = nullptr);
+    explicit TilesHandler(QQuickItem *map_view, QObject *parent = nullptr);
 
 signals:
 

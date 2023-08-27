@@ -4,17 +4,20 @@
 
 #include <utility>
 #include <inttypes.h>
+#include <QGeoCoordinate>
+#include <QPoint>
 
 using u16 = uint16_t;
 
 class Tile
 {
 private:
-    std::pair < u16, u16 > centroid_px;
+    QPoint centroid_px;
+    QGeoCoordinate centroid_coord;
     bool selected;
 public:
-    Tile(u16 x, u16 y);
-    Tile(u16 x, u16 y, bool selected);
+    Tile(QPoint centroid_px, QGeoCoordinate centroid_coord);
+    Tile(QPoint centroid_px, QGeoCoordinate centroid_coord, bool selected);
     void select();
     void deselect();
     bool isSelected();

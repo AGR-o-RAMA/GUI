@@ -4,7 +4,10 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QQmlContext>
-
+#include <QQmlComponent>
+#include <QMetaObject>
+#include <QQuickItem>
+#include <iostream>
 #include "tileshandler.h"
 
 int main(int argc, char *argv[])
@@ -33,8 +36,18 @@ int main(int argc, char *argv[])
         }, Qt::QueuedConnection);
     engine.load(url);
 
+
+
+    QObject *root1 = engine.rootObjects().first();
+    QQuickItem *map_view = root1->findChild<QQuickItem*>("mapView");
+
+//    QVariant result;
+//    QVariant msg = "ok";
+//    QMetaObject::invokeMethod(map_view, "generateCoordinates", Q_RETURN_ARG(QVariant, result), Q_ARG(QVariant, msg));
+
+
     QQmlContext* root = engine.rootContext();
-    TilesHandler* th = new TilesHandler;
+    TilesHandler* th = new TilesHandler(map_view);
     root->setContextProperty("tileshandler",th);
 
     return app.exec();

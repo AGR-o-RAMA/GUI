@@ -106,6 +106,8 @@ Window {
 
             Map {
                 id: map
+                objectName: "mapView"
+
                 anchors.fill: parent.Center
                 width: parent.width * 20 / 24
                 height: parent.height
@@ -114,6 +116,10 @@ Window {
                 zoomLevel: 14
                 gesture.enabled: true
 
+                function generateCoordinates(point){
+                    var startCentroid = map.toCoordinate(point, false)
+                    return startCentroid
+                }
                 Button {
                     id: plusButton
                     x: 0.95 * parent.width
@@ -175,6 +181,7 @@ Window {
 
                             const ctx = getContext("2d")
                             if(operation == 0){
+                                //map.generateCoordinates();
                                 tileshandler.generateGrid(wgrid, map.width, map.height);
                                 ctx.reset()
                                 ctx.lineWidth = gridLineWidth

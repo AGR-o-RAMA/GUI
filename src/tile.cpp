@@ -1,8 +1,14 @@
 #include "tile.h"
 
-Tile::Tile(u16 x, u16 y) : centroid_px(std::make_pair(x,y)), selected(false) {}
+Tile::Tile(QPoint centroid_px, QGeoCoordinate centroid_coord): centroid_px(centroid_px), centroid_coord(centroid_coord)
+{
 
-Tile::Tile(u16 x, u16 y, bool selected) : centroid_px(std::make_pair(x,y)), selected(selected) {}
+}
+Tile::Tile(QPoint centroid_px, QGeoCoordinate centroid_coord, bool selected): centroid_px(centroid_px), centroid_coord(centroid_coord), selected(selected)
+{
+
+}
+
 
 void Tile::select() {this->selected = true;}
 
