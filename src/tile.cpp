@@ -1,6 +1,6 @@
 #include "tile.h"
 
-Tile::Tile(QPoint centroid_px, QGeoCoordinate centroid_coord): centroid_px(centroid_px), centroid_coord(centroid_coord) {}
+Tile::Tile(QPoint centroid_px, QGeoCoordinate centroid_coord): centroid_px(centroid_px), centroid_coord(centroid_coord), selected(false) {}
 
 Tile::Tile(QPoint centroid_px, QGeoCoordinate centroid_coord, bool selected): centroid_px(centroid_px), centroid_coord(centroid_coord), selected(selected) {}
 
