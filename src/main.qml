@@ -101,6 +101,13 @@ Window {
                     text: qsTr("Use cuda")
                 }
 
+                Button{
+                    id: generate
+                    text: qsTr("Generate Ortomap")
+                    y: 300;
+
+                }
+
             }
 
 
@@ -117,9 +124,9 @@ Window {
                 gesture.enabled: true
 
                 function generateCoordinates(point){
-                    var startCentroid = map.toCoordinate(point, false)
-                    return startCentroid
+                    return map.toCoordinate(point, false);
                 }
+
                 Button {
                     id: plusButton
                     x: 0.95 * parent.width

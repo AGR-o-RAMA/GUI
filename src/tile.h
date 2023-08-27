@@ -3,11 +3,8 @@
 #define TILE_H
 
 #include <utility>
-#include <inttypes.h>
 #include <QGeoCoordinate>
 #include <QPoint>
-
-using u16 = uint16_t;
 
 class Tile
 {
@@ -20,7 +17,8 @@ public:
     Tile(QPoint centroid_px, QGeoCoordinate centroid_coord, bool selected);
     void select();
     void deselect();
-    bool isSelected();
+    bool isSelected() const;
+    QGeoCoordinate getCentroid_coord() const;
 };
 
 #endif // TILE_H
