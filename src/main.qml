@@ -4,8 +4,7 @@
 import QtQuick 2.15
 import QtQuick.Window 2.15
 import QtQuick.Controls 2.15
-import QtQuick 2.0
-import QtQuick.Window 2.14
+import QtQuick.Layouts 1.15
 import QtLocation 5.6
 import QtPositioning 5.6
 
@@ -60,23 +59,23 @@ Window {
 
         Row {
             id: row
-            x: 0
-            y: 0
             width: parent.width
             height: parent.height - menuBar.height
             anchors.top: menuBar.bottom
 
-            Rectangle {
+            ColumnLayout {
                 width:  parent.width/8
                 height: parent.height
                 id: leftWindow
+                spacing:2
 
                 CheckDelegate {
                     id: editMode
+                    Layout.alignment: Qt.AlignTop | Qt.AlignCenter
                     text: qsTr("Edit Mode")
-                    anchors.top: parent.top
                     onCheckedChanged: {
                         if(checkState == Qt.Unchecked){
+                            meters.text = "";
                             plusButton.visible = true;
                             minusButton.visible = true;
                             slider.visible = false;
@@ -94,18 +93,35 @@ Window {
                     }
                 }
 
+                Rectangle{
+
+                    id: metersBox
+                    Layout.alignment: Qt.AlignTop | Qt.AlignCenter
+                    Layout.fillWidth: true
+                    height: parent.height*0.2
+
+                    Text {
+                        id: meters
+                        anchors.fill: parent
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        font.pointSize: 15
+                        text: qsTr("")
+                    }
+                }
+
                 CheckDelegate {
                     id: useCuda
-                    anchors.top: editMode.bottom
-                    width: 134
-                    text: qsTr("Use cuda")
+                    Layout.alignment: Qt.AlignTop | Qt.AlignCenter
+                    text: qsTr("Use Cuda")
                 }
 
                 Button{
                     id: generate
                     text: qsTr("Generate Ortomap")
-                    y: 300;
-
+                    Layout.alignment: Qt.AlignBottom | Qt.AlignCenter
+                    Layout.fillWidth: true
+                    implicitHeight: 50
                 }
 
             }
@@ -207,6 +223,7 @@ Window {
                                 }
                                 ctx.closePath()
                                 ctx.stroke()
+                                meters.text = "Tiles size: "+tileshandler.getSize_m().toFixed(2)+" m";
                             }
                             else if(operation == 1 && !tileshandler.isTileSelected(rectX,rectY)){
                                 rectX += gridLineWidth;

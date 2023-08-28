@@ -32,7 +32,9 @@ public slots:
     void selectTile(uint x_px, uint y_px);
     void deselectTile(uint x_px, uint y_px);
     bool isTileSelected(uint x_px, uint y_px);
+
     void reset();
+    float getSize_m() const;
 };
 
 #endif // TILESHANDLER_H
