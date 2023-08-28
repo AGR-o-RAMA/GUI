@@ -15,13 +15,15 @@ Window {
     visible: true
     title: "Agroramads"
 
-    Rectangle {
+    ColumnLayout {
         width:  Screen.width
         height: Screen.height
         id: mainScreen
+        spacing: 0
         MenuBar {
             id: menuBar
-            width: parent.width
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignTop
 
             Menu {
                 title: qsTr("&File")
@@ -57,17 +59,18 @@ Window {
             name: "osm"
         }
 
-        Row {
+        RowLayout {
             id: row
-            width: parent.width
-            height: parent.height - menuBar.height
-            anchors.top: menuBar.bottom
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            spacing:0
 
             ColumnLayout {
-                width:  parent.width/8
-                height: parent.height
+                Layout.fillHeight: true
+                Layout.preferredWidth: row.width*0.2
+                Layout.alignment: Qt.AlignLeft
                 id: leftWindow
-                spacing:2
+                spacing:20
 
                 CheckDelegate {
                     id: editMode
@@ -98,7 +101,7 @@ Window {
                     id: metersBox
                     Layout.alignment: Qt.AlignTop | Qt.AlignCenter
                     Layout.fillWidth: true
-                    height: parent.height*0.2
+                    Layout.preferredHeight: parent.height*0.12
 
                     Text {
                         id: meters
@@ -121,7 +124,7 @@ Window {
                     text: qsTr("Generate Ortomap")
                     Layout.alignment: Qt.AlignBottom | Qt.AlignCenter
                     Layout.fillWidth: true
-                    implicitHeight: 50
+                    Layout.preferredHeight: 50
                 }
 
             }
@@ -131,9 +134,10 @@ Window {
                 id: map
                 objectName: "mapView"
 
-                anchors.fill: parent.Center
-                width: parent.width * 20 / 24
-                height: parent.height
+                Layout.fillHeight: true
+                Layout.preferredWidth: row.width*0.85
+                Layout.alignment: Qt.AlignCenter
+
                 plugin: mapPlugin
                 center: QtPositioning.coordinate(41.902782, 12.496366)
                 zoomLevel: 14
@@ -252,21 +256,31 @@ Window {
                         }
                     }
             }
-            Slider {
-                id: slider
-                visible: false
-                width: parent.width / 24
-                height: 971
-                orientation: Qt.Vertical
-                from: 20
-                to: 300
-                value: grid.wgrid
-                onMoved: {
-                    grid.wgrid = value;
-                    grid.operation = 0;
-                    grid.requestPaint();
-                }
+            Rectangle{
+                id: sliderBox
+                Layout.fillHeight: true
+                Layout.alignment: Qt.AlignRight
+                Layout.preferredWidth: row.width*0.03
 
+                Slider {
+                    id: slider
+                    z:1
+                    visible: false
+
+                    width:parent.width
+                    height:parent.height*0.9
+
+                    orientation: Qt.Vertical
+                    from: 20
+                    to: 300
+                    value: grid.wgrid
+                    onMoved: {
+                        grid.wgrid = value;
+                        grid.operation = 0;
+                        grid.requestPaint();
+                    }
+
+                }
             }
 
 
