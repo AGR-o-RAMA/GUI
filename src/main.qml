@@ -125,6 +125,9 @@ Window {
                     Layout.alignment: Qt.AlignBottom | Qt.AlignCenter
                     Layout.fillWidth: true
                     Layout.preferredHeight: 50
+                    onClicked: {
+                        tileshandler.generateCsv();
+                    }
                 }
 
             }

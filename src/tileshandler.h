@@ -4,7 +4,8 @@
 #include <QObject>
 #include <QMetaObject>
 #include <QQuickItem>
-#include <inttypes.h>>
+#include <inttypes.h>
+#include <fstream>
 #include "tile.h"
 
 using u16 = uint16_t;
@@ -34,6 +35,7 @@ public slots:
     bool isTileSelected(uint x_px, uint y_px);
 
     void reset();
+    void generateCsv();
     float getSize_m() const;
 };
 

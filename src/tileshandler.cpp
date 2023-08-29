@@ -68,4 +68,31 @@ void TilesHandler::reset()
     this->tilesMatrix.clear();
 }
 
+void TilesHandler::generateCsv()
+{
+    std::ofstream f;
+    f.open("test.csv", std::ios::trunc);
+
+    u16 rows = this->tilesMatrix.size();
+    assert(rows > 0);
+    u16 cols = this->tilesMatrix[0].size();
+    assert(cols > 0);
+
+    f << "metrics_x, metrics_y, coordinate_lat, coordinate_long\n";
+
+    for(int r = rows-1; r >= 0; --r){
+        for(int c = 0; c < cols; ++c){
+            qDebug() << r << " " << c;
+            u16 shift_r = rows-r-1;
+            QGeoCoordinate centroid = this->tilesMatrix[r][c].getCentroid_coord();
+            f << c << ", "
+              << shift_r << ", "
+              << centroid.latitude() << ", "
+              << centroid.longitude()
+              << "\n";
+        }
+    }
+    f.close();
+}
+
 
