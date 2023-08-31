@@ -1,6 +1,7 @@
 TEMPLATE = app
 QT += quick
 QT += location
+QT += widgets
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -8,6 +9,7 @@ QT += location
 
 SOURCES += \
         main.cpp \
+        menuActions.cpp \
         tile.cpp \
         tileshandler.cpp
 
@@ -30,5 +32,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    menuActions.h \
     tile.h \
     tileshandler.h

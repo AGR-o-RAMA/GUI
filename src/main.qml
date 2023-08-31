@@ -30,8 +30,10 @@ Window {
                 Action { text: qsTr("&New...")
                     onTriggered: print("OK")
                 }
-                Action { text: qsTr("&Open...") }
-                Action { text: qsTr("&Save") }
+                Action { text: qsTr("&Open...")
+                    onTriggered: menuActions.openProject()}
+                Action { text: qsTr("&Save")
+                    onTriggered: menuActions.openProject()}
                 Action { text: qsTr("Save &As...") }
                 MenuSeparator { }
                 Action { text: qsTr("&Quit") }

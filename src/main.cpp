@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 
 #include <QLocale>
@@ -9,13 +9,14 @@
 #include <QQuickItem>
 #include <iostream>
 #include "tileshandler.h"
+#include "menuActions.h"
 
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 #endif
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -44,6 +45,9 @@ int main(int argc, char *argv[])
     QQmlContext* root = engine.rootContext();
     TilesHandler* th = new TilesHandler(map_view);
     root->setContextProperty("tileshandler",th);
+
+    MenuActions* menuActions = new MenuActions;
+    root->setContextProperty("menuActions",menuActions);
 
     return app.exec();
 }
