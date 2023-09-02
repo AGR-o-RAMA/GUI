@@ -48,12 +48,6 @@ Window {
                 Action { text: qsTr("&Paste") }
             }
             Menu {
-                title: qsTr("&Views")
-                Action { text: qsTr("&Show Tiles") }
-                Action { text: qsTr("&Edit mode") }
-
-            }
-            Menu {
                 title: qsTr("&Configure")
                 Action { text: qsTr("&Photo Path")
                     onTriggered: menuActions.setPhotoPath()
@@ -100,6 +94,7 @@ Window {
                             plusButton.visible = true;
                             minusButton.visible = true;
                             slider.visible = false;
+                            generate.enabled = false;
                             grid.operation = 3;
                             grid.requestPaint();
                         }
@@ -108,6 +103,7 @@ Window {
                             minusButton.visible = false;
                             slider.visible = true;
                             map.gesture.enabled = false;
+                            generate.enabled = true;
                             grid.operation = 0;
                             grid.requestPaint();
                         }
@@ -143,6 +139,7 @@ Window {
                     Layout.alignment: Qt.AlignBottom | Qt.AlignCenter
                     Layout.fillWidth: true
                     Layout.preferredHeight: 50
+                    enabled: false
                     onClicked: {
                         tileshandler.generateCsv();
                     }
