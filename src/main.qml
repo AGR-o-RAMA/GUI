@@ -9,6 +9,7 @@ import QtLocation 5.6
 import QtPositioning 5.6
 
 Window {
+    id: window
     width: Screen.width
     height: Screen.height
 
@@ -33,14 +34,16 @@ Window {
                 Action { text: qsTr("&Open...")
                     onTriggered: menuActions.openProject()}
                 Action { text: qsTr("&Save")
-                    onTriggered: menuActions.openProject()}
+                    onTriggered: menuActions.saveProject()}
                 Action { text: qsTr("Save &As...") }
                 MenuSeparator { }
-                Action { text: qsTr("&Quit") }
+                Action { text: qsTr("&Quit")
+                    onTriggered: window.close()
+                }
             }
             Menu {
                 title: qsTr("&Edit")
-                Action { text: qsTr("Cu&t") }
+                Action { text: qsTr("&Cut") }
                 Action { text: qsTr("&Copy") }
                 Action { text: qsTr("&Paste") }
             }
@@ -48,6 +51,19 @@ Window {
                 title: qsTr("&Views")
                 Action { text: qsTr("&Show Tiles") }
                 Action { text: qsTr("&Edit mode") }
+
+            }
+            Menu {
+                title: qsTr("&Configure")
+                Action { text: qsTr("&Photo Path")
+                    onTriggered: menuActions.setPhotoPath()
+                }
+                Action { text: qsTr("&Project Path")
+                    onTriggered: menuActions.setProjectPath()
+                }
+                Action { text: qsTr("&Output Path")
+                    onTriggered: menuActions.setOutputPath()
+                }
 
             }
             Menu {
