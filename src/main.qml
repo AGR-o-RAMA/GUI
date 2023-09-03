@@ -35,7 +35,6 @@ Window {
                     onTriggered: menuActions.openProject()}
                 Action { text: qsTr("&Save")
                     onTriggered: menuActions.saveProject()}
-                Action { text: qsTr("Save &As...") }
                 MenuSeparator { }
                 Action { text: qsTr("&Quit")
                     onTriggered: window.close()
