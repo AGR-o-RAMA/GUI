@@ -1,4 +1,4 @@
-#include "tileshandler.h"
+#include "tilesHandler.h"
 
 #include <QDebug>
 #include <QQmlProperty>
@@ -35,7 +35,7 @@ void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
             Tile t(point, coord);
 
             row.push_back(t);
-        } 
+        }
         this->tilesMatrix.push_back(row);
     }
 

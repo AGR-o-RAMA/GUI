@@ -1,1 +1,0 @@
-# Agrorama-gui

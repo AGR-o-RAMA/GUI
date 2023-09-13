@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>main.qml</file>
+        <file>MapForm.qml</file>
+        <file>MapGrid.qml</file>
+    </qresource>
+</RCC>
