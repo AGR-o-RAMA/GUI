@@ -117,7 +117,18 @@ ApplicationWindow {
                     text: qsTr("Load TIF File")
                     enabled: true
                     onClicked: {
-                        map.loadTif();
+                        loader.loadTif();
+                    }
+                }
+
+                Button {
+                    id: colorTif
+                    Layout.fillWidth: true
+                    Layout.fillHeight: true
+                    text: qsTr("Color TIF Raster")
+                    enabled: true
+                    onClicked: {
+                        map.applyRasterFunction();
                     }
                 }
 
@@ -150,6 +161,13 @@ ApplicationWindow {
                 MapGrid{
                     id: grid
                     anchors.fill: parent
+                }
+
+                RasterLoader{
+                    id: loader
+                    onRasterFileChosen: url => {
+                        map.createAndAddRasterLayer(url);
+                    }
                 }
             }
 

@@ -44,9 +44,7 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
     // Add the import Path
     engine.addImportPath(QDir(QCoreApplication::applicationDirPath()).filePath("qml"));
-#ifdef ARCGIS_RUNTIME_IMPORT_PATH_2
-    engine.addImportPath(ARCGIS_RUNTIME_IMPORT_PATH_2);
-#endif
+    engine.addImportPath("/home/flavio/arcgis/maps_sdk/qt200.2.0/sdk/linux/x64/qml");
 
     //Set the source
     engine.load(QUrl("qrc:/qml/main.qml"));

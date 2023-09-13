@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>MapForm.qml</file>
         <file>MapGrid.qml</file>
+        <file>RasterLoader.qml</file>
     </qresource>
 </RCC>

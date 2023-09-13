@@ -6,9 +6,8 @@ import QtQuick.Dialogs
 
 
 Item {
-    id: root
     property var rasterLayer: null
-
+    readonly property url dataPath: (System.writableLocationUrl(System.StandardPathsHomeLocation) + "/Downloads")
     MapView {
         id: mapView
         objectName: "mapView"
@@ -27,8 +26,10 @@ Item {
             }
 
             RasterLayer {
+                opacity: 0.5
                 Raster {
-                    path: "home/flavio/Downloads/example/example.tif"
+                    id: theRaster
+                    path: ""
                 }
 
                 onLoadStatusChanged: {
@@ -45,76 +46,12 @@ Item {
         }
     }
 
-
-    Item {
-        id: loader
-        anchors.fill: parent
-        signal rasterFileChosen(url url);
-        property var supportedExtensions: ["img","I12","dt0","dt1","dt2","tc2","geotiff","tif", "tiff", "hr1","jpg","jpeg","jp2","ntf","png","i21","ovr"]
-        property var rasterLayer: null
-
-        onRasterFileChosen: url => {
-            createAndAddRasterLayer(url);
-        }
-
-        FileDialog {
-            id: fileDialog
-            title: "Please choose a file"
-            onAccepted: {
-                console.log("LOADING")
-                loader.rasterFileChosen(fileDialog.selectedFile)
-            }
-            onRejected: {
-                console.log("Canceled")
-            }
-            Component.onCompleted: visible = false
-        }
-
-        DropArea {
-            anchors.fill: parent
-
-            onDropped: (drop) => {
-                if (!drop.hasText)
-                    return;
-
-                if (drop.urls.length !== 1)
-                    return;
-
-                if (!loader.validateFileExtension(drop.urls[0]))
-                    return;
-
-                if (drop.proposedAction !== Qt.MoveAction && drop.proposedAction !== Qt.CopyAction)
-                    return;
-
-                drop.acceptProposedAction();
-                loader.rasterFileChosen(drop.urls[0]);
-            }
-        }
-
-        function validateFileExtension(filePath) {
-            var path = filePath.toString();
-            path = path.replace(/^(file:\/{2})/,"");
-            console.log(path);
-            const extension = path.split('.').pop();
-            const idx = supportedExtensions.indexOf(extension);
-            return idx !== -1;
-        }
-
-        onSupportedExtensionsChanged: {
-            let nameFiltersString = "Raster files (";
-            for (let i = 0; i < supportedExtensions.length; i++)
-                nameFiltersString += "*." + supportedExtensions[i] + " ";
-
-            nameFiltersString += ")";
-            fileDialog.nameFilters = nameFiltersString;
-        }
-    }
-
     function createAndAddRasterLayer(rasterUrl) {
        const newRaster = ArcGISRuntimeEnvironment.createObject("Raster", {path: rasterUrl});
        rasterLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: newRaster});
-
        rasterLayer.loadStatusChanged.connect(zoomToRaster);
+
+       theRaster.path = rasterUrl
 
        map.operationalLayers.clear();
        map.operationalLayers.append(rasterLayer);
@@ -130,8 +67,35 @@ Item {
         mapView.setViewpointCenterAndScale(rasterLayer.fullExtent.center, 800);
     }
 
-    function loadTif() {
-        fileDialog.open();
+    function applyRasterFunction() {
+        // create raster function
+        const rasterFunction = createRasterFunction();
+
+        // check for valid raster function
+        if (!rasterFunction)
+            return;
+
+        // create the raster from the raster function
+        const newRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
+        rasterLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: newRaster});
+        rasterLayer.opacity = 0.5;
+
+        // add raster to map
+        map.operationalLayers.append(rasterLayer);
+    }
+
+    function createRasterFunction() {
+        // create the raster function
+        const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: dataPath + "/color.json"});
+
+        // check for valid raster function
+        if (!rasterFunction){
+            return;
+        }
+
+        rasterFunction.arguments.setRaster("raster", theRaster);
+        rasterFunction.arguments.setRaster("raster", theRaster);
+        return rasterFunction;
     }
 
     function disableDragDrop(){
