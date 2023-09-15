@@ -38,7 +38,6 @@ Item {
                 }
                 ctx.closePath()
                 ctx.stroke()
-                console.log(TilesHandler.getSize_m().toFixed(2));
                 meters.text = "Tiles size \n"+ TilesHandler.getSize_m().toFixed(2)+" m";
             }
             else if(operation === Operation.SelectTile && !TilesHandler.isTileSelected(rectX,rectY)){

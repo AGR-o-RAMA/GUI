@@ -3,22 +3,21 @@
 #define TILE_H
 
 #include <utility>
-#include <QGeoCoordinate>
-#include <QPoint>
+#include "geoCoordinate.h"
 
 class Tile
 {
 private:
     QPoint centroid_px;
-    QGeoCoordinate centroid_coord;
+    GeoCoordinate centroid_coord;
     bool selected;
 public:
-    Tile(QPoint centroid_px, QGeoCoordinate centroid_coord);
-    Tile(QPoint centroid_px, QGeoCoordinate centroid_coord, bool selected);
+    Tile(QPoint centroid_px, GeoCoordinate centroid_coord);
+    Tile(QPoint centroid_px, GeoCoordinate centroid_coord, bool selected);
     void select();
     void deselect();
     bool isSelected() const;
-    QGeoCoordinate getCentroid_coord() const;
+    GeoCoordinate getCentroid_coord() const;
 };
 
 #endif // TILE_H

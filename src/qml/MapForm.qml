@@ -20,6 +20,7 @@ Item {
 
         Map {
             id: map
+            initialViewpoint: viewpoint;
 
             Basemap {
                 initStyle: Enums.BasemapStyleArcGISCommunity
@@ -39,10 +40,25 @@ Item {
                     mapView.setViewpointCenterAndScale(fullExtent.center, 800);
                 }
             }
+
+            ViewpointCenter {
+                id: viewpoint
+
+                center: Point {
+                    x: 12.5035803441948 // long
+                    y: 41.89117217327389 // lat
+                    spatialReference: SpatialReference { wkid: 4326 } // USE THIS WKID FOR LAT-LONG
+                }
+
+                targetScale: 1000
+            }
         }
 
+
         function generateCoordinates(point){
-            res = mapView.screenToLocation(point);
+            const c = mapView.screenToLocation(point.x, point.y);
+            const projected = GeometryEngine.project(c, Factory.SpatialReference.createWgs84());
+            return Qt.point(projected.x, projected.y);
         }
     }
 
@@ -97,12 +113,13 @@ Item {
         rasterFunction.arguments.setRaster("raster", theRaster);
         return rasterFunction;
     }
-
     function disableDragDrop(){
-        mapView.focus = false
+        mapView.focus = false;
+        mapView.interactionEnabled = false;
     }
 
     function enableDragDrop(){
-        mapView.focus = true
+        mapView.focus = true;
+        mapView.interactionEnabled = true;
     }
 }

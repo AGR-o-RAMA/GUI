@@ -29,8 +29,7 @@ void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
             QPoint point(c+half_size, r+half_size);
             QVariant res;
             QMetaObject::invokeMethod(map_view, "generateCoordinates", Q_RETURN_ARG(QVariant, res), Q_ARG(QVariant, point));
-
-            QGeoCoordinate coord = res.value<QGeoCoordinate>();
+            GeoCoordinate coord(res);
 
             Tile t(point, coord);
 
@@ -39,8 +38,8 @@ void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
         this->tilesMatrix.push_back(row);
     }
 
-    QGeoCoordinate p1 = this->tilesMatrix[0][0].getCentroid_coord();
-    QGeoCoordinate p2 = this->tilesMatrix[0][1].getCentroid_coord();
+    GeoCoordinate p1 = this->tilesMatrix[0][0].getCentroid_coord();
+    GeoCoordinate p2 = this->tilesMatrix[0][1].getCentroid_coord();
 
     this->size_m = p1.distanceTo(p2);
 }
@@ -81,7 +80,7 @@ void TilesHandler::generateCsv()
     for(int r = rows-1; r >= 0; --r){
         for(int c = 0; c < cols; ++c){
             u16 shift_r = rows-r-1;
-            QGeoCoordinate centroid = this->tilesMatrix[r][c].getCentroid_coord();
+            GeoCoordinate centroid = this->tilesMatrix[r][c].getCentroid_coord();
             f << c << ", "
               << shift_r << ", "
               << centroid.latitude() << ", "

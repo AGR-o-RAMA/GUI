@@ -39,6 +39,7 @@ ARCGIS_RUNTIME_VERSION = 200.2.0
 include($$PWD/arcgisruntime.pri)
 
 HEADERS += \
+    geoCoordinate.h \
     menuActions.h \
     operation.h \
     tile.h \
