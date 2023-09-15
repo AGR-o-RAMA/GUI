@@ -5,4 +5,5 @@
         <file>MapGrid.qml</file>
         <file>RasterLoader.qml</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

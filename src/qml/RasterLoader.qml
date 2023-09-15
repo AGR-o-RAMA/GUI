@@ -1,5 +1,8 @@
 import QtQuick
 import QtQuick.Dialogs
+import QtQuick.Controls
+import Esri.ArcGISRuntime
+import Esri.ArcGISExtras
 
 Item {
     id: loader
@@ -11,6 +14,7 @@ Item {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
+        currentFolder: (System.writableLocationUrl(System.StandardPathsHomeLocation) + "/Downloads")
         onAccepted: {
             console.log("LOADING")
             loader.rasterFileChosen(fileDialog.selectedFile)
@@ -45,7 +49,6 @@ Item {
     function validateFileExtension(filePath) {
         var path = filePath.toString();
         path = path.replace(/^(file:\/{2})/,"");
-        console.log(path);
         const extension = path.split('.').pop();
         const idx = supportedExtensions.indexOf(extension);
         return idx !== -1;

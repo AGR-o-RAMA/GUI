@@ -14,7 +14,6 @@
 #include "menuActions.h"
 #include "operation.h"
 
-
 //------------------------------------------------------------------------------
 
 using namespace Esri::ArcGISRuntime;
@@ -43,9 +42,7 @@ int main(int argc, char *argv[])
     // Initialize application view
     QQmlApplicationEngine engine;
     // Add the import Path
-    engine.addImportPath(QDir(QCoreApplication::applicationDirPath()).filePath("qml"));
-    engine.addImportPath("/home/daniaffch/arcgis/maps_sdk/qt200.2.0/sdk/linux/x64/qml");
-
+    engine.addImportPath(Esri::ArcGISRuntime::ArcGISRuntimeEnvironment::installDirectory() + "/sdk/linux/x64/qml");
     //Set the source
     engine.load(QUrl("qrc:/qml/main.qml"));
 

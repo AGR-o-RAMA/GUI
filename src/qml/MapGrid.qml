@@ -47,7 +47,7 @@ Item {
 
                 TilesHandler.selectTile(rectX,rectY);
 
-                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.15);
+                ctx.fillStyle = Qt.rgba(1, 0, 0, 0.2);
                 ctx.fillRect(rectX,rectY,clippedW,clippedW);
             }
             else if(operation === Operation.DeselectTile && TilesHandler.isTileSelected(rectX,rectY)){
@@ -63,6 +63,7 @@ Item {
                 ctx.reset()
                 TilesHandler.reset();
                 gridMouse.enabled = false;
+                meters.text = "Tiles size \n";
             }
         }
 

@@ -6,8 +6,11 @@ import QtQuick.Dialogs
 
 
 Item {
-    property var rasterLayer: null
+
+    property var currentLayer: null
+    property var currentRaster: null
     readonly property url dataPath: (System.writableLocationUrl(System.StandardPathsHomeLocation) + "/Downloads")
+
     MapView {
         id: mapView
         objectName: "mapView"
@@ -24,21 +27,6 @@ Item {
 
             Basemap {
                 initStyle: Enums.BasemapStyleArcGISCommunity
-            }
-
-            RasterLayer {
-                opacity: 0.5
-                Raster {
-                    id: theRaster
-                    path: ""
-                }
-
-                onLoadStatusChanged: {
-                    if (loadStatus !== Enums.LoadStatusLoaded)
-                        return;
-
-                    mapView.setViewpointCenterAndScale(fullExtent.center, 800);
-                }
             }
 
             ViewpointCenter {
@@ -62,57 +50,59 @@ Item {
         }
     }
 
-    function createAndAddRasterLayer(rasterUrl) {
-       const newRaster = ArcGISRuntimeEnvironment.createObject("Raster", {path: rasterUrl});
-       rasterLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: newRaster});
-       rasterLayer.loadStatusChanged.connect(zoomToRaster);
-
-       theRaster.path = rasterUrl
-
-       map.operationalLayers.clear();
-       map.operationalLayers.append(rasterLayer);
+    function addLayer(){
+        map.operationalLayers.clear();
+        map.operationalLayers.append(currentLayer);
+        currentLayer.loadStatusChanged.connect(zoomToLayer);
     }
 
-    function zoomToRaster(){
-        if (rasterLayer === null)
+    function zoomToLayer(){
+        if (currentLayer == null)
             return;
 
-        if (rasterLayer.loadStatus !== Enums.LoadStatusLoaded)
+        if (currentLayer.loadStatus !== Enums.LoadStatusLoaded)
             return;
 
-        mapView.setViewpointCenterAndScale(rasterLayer.fullExtent.center, 800);
+        mapView.setViewpointCenterAndScale(currentLayer.fullExtent.center, 80000);
+    }
+
+    function getOpacity(){
+        if (!currentLayer) return 1
+        return currentLayer.opacity;
+    }
+
+    function setOpacity(value){
+        if (!currentLayer) return
+        currentLayer.opacity = value;
+    }
+
+    function createAndAddRasterLayer(rasterUrl) {
+       currentRaster = ArcGISRuntimeEnvironment.createObject("Raster", {path: rasterUrl});
+       currentRaster.path = rasterUrl
+       currentLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: currentRaster});
+       addLayer();
+    }
+
+    function createAndAddKmlLayer() {
+        // create the dataset from a local file
+        const kmlDataset = ArcGISRuntimeEnvironment.createObject("KmlDataset", {url: dataPath + "/kmlexample.kml"});
+        // create the layer
+        currentLayer = ArcGISRuntimeEnvironment.createObject("KmlLayer", {dataset: kmlDataset});
+        addLayer();
     }
 
     function applyRasterFunction() {
-        // create raster function
-        const rasterFunction = createRasterFunction();
-
-        // check for valid raster function
-        if (!rasterFunction)
-            return;
-
-        // create the raster from the raster function
-        const newRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
-        rasterLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: newRaster});
-        rasterLayer.opacity = 0.5;
-
-        // add raster to map
-        map.operationalLayers.append(rasterLayer);
-    }
-
-    function createRasterFunction() {
         // create the raster function
         const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: dataPath + "/color.json"});
+        rasterFunction.arguments.setRaster("raster", currentRaster);
+        rasterFunction.arguments.setRaster("raster", currentRaster); //don't know why the raster has to be added twice, but once doesn't work
 
-        // check for valid raster function
-        if (!rasterFunction){
-            return;
-        }
-
-        rasterFunction.arguments.setRaster("raster", theRaster);
-        rasterFunction.arguments.setRaster("raster", theRaster);
-        return rasterFunction;
+        // create the raster from the raster function
+        currentRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
+        currentLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: currentRaster});
+        addLayer();
     }
+
     function disableDragDrop(){
         mapView.focus = false;
         mapView.interactionEnabled = false;
