@@ -77,15 +77,19 @@ void TilesHandler::generateCsv()
     u16 cols = this->tilesMatrix[0].size();
     assert(cols > 0);
 
+    f << "metrics_x, metrics_y, coordinate_lat, coordinate_long\n";
+
     for(int r = rows-1; r >= 0; --r){
         for(int c = 0; c < cols; ++c){
-            u16 shift_r = rows-r-1;
-            GeoCoordinate centroid = this->tilesMatrix[r][c].getCentroid_coord();
-            f << c << ", "
-              << shift_r << ", "
-              << centroid.latitude() << ", "
-              << centroid.longitude()
-              << "\n";
+            if(this->tilesMatrix[r][c].isSelected()){
+                u16 shift_r = rows-r-1;
+                GeoCoordinate centroid = this->tilesMatrix[r][c].getCentroid_coord();
+                f << c << ", "
+                  << shift_r << ", "
+                  << centroid.latitude() << ", "
+                  << centroid.longitude()
+                  << "\n";
+            }
         }
     }
     f.close();
