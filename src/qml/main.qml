@@ -6,6 +6,7 @@ import QtLocation
 import QtPositioning
 
 import Esri.ArcGISRuntime
+import ProcessFactory 1.0
 
 ApplicationWindow {
     id: window
@@ -122,6 +123,7 @@ ApplicationWindow {
                                 map.enableDragDrop();
                                 slider.visible = false;
                                 generate.enabled = false;
+                                orthomap.enabled = false;
                                 grid.deactivate();
                             }
                             else if (checkState == Qt.Checked){
@@ -161,14 +163,38 @@ ApplicationWindow {
 
                 Button{
                     id: generate
-                    text: qsTr("Generate \n Orthomap")
+                    text: qsTr("Generate")
                     font.pointSize: 17
                     Layout.fillWidth: true
                     Layout.preferredHeight: 0.1 * parent.height
                     Layout.fillHeight: true
                     enabled: false
                     onClicked: {
+                        orthomap.enabled = true;
                         TilesHandler.generateCsv();
+                    }
+                }
+
+                Button{
+                    id: orthomap
+                    text: qsTr("Orthomap")
+                    font.pointSize: 17
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 0.1 * parent.height
+                    Layout.fillHeight: true
+                    enabled: false
+                    onClicked: procfactory.spawnProcess("/bin/ls");
+                }
+
+                ProcessFactory{
+                    id: procfactory
+                    onProcessTerminated: (exitCode, success) => {
+                        if (success) {
+                            console.log("Process terminated successfully with exit code " + exitCode);
+                        }
+                        else {
+                            console.error("Process terminated with error: " + exitCode);
+                        }
                     }
                 }
 

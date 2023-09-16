@@ -13,6 +13,7 @@
 #include "tilesHandler.h"
 #include "menuActions.h"
 #include "operation.h"
+#include "processfactory.h"
 
 //------------------------------------------------------------------------------
 
@@ -23,6 +24,9 @@ int main(int argc, char *argv[])
     qDebug() << "Initializing application";
 
     QApplication app(argc, argv);
+
+    qmlRegisterType<ProcessFactory>("ProcessFactory", 1, 0, "ProcessFactory");
+
     app.setOrganizationName("sap");
     app.setOrganizationDomain("sap");
 

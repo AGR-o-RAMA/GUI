@@ -42,12 +42,14 @@ HEADERS += \
     geoCoordinate.h \
     menuActions.h \
     operation.h \
+    processfactory.h \
     tile.h \
     tilesHandler.h
 
 SOURCES += \
     main.cpp \
     menuActions.cpp \
+    processfactory.cpp \
     tile.cpp \
     tilesHandler.cpp
 
