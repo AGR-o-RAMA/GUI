@@ -20,7 +20,7 @@ QT += widgets
 QT += opengl qml quick
 QT += core
 
-TARGET = agrorama_new
+TARGET = agrorama
 
 lessThan(QT_MAJOR_VERSION, 6) {
     error("$$TARGET requires Qt 6.5.1")
