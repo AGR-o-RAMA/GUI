@@ -15,6 +15,10 @@ ApplicationWindow {
     visible: true
     title: "Agrorama"
 
+    LoadingScreen{
+        id: loadingScreen
+    }
+
     ColumnLayout{
         anchors.fill: parent
         id: mainScreen
@@ -183,17 +187,24 @@ ApplicationWindow {
                     Layout.preferredHeight: 0.1 * parent.height
                     Layout.fillHeight: true
                     enabled: false
-                    onClicked: procfactory.spawnProcess("/bin/ls");
+
+                    onClicked:{
+                        procfactory.spawnProcess("../testing/test");
+                        loadingScreen.visible = true;
+                    }
                 }
 
                 ProcessFactory{
                     id: procfactory
                     onProcessTerminated: (exitCode, success) => {
+                        loadingScreen.visible = false;
                         if (success) {
                             console.log("Process terminated successfully with exit code " + exitCode);
+                            // TODO: Mostra hortomap sulla mappa oppure abilita il bottone per farlo
                         }
                         else {
                             console.error("Process terminated with error: " + exitCode);
+                            // TODO: Rendere piu palese che qualcosa è andato storto (magari un equivalente dell'alert js?)
                         }
                     }
                 }

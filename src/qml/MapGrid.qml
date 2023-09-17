@@ -18,7 +18,6 @@ Item {
         onPaint: {
             const ctx = getContext("2d")
             if(operation === Operation.ActivateTiles){
-                //map.generateCoordinates();
                 gridMouse.enabled = true;
                 TilesHandler.generateGrid(wgrid, parent.width, parent.height);
                 ctx.reset()

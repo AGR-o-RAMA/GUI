@@ -4,6 +4,7 @@
         <file>MapForm.qml</file>
         <file>MapGrid.qml</file>
         <file>RasterLoader.qml</file>
+        <file>LoadingScreen.qml</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>
