@@ -14,7 +14,7 @@ std::pair<u16, u16> TilesHandler::pixelToIdx(u16 x_px, u16 y_px)
     return std::make_pair(r,c);
 }
 
-float TilesHandler::getSize_m() const {return size_m;}
+float TilesHandler::getSize_m() {return size_m;}
 
 void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
 

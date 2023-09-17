@@ -36,7 +36,7 @@ public slots:
 
     void reset();
     void generateCsv();
-    float getSize_m() const;
+    float getSize_m();
 };
 
 #endif // TILESHANDLER_H
