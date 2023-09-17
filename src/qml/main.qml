@@ -51,14 +51,17 @@ ApplicationWindow {
             }
             Menu {
                 title: qsTr("&Configure")
-                Action { text: qsTr("&Photo Path")
-                    onTriggered: MenuActions.setPhotopath()
-                }
-                Action { text: qsTr("&Project Path")
-                    onTriggered: MenuActions.setProjectPath()
-                }
-                Action { text: qsTr("&Output Path")
-                    onTriggered: MenuActions.setOutputPath()
+//                Action { text: qsTr("&Photo Path")
+//                    onTriggered: MenuActions.setPhotopath()
+//                }
+//                Action { text: qsTr("&Project Path")
+//                    onTriggered: MenuActions.setProjectPath()
+//                }
+//                Action { text: qsTr("&Output Path")
+//                    onTriggered: MenuActions.setOutputPath()
+//                }
+                Action { text: qsTr("&Settings")
+                    onTriggered: MenuActions.setSettings()
                 }
             }
 
