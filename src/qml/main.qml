@@ -279,7 +279,7 @@ ApplicationWindow {
                                 loadingScreen.visible = false;
                                 if (success) {
                                     console.log("Process terminated successfully with exit code " + exitCode);
-                                    map.createAndAddRasterLayer("file:///home/flavio/Code/agrorama/examples/shasta.tif")
+                                    loader.loadTif()
                                 }
                                 else {
                                     console.error("Process terminated with error: " + exitCode);
