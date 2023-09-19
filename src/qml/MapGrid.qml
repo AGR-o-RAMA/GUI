@@ -1,6 +1,6 @@
 import QtQuick
 import Esri.ArcGISRuntime
-import agrorama_lib
+import Operation
 
 Item {
     id: root
@@ -37,7 +37,7 @@ Item {
                 }
                 ctx.closePath()
                 ctx.stroke()
-                meters.text = "Tiles size \n"+ TilesHandler.getSize_m().toFixed(2)+" m";
+                meters.text = "Tiles size "+ TilesHandler.getSize_m().toFixed(2)+" m";
             }
             else if(operation === Operation.SelectTile && !TilesHandler.isTileSelected(rectX,rectY)){
                 rectX += gridLineWidth;
@@ -62,7 +62,7 @@ Item {
                 ctx.reset()
                 TilesHandler.reset();
                 gridMouse.enabled = false;
-                meters.text = "Tiles size \n";
+                meters.text = "Tiles size --.-- m";
             }
         }
 

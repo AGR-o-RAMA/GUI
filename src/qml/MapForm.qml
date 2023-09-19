@@ -9,7 +9,6 @@ Item {
 
     property var currentLayer: null
     property var currentRaster: null
-    readonly property url dataPath: (System.writableLocationUrl(System.StandardPathsHomeLocation) + "/Downloads")
 
     MapView {
         id: mapView
@@ -17,7 +16,6 @@ Item {
         anchors.fill: parent
 
         Component.onCompleted: {
-            // Set the focus on MapView to initially enable keyboard navigation
             forceActiveFocus();
         }
 
@@ -50,8 +48,9 @@ Item {
         }
     }
 
-    function addLayer(){
-        map.operationalLayers.clear();
+    function addLayer(clear){
+        if (clear)
+            map.operationalLayers.clear();
         map.operationalLayers.append(currentLayer);
         currentLayer.loadStatusChanged.connect(zoomToLayer);
     }
@@ -80,27 +79,27 @@ Item {
        currentRaster = ArcGISRuntimeEnvironment.createObject("Raster", {path: rasterUrl});
        currentRaster.path = rasterUrl
        currentLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: currentRaster});
-       addLayer();
+       addLayer(true);
     }
 
-    function createAndAddKmlLayer() {
+    function createAndAddKmlLayer(kmlUrl) {
         // create the dataset from a local file
-        const kmlDataset = ArcGISRuntimeEnvironment.createObject("KmlDataset", {url: dataPath + "/kmlexample.kml"});
+        const kmlDataset = ArcGISRuntimeEnvironment.createObject("KmlDataset", {url: kmlUrl});
         // create the layer
         currentLayer = ArcGISRuntimeEnvironment.createObject("KmlLayer", {dataset: kmlDataset});
-        addLayer();
+        addLayer(true);
     }
 
     function applyRasterFunction() {
         // create the raster function
-        const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: dataPath + "/color.json"});
+        const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: "file:///home/flavio/Code/agrorama/examples/color.json"});
         rasterFunction.arguments.setRaster("raster", currentRaster);
         rasterFunction.arguments.setRaster("raster", currentRaster); //don't know why the raster has to be added twice, but once doesn't work
 
         // create the raster from the raster function
         currentRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
         currentLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: currentRaster});
-        addLayer();
+        addLayer(true);
     }
 
     function disableDragDrop(){

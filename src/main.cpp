@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
         ArcGISRuntimeEnvironment::setApiKey(apiKey);
     }
 
-    qmlRegisterUncreatableType<Operation>("agrorama_lib", 1, 0, "Operation", "Not creatable as it is an enum type");
+    qmlRegisterUncreatableType<Operation>("Operation", 1, 0, "Operation", "Not creatable as it is an enum type");
 
     // Initialize application view
     QQmlApplicationEngine engine;

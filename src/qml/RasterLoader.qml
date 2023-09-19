@@ -8,16 +8,31 @@ Item {
     id: loader
     anchors.fill: parent
     signal rasterFileChosen(url url);
-    property var supportedExtensions: ["img","I12","dt0","dt1","dt2","tc2","geotiff","tif", "tiff", "hr1","jpg","jpeg","jp2","ntf","png","i21","ovr"]
-    property var rasterLayer: null
+    signal kmlFileChosen(url url);
+    property var supportedRasterExtensions: ["geotiff","tif","tiff","jpg","jpeg","png","ovr"]
+    property var supportedKmlExtensions: ["kml"]
 
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        currentFolder: (System.writableLocationUrl(System.StandardPathsHomeLocation) + "/Downloads")
+        currentFolder: "." //TODO: OUTPUT PATH
         onAccepted: {
-            console.log("LOADING")
+            console.log("Loading")
             loader.rasterFileChosen(fileDialog.selectedFile)
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        Component.onCompleted: visible = false
+    }
+
+    FileDialog {
+        id: kmlFileDialog
+        title: "Please choose a file"
+        currentFolder: "." // TODO: WHICH PATH?
+        onAccepted: {
+            console.log("Loading")
+            loader.kmlFileChosen(kmlFileDialog.selectedFile)
         }
         onRejected: {
             console.log("Canceled")
@@ -35,7 +50,7 @@ Item {
             if (drop.urls.length !== 1)
                 return;
 
-            if (!loader.validateFileExtension(drop.urls[0]))
+            if (!loader.validateFileExtension(drop.urls[0], supportedRasterExtensions))
                 return;
 
             if (drop.proposedAction !== Qt.MoveAction && drop.proposedAction !== Qt.CopyAction)
@@ -46,7 +61,7 @@ Item {
         }
     }
 
-    function validateFileExtension(filePath) {
+    function validateFileExtension(filePath,supportedExtensions) {
         var path = filePath.toString();
         path = path.replace(/^(file:\/{2})/,"");
         const extension = path.split('.').pop();
@@ -54,16 +69,20 @@ Item {
         return idx !== -1;
     }
 
-    onSupportedExtensionsChanged: {
-        let nameFiltersString = "Raster files (";
+    function setSupportedExtensions(dialog, supportedExtensions){
+        let nameFiltersString = "";
         for (let i = 0; i < supportedExtensions.length; i++)
             nameFiltersString += "*." + supportedExtensions[i] + " ";
-
-        nameFiltersString += ")";
-        fileDialog.nameFilters = nameFiltersString;
+        dialog.nameFilters = nameFiltersString;
     }
 
     function loadTif() {
+        setSupportedExtensions(fileDialog, supportedRasterExtensions);
         fileDialog.open();
+    }
+
+    function loadKml() {
+        setSupportedExtensions(kmlFileDialog, supportedKmlExtensions);
+        kmlFileDialog.open();
     }
 }
