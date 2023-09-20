@@ -66,7 +66,8 @@ int main(int argc, char *argv[])
     root -> setContextProperty("TilesHandler",th);
     MenuActions* menuActions = new MenuActions;
     root -> setContextProperty("MenuActions",menuActions);
-
+    Settings* settings = new Settings;
+    root -> setContextProperty("Settings", settings);
     window->show();
     return app.exec();
 }

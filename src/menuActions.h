@@ -12,11 +12,85 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QScrollArea>
+#include "settings.h"
 
 class MenuActions : public QTabWidget
 {
     Q_OBJECT
 private:
+
+    // PROPERTIES
+
+//    QUrl photo_path;
+//    QUrl project_path;
+//    QUrl output_path;
+//    QString api_key;
+
+//    // ADVANCED PROPERTIES
+
+//    QString project_crs;
+//    bool subdivide_task;
+
+//    bool enabled_align;
+//    int downscale_align;
+//    bool adaptive_align;
+//    bool keypoints_align;
+//    bool reset_align;
+//    bool genPre_align;
+//    bool refPre_align;
+//    QString preMode_align;
+
+//    bool enable_USGS;
+//    double recPerc_USGS;
+//    double recAbs_USGS;
+//    double projPerc_USGS;
+//    double projAbs_USGS;
+//    double reprojPerc_USGS;
+//    double reprojAbs_USGS;
+
+//    bool enable_opt;
+//    bool adaptive_opt;
+
+//    bool enable_cloud;
+//    double downscale_cloud;
+//    QString filter_cloud;
+//    bool reuse_cloud;
+//    bool keep_cloud;
+//    int maxneighbors_cloud;
+//    bool classify_cloud;
+//    bool export_cloud;
+//    QString classes_cloud;
+
+//    double angle_classify;
+//    double distance_classify;
+//    double cell_classify;
+
+//    bool enable_DEM;
+//    bool classify_DEM;
+//    QString type_DEM;
+//    bool export_DEM;
+//    bool big_DEM;
+//    bool tiled_DEM;
+//    int nodata_DEM;
+//    bool overviews_DEM;
+
+//    bool enable_ortho;
+//    QString surface_ortho;
+//    QString path_ortho;
+//    QString crs_ortho;
+//    QString blending_ortho;
+//    bool holes_ortho;
+//    bool seamlines_ortho;
+//    bool export_ortho;
+//    bool big_ortho;
+//    bool tiled_ortho;
+//    int nodata_ortho;
+//    bool overviews_ortho;
+
+
+
+
+
     // PAGE 1
     QLabel *label;
     QLabel *photo_label;
@@ -24,32 +98,22 @@ private:
     QLabel *output_label;
     QLabel *api_label;
 
-    QLineEdit *photo_url;
-    QLineEdit *project_url;
-    QLineEdit *output_url;
-    QLineEdit *api_url;
-
-    QUrl photo_path;
-    QUrl project_path;
-    QUrl output_path;
-    QString api_key;
+    QLineEdit *photo_line;
+    QLineEdit *project_line;
+    QLineEdit *output_line;
+    QLineEdit *api_line;
 
     QPushButton *button_photo;
     QPushButton *button_project;
     QPushButton *button_output;
 
-    void handlePhotoButton();
-    void handleProjectButton();
-    void handleOutputButton();
-
-
     // PAGE 2
     QLabel *label2;
 
-    QLabel *crs_label;
+    QGroupBox *preliminary_box;
+
     QLineEdit *crs_line;
 
-    QLabel *task_label;
     QComboBox *task_box;
 ///////////////////////
 
@@ -134,6 +198,14 @@ private:
     QWizard* wizard_settings;
 
 
+    void handlePhotoButton();
+    void handleProjectButton();
+    void handleOutputButton();
+    void setPhotoUrl();
+    void setProjectUrl();
+    void setOutputUrl();
+
+    void create_preliminary();
     void create_alignPhotos();
     void create_filterPointsUSGS();
     void create_optimizeCamera();
@@ -148,11 +220,9 @@ public:
 public slots:
     void openProject();
     void saveProject();
-    void setPhotoPath();
-    void setProjectPath();
-    void setOutputPath();
-    void setApiKey();
 
+    void onNextButtonCliked();
+    void onFinishButtonCliked();    
     void setSettings();
 };
 

@@ -37,6 +37,7 @@ void MenuActions::openProject(){
     }
 }
 
+
 void MenuActions::saveProject(){
     QString fileName = QFileDialog::getSaveFileName(this);
     if (!fileName.isEmpty()){
@@ -47,16 +48,16 @@ void MenuActions::saveProject(){
             return;
         }
 
-        QDataStream out(&file);
-        out << photo_path.toString();
-        out << project_path.toString();
-        out << output_path.toString();
-        out << api_key;
+//        QDataStream out(&file);
+//        out << photo_path.toString();
+//        out << project_path.toString();
+//        out << output_path.toString();
+//        out << api_key;
     }
 
 }
 
-void MenuActions::setProjectPath(){
+void MenuActions::setProjectUrl(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),
                                                  "/home",
@@ -65,13 +66,13 @@ void MenuActions::setProjectPath(){
     if (!url.isValid()) {
         qDebug("Invalid URL: %s", qUtf8Printable(url.toString()));
     }
-    project_url->selectAll();
-    project_url->del();
-    project_url->insert(url.toString());
-    qDebug() << project_url->text();
+    project_line->selectAll();
+    project_line->del();
+    project_line->insert(url.toString());
+    qDebug() << project_line->text();
 
 }
-void MenuActions::setOutputPath(){
+void MenuActions::setOutputUrl(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),
                                                  "/home",
@@ -80,13 +81,13 @@ void MenuActions::setOutputPath(){
     if (!url.isValid()) {
         qDebug("Invalid URL: %s", qUtf8Printable(url.toString()));
     }
-    output_url->selectAll();
-    output_url->del();
-    output_url->insert(url.toString());
-    qDebug() << output_url->text();
+    output_line->selectAll();
+    output_line->del();
+    output_line->insert(url.toString());
+    qDebug() << output_line->text();
 
 }
-void MenuActions::setPhotoPath(){
+void MenuActions::setPhotoUrl(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),
                                                  "/home",
@@ -95,29 +96,23 @@ void MenuActions::setPhotoPath(){
     if (!url.isValid()) {
         qDebug("Invalid URL: %s", qUtf8Printable(url.toString()));
     }
-    photo_url->selectAll();
-    photo_url->del();
-    photo_url->insert(url.toString());
-    qDebug() << photo_url->text();
+    photo_line->selectAll();
+    photo_line->del();
+    photo_line->insert(url.toString());
+    qDebug() << photo_line->text();
 }
 
-void MenuActions::setApiKey(){
-    QString key = QInputDialog::getText(this, tr("Insert API Key"),
-                                        tr("API Key:"), QLineEdit::Normal);
-    api_key = key;
-    qDebug() << key;
 
-}
 
 void MenuActions::handlePhotoButton(){
-    setPhotoPath();
+    setPhotoUrl();
 }
 
 void MenuActions::handleProjectButton(){
-    setProjectPath();
+    setProjectUrl();
 }
 void MenuActions::handleOutputButton(){
-    setOutputPath();
+    setOutputUrl();
 }
 
 void MenuActions::create_filterPointsUSGS(){
@@ -504,6 +499,44 @@ void MenuActions::create_alignPhotos(){
 
 }
 
+void MenuActions::create_preliminary(){
+    preliminary_box = new QGroupBox(tr("Preliminary Settings"));
+
+    QLabel *crs_label = new QLabel("Coordinate Reference System: ");
+    crs_line = new QLineEdit();
+
+    QLabel *task_label = new QLabel("Subdivide task: ");
+    task_box = new QComboBox();
+    task_box->addItem(QString("True"));
+    task_box->addItem(QString("False"));
+
+    QGridLayout* layoutPre = new QGridLayout;
+    layoutPre->addWidget(crs_label, 0,0);
+    layoutPre->addWidget(crs_line,0,1);
+
+    layoutPre->addWidget(task_label,1,0);
+    layoutPre->addWidget(task_box,1,1);
+
+    preliminary_box->setLayout(layoutPre);
+
+}
+void MenuActions::onNextButtonCliked(){
+
+}
+
+void MenuActions::onFinishButtonCliked(){
+// SET ALL SETTINGS PARAMETERS
+
+//    photo_path = QUrl(photo_line->text());
+//    project_path = QUrl(project_line->text());
+//    output_path = QUrl(output_line->text());
+//    api_key = api_line->text();
+
+//    project_crs = crs_line->text();
+//    subdivide_task = (task_box->itemData(task_box->currentIndex()) == QString("True")) ? true : false;
+//    qDebug() << task_box->itemData(task_box->currentIndex());
+}
+
 void MenuActions::setSettings(){
 
     // PAGE 1
@@ -525,10 +558,10 @@ void MenuActions::setSettings(){
     api_label = new QLabel("API Key: ");
     api_label->setWordWrap(true);
 
-    photo_url = new QLineEdit(photo_path.toString());
-    project_url = new QLineEdit(project_path.toString());
-    output_url = new QLineEdit(output_path.toString());
-    api_url = new QLineEdit(api_key);
+    photo_line = new QLineEdit();
+    project_line = new QLineEdit();
+    output_line = new QLineEdit();
+    api_line = new QLineEdit();
 
     button_photo = new QPushButton("&Open...", this);
     connect(button_photo, &QPushButton::released, this, &MenuActions::handlePhotoButton);
@@ -539,23 +572,33 @@ void MenuActions::setSettings(){
     button_output = new QPushButton("&Open...", this);
     connect(button_output, &QPushButton::released, this, &MenuActions::handleOutputButton);
 
+    // register url values in fields
+//    QString photo_field = QString("photo_field");
+//    QString project_field = QString("project_field");
+//    QString output_field = QString("output_field");
+//    QString api_field = QString("api_field");
+//    page->registerField("photo_field", photo_url);
+//    page->registerField("project_field",  project_url);
+//    page->registerField("output_field", output_url);
+//    page->registerField("api_field", api_url);
+
 
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(label, 0, 1);
     layout->addWidget(photo_label, 1,0);
-    layout->addWidget(photo_url, 1, 1);
+    layout->addWidget(photo_line, 1, 1);
     layout->addWidget(button_photo, 1, 2);
 
     layout->addWidget(project_label, 2,0);
-    layout->addWidget(project_url, 2, 1);
+    layout->addWidget(project_line, 2, 1);
     layout->addWidget(button_project, 2, 2);
 
     layout->addWidget(output_label, 3,0);
-    layout->addWidget(output_url, 3, 1);
+    layout->addWidget(output_line, 3, 1);
     layout->addWidget(button_output, 3, 2);
 
     layout->addWidget(api_label, 4, 0);
-    layout->addWidget(api_url, 4, 1);
+    layout->addWidget(api_line, 4, 1);
     page->setLayout(layout);
 
 
@@ -568,7 +611,7 @@ void MenuActions::setSettings(){
     label2 = new QLabel("Change these informations only if necessary: ");
     label2->setWordWrap(true);
 
-
+    create_preliminary();
     create_alignPhotos();
     create_optimizeCamera();
     create_filterPointsUSGS();
@@ -580,13 +623,14 @@ void MenuActions::setSettings(){
     QWidget* containerWidget = new QWidget();
     QGridLayout *layout2 = new QGridLayout;
     layout2->addWidget(label2, 0, 1);
-    layout2->addWidget(alignPhotos_box, 1,1);
-    layout2->addWidget(filterUSGS_box, 2,1);
-    layout2->addWidget(optimizeCamera_box, 3,1);
-    layout2->addWidget(pointCloud_box,4,1);
-    layout2->addWidget(classifyGround_box, 5,1);
-    layout2->addWidget(dem_box,6,1);
-    layout2->addWidget(ortho_box,7,1);
+    layout2->addWidget(preliminary_box,2,1);
+    layout2->addWidget(alignPhotos_box, 3,1);
+    layout2->addWidget(filterUSGS_box, 4,1);
+    layout2->addWidget(optimizeCamera_box, 5,1);
+    layout2->addWidget(pointCloud_box,6,1);
+    layout2->addWidget(classifyGround_box, 7,1);
+    layout2->addWidget(dem_box,8,1);
+    layout2->addWidget(ortho_box,9,1);
 
 
     containerWidget->setLayout(layout2);
@@ -603,6 +647,8 @@ void MenuActions::setSettings(){
     wizard_settings = new QWizard();
     wizard_settings->addPage(page);
     wizard_settings->addPage(page2);
+    connect(wizard_settings->button(QWizard::FinishButton),
+            SIGNAL(clicked()),this,SLOT(onFinishButtonCliked()));
     wizard_settings->setWindowTitle("Configure");
     wizard_settings->show();
 
