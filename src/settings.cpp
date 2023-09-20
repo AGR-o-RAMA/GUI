@@ -19,7 +19,7 @@ Settings::Settings(QWidget *parent) : QWidget(parent){
     subdivide_task = true;
 
     enabled_align = true;
-    downscale_align = true;
+    downscale_align = 2;
     adaptive_align = true;
     keypoints_align = true;
     reset_align = false;

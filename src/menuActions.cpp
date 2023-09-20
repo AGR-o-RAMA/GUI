@@ -168,32 +168,193 @@ void MenuActions::setPhotoUrl(){
 }
 
 
+void MenuActions::create_preliminary(){
+    preliminary_box = new QGroupBox(tr("Preliminary Settings"));
+
+    QLabel *crs_label = new QLabel("Coordinate Reference System: ");
+    crs_line = new QLineEdit(Settings::project_crs);
+
+    QLabel *task_label = new QLabel("Subdivide task: ");
+    task_box = new QComboBox();
+    if(Settings::subdivide_task){
+        task_box->addItem(QString("True"));
+        task_box->addItem(QString("False"));
+    }else{
+        task_box->addItem(QString("False"));
+        task_box->addItem(QString("True"));
+    }
+
+    QGridLayout* layoutPre = new QGridLayout;
+    layoutPre->addWidget(crs_label, 0,0);
+    layoutPre->addWidget(crs_line,0,1);
+
+    layoutPre->addWidget(task_label,1,0);
+    layoutPre->addWidget(task_box,1,1);
+
+    preliminary_box->setLayout(layoutPre);
+
+}
+
+void MenuActions::create_alignPhotos(){
+    alignPhotos_box = new QGroupBox(tr("Align Photos Settings"));
+
+    QLabel *enableAlign_label = new QLabel("Enable: ");
+    enableAlign = new QComboBox();
+    if(Settings::enabled_align){
+        enableAlign->addItem(QString("True"));
+        enableAlign->addItem(QString("False"));
+    }else{
+        enableAlign->addItem(QString("False"));
+        enableAlign->addItem(QString("True"));
+    }
+    QLabel *downscaleAlign_label = new QLabel("Downscale: ");
+    downscaleAlign = new QDoubleSpinBox();
+    downscaleAlign->setValue(Settings::downscale_align);
+
+    QLabel *adaptiveAlign_label = new QLabel("Adaptive fitting: ");
+    adaptiveAlign = new QComboBox();
+    if(Settings::adaptive_align){
+        adaptiveAlign->addItem(QString("True"));
+        adaptiveAlign->addItem(QString("False"));
+    }else{
+        adaptiveAlign->addItem(QString("False"));
+        adaptiveAlign->addItem(QString("True"));
+    }
+    QLabel *keypointsAlign_label = new QLabel("Keep Keypoints: ");
+    keypointsAlign = new QComboBox();
+    if(Settings::keypoints_align){
+        keypointsAlign->addItem(QString("True"));
+        keypointsAlign->addItem(QString("False"));
+    }else{
+        keypointsAlign->addItem(QString("False"));
+        keypointsAlign->addItem(QString("True"));
+    }
+    QLabel *resetAlign_label = new QLabel("Reset Alignment: ");
+    resetAlign = new QComboBox();
+    if(Settings::reset_align){
+        resetAlign->addItem(QString("True"));
+        resetAlign->addItem(QString("False"));
+    }else{
+        resetAlign->addItem(QString("False"));
+        resetAlign->addItem(QString("True"));
+    }
+    QLabel *genPreAlign_label = new QLabel("Generic Preselection: ");
+    genPreAlign = new QComboBox();
+    if(Settings::genPre_align){
+        genPreAlign->addItem(QString("True"));
+        genPreAlign->addItem(QString("False"));
+    }else{
+        genPreAlign->addItem(QString("False"));
+        genPreAlign->addItem(QString("True"));
+    }
+    QLabel *refPreAlign_label = new QLabel("Reference Preselection: ");
+    refPreAlign = new QComboBox();
+    if(Settings::refPre_align){
+        refPreAlign->addItem(QString("True"));
+        refPreAlign->addItem(QString("False"));
+    }else{
+        refPreAlign->addItem(QString("False"));
+        refPreAlign->addItem(QString("True"));
+    }
+    QLabel *preModeAlign_label = new QLabel("Reference Preselection Mode: ");
+    preModeAlign = new QLineEdit("Metashape.ReferencePreselectionSource");
+
+
+    QGridLayout* layoutAlign = new QGridLayout;
+    layoutAlign->addWidget(enableAlign_label, 0, 0);
+    layoutAlign->addWidget(enableAlign, 0, 1);
+
+    layoutAlign->addWidget(downscaleAlign_label, 1, 0);
+    layoutAlign->addWidget(downscaleAlign, 1, 1);
+
+    layoutAlign->addWidget(adaptiveAlign_label, 2, 0);
+    layoutAlign->addWidget(adaptiveAlign, 2, 1);
+
+    layoutAlign->addWidget(keypointsAlign_label, 3, 0);
+    layoutAlign->addWidget(keypointsAlign, 3,1);
+
+    layoutAlign->addWidget(resetAlign_label, 4,0);
+    layoutAlign->addWidget(resetAlign, 4,1);
+
+    layoutAlign->addWidget(genPreAlign_label, 5,0);
+    layoutAlign->addWidget(genPreAlign,5,1);
+
+    layoutAlign->addWidget(refPreAlign_label, 6,0);
+    layoutAlign->addWidget(refPreAlign, 6,1);
+
+    layoutAlign->addWidget(preModeAlign_label, 7,0);
+    layoutAlign->addWidget(preModeAlign, 7,1);
+
+    alignPhotos_box->setLayout(layoutAlign);
+
+}
+
+void MenuActions::create_optimizeCamera(){
+    optimizeCamera_box = new QGroupBox(tr("Optimize Camera Settings"));
+
+    QLabel *enableOpt_label = new QLabel("Enable: ");
+    enableOpt = new QComboBox();
+    if(Settings::enable_opt){
+        enableOpt->addItem(QString("True"));
+        enableOpt->addItem(QString("False"));
+    }else{
+        enableOpt->addItem(QString("False"));
+        enableOpt->addItem(QString("True"));
+    }
+    QLabel *adaptiveOpt_label = new QLabel("Adaptive Fitting: ");
+    adaptiveOpt = new QComboBox();
+    if(Settings::adaptive_opt){
+        adaptiveOpt->addItem(QString("True"));
+        adaptiveOpt->addItem(QString("False"));
+    }else{
+        adaptiveOpt->addItem(QString("False"));
+        adaptiveOpt->addItem(QString("True"));
+    }
+    QGridLayout* layoutOpt = new QGridLayout();
+    layoutOpt->addWidget(enableOpt_label, 0,0);
+    layoutOpt->addWidget(enableOpt, 0,1);
+
+    layoutOpt->addWidget(adaptiveOpt_label, 1,0);
+    layoutOpt->addWidget(adaptiveOpt, 1,1);
+
+    optimizeCamera_box->setLayout(layoutOpt);
+}
 
 void MenuActions::create_filterPointsUSGS(){
     filterUSGS_box = new QGroupBox(tr("Filter Points USGS"));
 
     QLabel *enableUSGS_label = new QLabel("Enable: ");
     enableUSGS = new QComboBox();
-    enableUSGS->addItem("True");
-    enableUSGS->addItem("False");
-
+    if(Settings::enable_USGS){
+        enableUSGS->addItem(QString("True"));
+        enableUSGS->addItem(QString("False"));
+    }else{
+        enableUSGS->addItem(QString("False"));
+        enableUSGS->addItem(QString("True"));
+    }
     QLabel *recPercUSGS_label = new QLabel("Rec Thresh Percentage: ");
     recPercUSGS = new QDoubleSpinBox();
+    recPercUSGS->setValue(Settings::recPerc_USGS);
 
     QLabel *recAbsUSGS_label = new QLabel("Rec Thresh Absolute: ");
     recAbsUSGS = new QDoubleSpinBox();
+    recAbsUSGS->setValue(Settings::recAbs_USGS);
 
     QLabel *projPercUSGS_label = new QLabel("Proj Thresh Percentage: ");
     projPercUSGS = new QDoubleSpinBox();
+    projPercUSGS->setValue(Settings::projPerc_USGS);
 
     QLabel *projAbsUSGS_label = new QLabel("Proj Thresh Absolute: ");
     projAbsUSGS = new QDoubleSpinBox();
+    projAbsUSGS->setValue(Settings::projAbs_USGS);
 
     QLabel *reprojPercUSGS_label = new QLabel("Reproj Thresh Percentage: ");
     reprojPercUSGS = new QDoubleSpinBox();
+    reprojPercUSGS->setValue(Settings::reprojPerc_USGS);
 
     QLabel *reprojAbsUSGS_label = new QLabel("Reproj Thresh Absolute: ");
     reprojAbsUSGS = new QDoubleSpinBox();
+    reprojAbsUSGS->setValue(Settings::reprojAbs_USGS);
 
     QGridLayout* layoutFilter= new QGridLayout;
     layoutFilter->addWidget(enableUSGS_label, 0, 0);
@@ -220,28 +381,6 @@ void MenuActions::create_filterPointsUSGS(){
     filterUSGS_box->setLayout(layoutFilter);
 }
 
-void MenuActions::create_optimizeCamera(){
-    optimizeCamera_box = new QGroupBox(tr("Optimize Camera Settings"));
-
-    QLabel *enableOpt_label = new QLabel("Enable: ");
-    enableOpt = new QComboBox();
-    enableOpt->addItem("True");
-    enableOpt->addItem("False");
-
-    QLabel *adaptiveOpt_label = new QLabel("Adaptive Fitting: ");
-    adaptiveOpt = new QComboBox();
-    adaptiveOpt->addItem("True");
-    adaptiveOpt->addItem("False");
-
-    QGridLayout* layoutOpt = new QGridLayout();
-    layoutOpt->addWidget(enableOpt_label, 0,0);
-    layoutOpt->addWidget(enableOpt, 0,1);
-
-    layoutOpt->addWidget(adaptiveOpt_label, 1,0);
-    layoutOpt->addWidget(adaptiveOpt, 1,1);
-
-    optimizeCamera_box->setLayout(layoutOpt);
-}
 
 void MenuActions::create_pointCloud(){
 
@@ -249,40 +388,66 @@ void MenuActions::create_pointCloud(){
 
     QLabel* enableCloud_label = new QLabel("Enable: ");
     enableCloud = new QComboBox();
-    enableCloud->addItem("True");
-    enableCloud->addItem("False");
-
+    if(Settings::enable_cloud){
+        enableCloud->addItem(QString("True"));
+        enableCloud->addItem(QString("False"));
+    }else{
+        enableCloud->addItem(QString("False"));
+        enableCloud->addItem(QString("True"));
+    }
     QLabel *downscaleCloud_label = new QLabel("Downscale: ");
     downscaleCloud = new QDoubleSpinBox();
+    downscaleCloud->setValue(Settings::downscale_cloud);
 
     QLabel* filterCloud_label = new QLabel("Filter Mode: ");
-    filterCloud = new QLineEdit();
+    filterCloud = new QLineEdit(Settings::filter_cloud);
 
     QLabel* reuseCloud_label = new QLabel("Reuse depth: ");
     reuseCloud = new QComboBox();
-    reuseCloud->addItem("True");
-    reuseCloud->addItem("False");
+    if(Settings::reuse_cloud){
+        reuseCloud->addItem(QString("True"));
+        reuseCloud->addItem(QString("False"));
+    }else{
+        reuseCloud->addItem(QString("False"));
+        reuseCloud->addItem(QString("True"));
+    }
 
     QLabel* keepCloud_label = new QLabel("Keep depth: ");
     keepCloud = new QComboBox();
-    keepCloud->addItem("False");
-    keepCloud->addItem("True");
+    if(Settings::keep_cloud){
+        keepCloud->addItem(QString("True"));
+        keepCloud->addItem(QString("False"));
+    }else{
+        keepCloud->addItem(QString("False"));
+        keepCloud->addItem(QString("True"));
+    }
 
     QLabel* maxneighborsCloud_label = new QLabel("Max Neighbors: ");
     maxneighborsCloud = new QDoubleSpinBox();
+    maxneighborsCloud->setValue(Settings::maxneighbors_cloud);
 
     QLabel* classifyCloud_label = new QLabel("Classify Ground Points: ");
     classifyCloud = new QComboBox();
-    classifyCloud->addItem("True");
-    classifyCloud->addItem("False");
+    if(Settings::classify_cloud){
+        classifyCloud->addItem(QString("True"));
+        classifyCloud->addItem(QString("False"));
+    }else{
+        classifyCloud->addItem(QString("False"));
+        classifyCloud->addItem(QString("True"));
+    }
 
     QLabel* exportCloud_label = new QLabel("Export: ");
     exportCloud = new QComboBox();
-    exportCloud->addItem("True");
-    exportCloud->addItem("False");
+    if(Settings::export_cloud){
+        exportCloud->addItem(QString("True"));
+        exportCloud->addItem(QString("False"));
+    }else{
+        exportCloud->addItem(QString("False"));
+        exportCloud->addItem(QString("True"));
+    }
 
     QLabel* classesCloud_label = new QLabel("Classes: ");
-    classesCloud = new QLineEdit();
+    classesCloud = new QLineEdit(Settings::classes_cloud);
 
     QGridLayout* layoutCloud = new QGridLayout;
     layoutCloud->addWidget(enableCloud_label, 0, 0);
@@ -313,12 +478,15 @@ void MenuActions::create_classifyGround(){
 
     QLabel* angleClassify_label = new QLabel("Max Angles: ");
     angleClassify = new QDoubleSpinBox();
+    angleClassify->setValue(Settings::angle_classify);
 
     QLabel* distanceClassify_label = new QLabel("Max Distances: ");
     distanceClassify = new QDoubleSpinBox();
+    distanceClassify->setValue(Settings::distance_classify);
 
     QLabel* cellClassify_label = new QLabel("Cell Size: ");
     cellClassify = new QDoubleSpinBox();
+    cellClassify->setValue(Settings::cell_classify);
 
     QGridLayout* layoutClassify= new QGridLayout;
     layoutClassify->addWidget(angleClassify_label, 0, 0);
@@ -338,41 +506,69 @@ void MenuActions::create_DEM(){
 
     QLabel *enableDEM_label = new QLabel("Enable: ");
     enableDEM = new QComboBox();
-    enableDEM->addItem("True");
-    enableDEM->addItem("False");
-
+    if(Settings::enable_DEM){
+        enableDEM->addItem(QString("True"));
+        enableDEM->addItem(QString("False"));
+    }else{
+        enableDEM->addItem(QString("False"));
+        enableDEM->addItem(QString("True"));
+    }
     QLabel* classifyDEM_label = new QLabel("Classify Ground Points: ");
     classifyDEM = new QComboBox();
-    classifyDEM->addItem("True");
-    classifyDEM->addItem("False");
-
+    if(Settings::classify_DEM){
+        classifyDEM->addItem(QString("True"));
+        classifyDEM->addItem(QString("False"));
+    }else{
+        classifyDEM->addItem(QString("False"));
+        classifyDEM->addItem(QString("True"));
+    }
     QLabel* typeDEM_label = new QLabel("Type: ");
     typeDEM = new QLineEdit();
 
     QLabel* exportDEM_label = new QLabel("Export: ");
     exportDEM = new QComboBox();
-    exportDEM->addItem("True");
-    exportDEM->addItem("False");
+    if(Settings::export_DEM){
+        exportDEM->addItem(QString("True"));
+        exportDEM->addItem(QString("False"));
+    }else{
+        exportDEM->addItem(QString("False"));
+        exportDEM->addItem(QString("True"));
+    }
 
     QLabel* bigDEM_label = new QLabel("Tiff Big: ");
     bigDEM = new QComboBox();
-    bigDEM->addItem("True");
-    bigDEM->addItem("False");
+    if(Settings::big_DEM){
+        bigDEM->addItem(QString("True"));
+        bigDEM->addItem(QString("False"));
+    }else{
+        bigDEM->addItem(QString("False"));
+        bigDEM->addItem(QString("True"));
+    }
 
     QLabel* tiledDEM_label = new QLabel("Tiff Tiled: ");
     tiledDEM = new QComboBox();
-    tiledDEM->addItem("True");
-    tiledDEM->addItem("False");
+    if(Settings::tiled_DEM){
+        tiledDEM->addItem(QString("True"));
+        tiledDEM->addItem(QString("False"));
+    }else{
+        tiledDEM->addItem(QString("False"));
+        tiledDEM->addItem(QString("True"));
+    }
 
     QLabel* nodataDEM_label = new QLabel("Nodata: ");
     nodataDEM = new QDoubleSpinBox();
     nodataDEM->setMinimum(-1000000);
+    nodataDEM->setValue(Settings::nodata_DEM);
 
     QLabel* overviewsDEM_label = new QLabel("Tiff Tiled: ");
     overviewsDEM = new QComboBox();
-    overviewsDEM->addItem("True");
-    overviewsDEM->addItem("False");
-
+    if(Settings::overviews_DEM){
+        overviewsDEM->addItem(QString("True"));
+        overviewsDEM->addItem(QString("False"));
+    }else{
+        overviewsDEM->addItem(QString("False"));
+        overviewsDEM->addItem(QString("True"));
+    }
 
     QGridLayout* layoutDEM = new QGridLayout;
     layoutDEM->addWidget(enableDEM_label, 0, 0);
@@ -408,54 +604,90 @@ void MenuActions::create_orthomosaic(){
 
     QLabel* enableOrtho_label = new QLabel("Enable: ");
     enableOrtho = new QComboBox();
-    enableOrtho->addItem("True");
-    enableOrtho->addItem("False");
+    if(Settings::enable_ortho){
+        enableOrtho->addItem(QString("True"));
+        enableOrtho->addItem(QString("False"));
+    }else{
+        enableOrtho->addItem(QString("False"));
+        enableOrtho->addItem(QString("True"));
+    }
 
     QLabel* surfaceOrtho_label = new QLabel("Surface: ");
-    surfaceOrtho = new QLineEdit();
+    surfaceOrtho = new QLineEdit(Settings::surface_ortho);
 
     QLabel* pathOrtho_label = new QLabel("Path: ");
-    pathOrtho = new QLineEdit();
+    pathOrtho = new QLineEdit(Settings::path_ortho);
 
     QLabel* crsOrtho_label = new QLabel("CRS: ");
-    crsOrtho = new QLineEdit();
+    crsOrtho = new QLineEdit(Settings::crs_ortho);
 
     QLabel* blendingOrtho_label = new QLabel("Blending: ");
-    blendingOrtho = new QLineEdit();
+    blendingOrtho = new QLineEdit(Settings::blending_ortho);
 
     QLabel* holesOrtho_label = new QLabel("Fill Holes: ");
     holesOrtho = new QComboBox();
-    holesOrtho->addItem("True");
-    holesOrtho->addItem("False");
+    if(Settings::holes_ortho){
+        holesOrtho->addItem(QString("True"));
+        holesOrtho->addItem(QString("False"));
+    }else{
+        holesOrtho->addItem(QString("False"));
+        holesOrtho->addItem(QString("True"));
+    }
 
     QLabel* seamlinesOrtho_label = new QLabel("Refine Seamlines: ");
     seamlinesOrtho = new QComboBox();
-    seamlinesOrtho->addItem("True");
-    seamlinesOrtho->addItem("False");
+    if(Settings::seamlines_ortho){
+        seamlinesOrtho->addItem(QString("True"));
+        seamlinesOrtho->addItem(QString("False"));
+    }else{
+        seamlinesOrtho->addItem(QString("False"));
+        seamlinesOrtho->addItem(QString("True"));
+    }
 
     QLabel* exportOrtho_label = new QLabel("Export: ");
     exportOrtho = new QComboBox();
-    exportOrtho->addItem("True");
-    exportOrtho->addItem("False");
+    if(Settings::export_ortho){
+        exportOrtho->addItem(QString("True"));
+        exportOrtho->addItem(QString("False"));
+    }else{
+        exportOrtho->addItem(QString("False"));
+        exportOrtho->addItem(QString("True"));
+    }
 
     QLabel* bigOrtho_label = new QLabel("Tiff big: ");
     bigOrtho = new QComboBox();
-    bigOrtho->addItem("True");
-    bigOrtho->addItem("False");
+    if(Settings::big_ortho){
+        bigOrtho->addItem(QString("True"));
+        bigOrtho->addItem(QString("False"));
+    }else{
+        bigOrtho->addItem(QString("False"));
+        bigOrtho->addItem(QString("True"));
+    }
 
     QLabel* tiledOrtho_label = new QLabel("Tiff tiled: ");
     tiledOrtho = new QComboBox();
-    tiledOrtho->addItem("True");
-    tiledOrtho->addItem("False");
+    if(Settings::tiled_ortho){
+        tiledOrtho->addItem(QString("True"));
+        tiledOrtho->addItem(QString("False"));
+    }else{
+        tiledOrtho->addItem(QString("False"));
+        tiledOrtho->addItem(QString("True"));
+    }
 
     QLabel* nodataOrtho_label = new QLabel("Nodata: ");
     nodataOrtho = new QDoubleSpinBox();
     nodataOrtho->setMinimum(-10000000);
+    nodataOrtho->setValue(Settings::nodata_ortho);
 
     QLabel* overviewsOrtho_label = new QLabel("Tiff Overviews: ");
     overviewsOrtho = new QComboBox();
-    overviewsOrtho->addItem("True");
-    overviewsOrtho->addItem("False");
+    if(Settings::overviews_ortho){
+        overviewsOrtho->addItem(QString("True"));
+        overviewsOrtho->addItem(QString("False"));
+    }else{
+        overviewsOrtho->addItem(QString("False"));
+        overviewsOrtho->addItem(QString("True"));
+    }
 
     QGridLayout* layoutOrtho = new QGridLayout;
     layoutOrtho->addWidget(enableOrtho_label, 0, 0);
@@ -486,96 +718,7 @@ void MenuActions::create_orthomosaic(){
     ortho_box->setLayout(layoutOrtho);
 }
 
-void MenuActions::create_alignPhotos(){
-    alignPhotos_box = new QGroupBox(tr("Align Photos Settings"));
 
-    QLabel *enableAlign_label = new QLabel("Enable: ");
-    enableAlign = new QComboBox();
-    enableAlign->addItem("True");
-    enableAlign->addItem("False");
-
-    QLabel *downscaleAlign_label = new QLabel("Downscale: ");
-    downscaleAlign = new QDoubleSpinBox();
-
-    QLabel *adaptiveAlign_label = new QLabel("Adaptive fitting: ");
-    adaptiveAlign = new QComboBox();
-    adaptiveAlign->addItem("True");
-    adaptiveAlign->addItem("False");
-
-    QLabel *keypointsAlign_label = new QLabel("Keep Keypoints: ");
-    keypointsAlign = new QComboBox();
-    keypointsAlign->addItem("True");
-    keypointsAlign->addItem("False");
-
-    QLabel *resetAlign_label = new QLabel("Reset Alignment: ");
-    resetAlign = new QComboBox();
-    resetAlign->addItem("True");
-    resetAlign->addItem("False");
-
-    QLabel *genPreAlign_label = new QLabel("Generic Preselection: ");
-    genPreAlign = new QComboBox();
-    genPreAlign->addItem("True");
-    genPreAlign->addItem("False");
-
-    QLabel *refPreAlign_label = new QLabel("Reference Preselection: ");
-    refPreAlign = new QComboBox();
-    refPreAlign->addItem("True");
-    refPreAlign->addItem("False");
-
-    QLabel *preModeAlign_label = new QLabel("Reference Preselection Mode: ");
-    preModeAlign = new QLineEdit("Metashape.ReferencePreselectionSource"); //DUBBIO
-
-
-    QGridLayout* layoutAlign = new QGridLayout;
-    layoutAlign->addWidget(enableAlign_label, 0, 0);
-    layoutAlign->addWidget(enableAlign, 0, 1);
-
-    layoutAlign->addWidget(downscaleAlign_label, 1, 0);
-    layoutAlign->addWidget(downscaleAlign, 1, 1);
-
-    layoutAlign->addWidget(adaptiveAlign_label, 2, 0);
-    layoutAlign->addWidget(adaptiveAlign, 2, 1);
-
-    layoutAlign->addWidget(keypointsAlign_label, 3, 0);
-    layoutAlign->addWidget(keypointsAlign, 3,1);
-
-    layoutAlign->addWidget(resetAlign_label, 4,0);
-    layoutAlign->addWidget(resetAlign, 4,1);
-
-    layoutAlign->addWidget(genPreAlign_label, 5,0);
-    layoutAlign->addWidget(genPreAlign,5,1);
-
-    layoutAlign->addWidget(refPreAlign_label, 6,0);
-    layoutAlign->addWidget(refPreAlign, 6,1);
-
-    layoutAlign->addWidget(preModeAlign_label, 7,0);
-    layoutAlign->addWidget(preModeAlign, 7,1);
-
-    alignPhotos_box->setLayout(layoutAlign);
-
-}
-
-void MenuActions::create_preliminary(){
-    preliminary_box = new QGroupBox(tr("Preliminary Settings"));
-
-    QLabel *crs_label = new QLabel("Coordinate Reference System: ");
-    crs_line = new QLineEdit();
-
-    QLabel *task_label = new QLabel("Subdivide task: ");
-    task_box = new QComboBox();
-    task_box->addItem(QString("True"));
-    task_box->addItem(QString("False"));
-
-    QGridLayout* layoutPre = new QGridLayout;
-    layoutPre->addWidget(crs_label, 0,0);
-    layoutPre->addWidget(crs_line,0,1);
-
-    layoutPre->addWidget(task_label,1,0);
-    layoutPre->addWidget(task_box,1,1);
-
-    preliminary_box->setLayout(layoutPre);
-
-}
 
 void MenuActions::onFinishButtonCliked(){
 // SET ALL SETTINGS PARAMETERS
