@@ -13,10 +13,14 @@
 #include <QDoubleSpinBox>
 #include <QScrollArea>
 
+#define GUI_SUB_PATH "gui"
+
 class MenuActions : public QTabWidget
 {
     Q_OBJECT
 private:
+    QUrl guiSubDir;
+
     // PAGE 1
     QLabel *label;
     QLabel *photo_label;
@@ -37,11 +41,6 @@ private:
     QPushButton *button_photo;
     QPushButton *button_project;
     QPushButton *button_output;
-
-    void handlePhotoButton();
-    void handleProjectButton();
-    void handleOutputButton();
-
 
     // PAGE 2
     QLabel *label2;
@@ -146,6 +145,7 @@ public:
     MenuActions(QWidget *parent = nullptr);
 
 public slots:
+    void newProject();
     void openProject();
     void saveProject();
     void setPhotoPath();
@@ -154,6 +154,7 @@ public slots:
     void setApiKey();
 
     void setSettings();
+    void onCreateFinished();
 };
 
 #endif // MENUACTIONS_H

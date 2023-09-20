@@ -7,7 +7,72 @@
 #include <QPalette>
 
 
-MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent){}
+MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent), guiSubDir(GUI_SUB_PATH){}
+
+void MenuActions::newProject()
+{
+    // PAGE 1
+    QWizardPage *page = new QWizardPage;
+    page->setTitle("Settings");
+
+    label = new QLabel("Set all the infromation fields below.");
+    label->setWordWrap(true);
+
+    photo_label = new QLabel("Photo path: ");
+    photo_label->setWordWrap(true);
+
+    project_label = new QLabel("Project path: ");
+    project_label->setWordWrap(true);
+
+    output_label = new QLabel("Output path: ");
+    output_label->setWordWrap(true);
+
+    api_label = new QLabel("API Key: ");
+    api_label->setWordWrap(true);
+
+    photo_url = new QLineEdit(photo_path.toString());
+    project_url = new QLineEdit(project_path.toString());
+    output_url = new QLineEdit(output_path.toString());
+    api_url = new QLineEdit(api_key);
+
+    button_photo = new QPushButton("&Open...", this);
+    connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoPath);
+
+    button_project= new QPushButton("&Open...", this);
+    connect(button_project, &QPushButton::released, this, &MenuActions::setProjectPath);
+
+    button_output = new QPushButton("&Open...", this);
+    connect(button_output, &QPushButton::released, this, &MenuActions::setOutputPath);
+
+    QGridLayout *layout = new QGridLayout;
+    layout->addWidget(label, 0, 1);
+    layout->addWidget(photo_label, 1,0);
+    layout->addWidget(photo_url, 1, 1);
+    layout->addWidget(button_photo, 1, 2);
+
+    layout->addWidget(project_label, 2,0);
+    layout->addWidget(project_url, 2, 1);
+    layout->addWidget(button_project, 2, 2);
+
+    layout->addWidget(output_label, 3,0);
+    layout->addWidget(output_url, 3, 1);
+    layout->addWidget(button_output, 3, 2);
+
+    layout->addWidget(api_label, 4, 0);
+    layout->addWidget(api_url, 4, 1);
+    page->setLayout(layout);
+
+    wizard_settings = new QWizard();
+    wizard_settings->addPage(page);
+    wizard_settings->setWindowTitle("New Project");
+
+    wizard_settings->setOptions(QWizard::NoBackButtonOnLastPage);
+    wizard_settings->show();
+
+    connect(wizard_settings->button(QWizard::FinishButton),
+            SIGNAL(clicked()),this,SLOT(onCreateFinished()));
+
+}
 
 void MenuActions::openProject(){
     QString fileName = QFileDialog::getOpenFileName(this);
@@ -59,7 +124,7 @@ void MenuActions::saveProject(){
 void MenuActions::setProjectPath(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),
-                                                 "/home",
+                                                 ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!url.isValid()) {
@@ -74,7 +139,7 @@ void MenuActions::setProjectPath(){
 void MenuActions::setOutputPath(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),
-                                                 "/home",
+                                                 ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!url.isValid()) {
@@ -89,7 +154,7 @@ void MenuActions::setOutputPath(){
 void MenuActions::setPhotoPath(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),
-                                                 "/home",
+                                                 ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
     if (!url.isValid()) {
@@ -107,17 +172,6 @@ void MenuActions::setApiKey(){
     api_key = key;
     qDebug() << key;
 
-}
-
-void MenuActions::handlePhotoButton(){
-    setPhotoPath();
-}
-
-void MenuActions::handleProjectButton(){
-    setProjectPath();
-}
-void MenuActions::handleOutputButton(){
-    setOutputPath();
 }
 
 void MenuActions::create_filterPointsUSGS(){
@@ -531,13 +585,13 @@ void MenuActions::setSettings(){
     api_url = new QLineEdit(api_key);
 
     button_photo = new QPushButton("&Open...", this);
-    connect(button_photo, &QPushButton::released, this, &MenuActions::handlePhotoButton);
+    connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoPath);
 
     button_project= new QPushButton("&Open...", this);
-    connect(button_project, &QPushButton::released, this, &MenuActions::handleProjectButton);
+    connect(button_project, &QPushButton::released, this, &MenuActions::setProjectPath);
 
     button_output = new QPushButton("&Open...", this);
-    connect(button_output, &QPushButton::released, this, &MenuActions::handleOutputButton);
+    connect(button_output, &QPushButton::released, this, &MenuActions::setOutputPath);
 
 
     QGridLayout *layout = new QGridLayout;
@@ -605,5 +659,14 @@ void MenuActions::setSettings(){
     wizard_settings->addPage(page2);
     wizard_settings->setWindowTitle("Configure");
     wizard_settings->show();
+}
 
+void MenuActions::onCreateFinished()
+{
+    // TODO: sanity check
+    // QDir("Folder").exists();
+    QUrl path = project_path.resolved(guiSubDir);
+    QDir().mkpath(path.toString());
+
+    // TODO: scrivi yaml save
 }

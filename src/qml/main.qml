@@ -31,7 +31,7 @@ ApplicationWindow {
             Menu {
                 title: qsTr("&File")
                 Action { text: qsTr("&New...")
-                    onTriggered: print("OK")
+                    onTriggered: MenuActions.newProject();
                 }
                 Action { text: qsTr("&Open...")
                     onTriggered: MenuActions.openProject()}
@@ -50,15 +50,6 @@ ApplicationWindow {
             }
             Menu {
                 title: qsTr("&Configure")
-//                Action { text: qsTr("&Photo Path")
-//                    onTriggered: MenuActions.setPhotopath()
-//                }
-//                Action { text: qsTr("&Project Path")
-//                    onTriggered: MenuActions.setProjectPath()
-//                }
-//                Action { text: qsTr("&Output Path")
-//                    onTriggered: MenuActions.setOutputPath()
-//                }
                 Action { text: qsTr("&Settings")
                     onTriggered: MenuActions.setSettings()
                 }
