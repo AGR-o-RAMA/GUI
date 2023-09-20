@@ -43,6 +43,7 @@ HEADERS += \
     menuActions.h \
     operation.h \
     processfactory.h \
+    settings.h \
     tile.h \
     tilesHandler.h
 
@@ -50,6 +51,7 @@ SOURCES += \
     main.cpp \
     menuActions.cpp \
     processfactory.cpp \
+    settings.cpp \
     tile.cpp \
     tilesHandler.cpp
 

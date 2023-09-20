@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QScrollArea>
+#include "settings.h"
 
 #define GUI_SUB_PATH "gui"
 
@@ -28,15 +29,10 @@ private:
     QLabel *output_label;
     QLabel *api_label;
 
-    QLineEdit *photo_url;
-    QLineEdit *project_url;
-    QLineEdit *output_url;
-    QLineEdit *api_url;
-
-    QUrl photo_path;
-    QUrl project_path;
-    QUrl output_path;
-    QString api_key;
+    QLineEdit *photo_line;
+    QLineEdit *project_line;
+    QLineEdit *output_line;
+    QLineEdit *api_line;
 
     QPushButton *button_photo;
     QPushButton *button_project;
@@ -45,10 +41,10 @@ private:
     // PAGE 2
     QLabel *label2;
 
-    QLabel *crs_label;
+    QGroupBox *preliminary_box;
+
     QLineEdit *crs_line;
 
-    QLabel *task_label;
     QComboBox *task_box;
 ///////////////////////
 
@@ -133,6 +129,14 @@ private:
     QWizard* wizard_settings;
 
 
+    void handlePhotoButton();
+    void handleProjectButton();
+    void handleOutputButton();
+    void setPhotoUrl();
+    void setProjectUrl();
+    void setOutputUrl();
+
+    void create_preliminary();
     void create_alignPhotos();
     void create_filterPointsUSGS();
     void create_optimizeCamera();
@@ -148,11 +152,8 @@ public slots:
     void newProject();
     void openProject();
     void saveProject();
-    void setPhotoPath();
-    void setProjectPath();
-    void setOutputPath();
-    void setApiKey();
 
+    void onFinishButtonCliked();    
     void setSettings();
     void onCreateFinished();
 };
