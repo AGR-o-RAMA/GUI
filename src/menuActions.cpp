@@ -668,10 +668,10 @@ void MenuActions::setSettings(){
     api_label = new QLabel("API Key: ");
     api_label->setWordWrap(true);
 
-    photo_line = new QLineEdit();
-    project_line = new QLineEdit();
-    output_line = new QLineEdit();
-    api_line = new QLineEdit();
+    photo_line = new QLineEdit(Settings::photo_path.toString());
+    project_line = new QLineEdit(Settings::project_path.toString());
+    output_line = new QLineEdit(Settings::output_path.toString());
+    api_line = new QLineEdit(Settings::api_key);
 
     button_photo = new QPushButton("&Open...", this);
     connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoUrl);
@@ -768,9 +768,17 @@ void MenuActions::onCreateFinished()
 {
     // TODO: sanity check
     // QDir("Folder").exists();
+    Settings::photo_path = QUrl(photo_line->text());
+    Settings::project_path = QUrl(project_line->text());
+    Settings::output_path = QUrl(output_line->text());
+    Settings::api_key = api_line->text();
 
+
+
+//    qDebug() << Settings::project_path.toString();
     QUrl path = Settings::project_path.resolved(guiSubDir);
     QDir().mkpath(path.toString());
+    qDebug() << path.toString();
 
     // TODO: scrivi yaml save
 }
