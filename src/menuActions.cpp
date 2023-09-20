@@ -312,6 +312,7 @@ void MenuActions::create_DEM(){
 
     QLabel* nodataDEM_label = new QLabel("Nodata: ");
     nodataDEM = new QDoubleSpinBox();
+    nodataDEM->setMinimum(-1000000);
 
     QLabel* overviewsDEM_label = new QLabel("Tiff Tiled: ");
     overviewsDEM = new QComboBox();
@@ -395,6 +396,7 @@ void MenuActions::create_orthomosaic(){
 
     QLabel* nodataOrtho_label = new QLabel("Nodata: ");
     nodataOrtho = new QDoubleSpinBox();
+    nodataOrtho->setMinimum(-10000000);
 
     QLabel* overviewsOrtho_label = new QLabel("Tiff Overviews: ");
     overviewsOrtho = new QComboBox();
@@ -520,21 +522,75 @@ void MenuActions::create_preliminary(){
     preliminary_box->setLayout(layoutPre);
 
 }
-void MenuActions::onNextButtonCliked(){
-
-}
 
 void MenuActions::onFinishButtonCliked(){
 // SET ALL SETTINGS PARAMETERS
+    Settings::photo_path = QUrl(photo_line->text());
+    Settings::project_path = QUrl(project_line->text());
+    Settings::output_path = QUrl(output_line->text());
+    Settings::api_key = api_line->text();
 
-//    photo_path = QUrl(photo_line->text());
-//    project_path = QUrl(project_line->text());
-//    output_path = QUrl(output_line->text());
-//    api_key = api_line->text();
+    Settings::project_crs = crs_line->text();
+    Settings::subdivide_task = (((task_box->currentText()) == QString("True")) ? true : false);
 
-//    project_crs = crs_line->text();
-//    subdivide_task = (task_box->itemData(task_box->currentIndex()) == QString("True")) ? true : false;
-//    qDebug() << task_box->itemData(task_box->currentIndex());
+    Settings::enabled_align = (((enableAlign->currentText()) == QString("True")) ? true : false);
+    Settings::downscale_align = downscaleAlign->value();
+    Settings::adaptive_align = (((adaptiveAlign->currentText()) == QString("True")) ? true : false);
+    Settings::keypoints_align = (((keypointsAlign->currentText()) == QString("True")) ? true : false);
+    Settings::reset_align = (((resetAlign->currentText()) == QString("True")) ? true : false);
+    Settings::genPre_align = (((genPreAlign->currentText()) == QString("True")) ? true : false);
+    Settings::refPre_align = (((refPreAlign->currentText()) == QString("True")) ? true : false);
+    Settings::preMode_align = preModeAlign->text();
+
+    Settings::enable_USGS = (((enableUSGS->currentText()) == QString("True")) ? true : false);
+    Settings::recPerc_USGS = recPercUSGS->value();
+    Settings::recAbs_USGS = recAbsUSGS->value();
+    Settings::projPerc_USGS = projPercUSGS->value();
+    Settings::projAbs_USGS = projAbsUSGS->value();
+    Settings::reprojPerc_USGS = reprojPercUSGS->value();
+    Settings::reprojAbs_USGS = reprojAbsUSGS->value();
+
+    Settings::enable_opt = (((enableOpt->currentText()) == QString("True")) ? true : false);
+    Settings::adaptive_opt = (((adaptiveOpt->currentText()) == QString("True")) ? true : false);
+
+    Settings::enable_cloud = (((enableCloud->currentText()) == QString("True")) ? true : false);
+    Settings::downscale_cloud = downscaleCloud->value();
+    Settings::filter_cloud = filterCloud->text();
+    Settings::reuse_cloud = (((reuseCloud->currentText()) == QString("True")) ? true : false);
+    Settings::keep_cloud = (((keepCloud->currentText()) == QString("True")) ? true : false);
+    Settings::maxneighbors_cloud = maxneighborsCloud->value();
+    Settings::classify_cloud = (((classifyCloud->currentText()) == QString("True")) ? true : false);
+    Settings::export_cloud = (((exportCloud->currentText()) == QString("True")) ? true : false);
+    Settings::classes_cloud = classesCloud->text();
+
+    Settings::angle_classify = angleClassify->value();
+    Settings::distance_classify = distanceClassify->value();
+    Settings::cell_classify = cellClassify->value();
+
+    Settings::enable_DEM = (((enableDEM->currentText()) == QString("True")) ? true : false);
+    Settings::classify_DEM = (((classifyDEM->currentText()) == QString("True")) ? true : false);
+    Settings::type_DEM = typeDEM->text();
+    Settings::export_DEM = (((exportDEM->currentText()) == QString("True")) ? true : false);
+    Settings::big_DEM = (((bigDEM->currentText()) == QString("True")) ? true : false);
+    Settings::tiled_DEM = (((tiledDEM->currentText()) == QString("True")) ? true : false);
+    Settings::nodata_DEM = nodataDEM->value();
+    Settings::overviews_DEM = (((overviewsDEM->currentText()) == QString("True")) ? true : false);
+
+    Settings::enable_ortho = (((enableUSGS->currentText()) == QString("True")) ? true : false);
+    Settings::surface_ortho = surfaceOrtho->text();
+    Settings::path_ortho = pathOrtho->text();
+    Settings::crs_ortho = crsOrtho->text();
+    Settings::blending_ortho = blendingOrtho->text();
+    Settings::holes_ortho = (((holesOrtho->currentText()) == QString("True")) ? true : false);
+    Settings::seamlines_ortho = (((seamlinesOrtho->currentText()) == QString("True")) ? true : false);
+    Settings::export_ortho = (((exportOrtho->currentText()) == QString("True")) ? true : false);
+    Settings::big_ortho = (((bigOrtho->currentText()) == QString("True")) ? true : false);
+    Settings::tiled_ortho = (((tiledOrtho->currentText()) == QString("True")) ? true : false);
+    Settings::nodata_ortho = nodataOrtho->value();
+    Settings::overviews_ortho = (((overviewsOrtho->currentText()) == QString("True")) ? true : false);
+
+
+    qDebug() << Settings::nodata_ortho;
 }
 
 void MenuActions::setSettings(){
@@ -643,6 +699,7 @@ void MenuActions::setSettings(){
     QVBoxLayout* mainLayout = new QVBoxLayout();
     mainLayout->addWidget(scrollArea);
     page2->setLayout(mainLayout);
+
 
     wizard_settings = new QWizard();
     wizard_settings->addPage(page);

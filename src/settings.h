@@ -18,72 +18,71 @@ public:
     Settings(QWidget *parent = nullptr);
 
     // PROPERTIES
-
-    static QUrl photo_path;
-    static QUrl project_path;
-    static QUrl output_path;
-    static QString api_key;
+    inline static QUrl photo_path;
+    inline static QUrl project_path;
+    inline static QUrl output_path;
+    inline static QString api_key;
 
     // ADVANCED PROPERTIES
 
-    static QString project_crs;
-    static bool subdivide_task;
+    inline static QString project_crs;
+    inline static bool subdivide_task;
 
-    static bool enabled_align;
-    static int downscale_align;
-    static bool adaptive_align;
-    static bool keypoints_align;
-    static bool reset_align;
-    static bool genPre_align;
-    static bool refPre_align;
-    static QString preMode_align;
+    inline static bool enabled_align;
+    inline static int downscale_align;
+    inline static bool adaptive_align;
+    inline static bool keypoints_align;
+    inline static bool reset_align;
+    inline static bool genPre_align;
+    inline static bool refPre_align;
+    inline static QString preMode_align;
 
-    static bool enable_USGS;
-    static double recPerc_USGS;
-    static double recAbs_USGS;
-    static double projPerc_USGS;
-    static double projAbs_USGS;
-    static double reprojPerc_USGS;
-    static double reprojAbs_USGS;
+    inline static bool enable_USGS;
+    inline static double recPerc_USGS;
+    inline static double recAbs_USGS;
+    inline static double projPerc_USGS;
+    inline static double projAbs_USGS;
+    inline static double reprojPerc_USGS;
+    inline static double reprojAbs_USGS;
 
-    static bool enable_opt;
-    static bool adaptive_opt;
+    inline static bool enable_opt;
+    inline static bool adaptive_opt;
 
-    static bool enable_cloud;
-    static double downscale_cloud;
-    static QString filter_cloud;
-    static bool reuse_cloud;
-    static bool keep_cloud;
-    static int maxneighbors_cloud;
-    static bool classify_cloud;
-    static bool export_cloud;
-    static QString classes_cloud;
+    inline static bool enable_cloud;
+    inline static double downscale_cloud;
+    inline static QString filter_cloud;
+    inline static bool reuse_cloud;
+    inline static bool keep_cloud;
+    inline static int maxneighbors_cloud;
+    inline static bool classify_cloud;
+    inline static bool export_cloud;
+    inline static QString classes_cloud;
 
-    static double angle_classify;
-    static double distance_classify;
-    static double cell_classify;
+    inline static double angle_classify;
+    inline static double distance_classify;
+    inline static double cell_classify;
 
-    static bool enable_DEM;
-    static bool classify_DEM;
-    static QString type_DEM;
-    static bool export_DEM;
-    static bool big_DEM;
-    static bool tiled_DEM;
-    static int nodata_DEM;
-    static bool overviews_DEM;
+    inline static bool enable_DEM;
+    inline static bool classify_DEM;
+    inline static QString type_DEM;
+    inline static bool export_DEM;
+    inline static bool big_DEM;
+    inline static bool tiled_DEM;
+    inline static int nodata_DEM;
+    inline static bool overviews_DEM;
 
-    static bool enable_ortho;
-    static QString surface_ortho;
-    static QString path_ortho;
-    static QString crs_ortho;
-    static QString blending_ortho;
-    static bool holes_ortho;
-    static bool seamlines_ortho;
-    static bool export_ortho;
-    static bool big_ortho;
-    static bool tiled_ortho;
-    static int nodata_ortho;
-    static bool overviews_ortho;
+    inline static bool enable_ortho;
+    inline static QString surface_ortho;
+    inline static QString path_ortho;
+    inline static QString crs_ortho;
+    inline static QString blending_ortho;
+    inline static bool holes_ortho;
+    inline static bool seamlines_ortho;
+    inline static bool export_ortho;
+    inline static bool big_ortho;
+    inline static bool tiled_ortho;
+    inline static int nodata_ortho;
+    inline static bool overviews_ortho;
 };
 
 #endif // SETTINGS_H

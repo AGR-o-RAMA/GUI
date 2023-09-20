@@ -19,78 +19,6 @@ class MenuActions : public QTabWidget
     Q_OBJECT
 private:
 
-    // PROPERTIES
-
-//    QUrl photo_path;
-//    QUrl project_path;
-//    QUrl output_path;
-//    QString api_key;
-
-//    // ADVANCED PROPERTIES
-
-//    QString project_crs;
-//    bool subdivide_task;
-
-//    bool enabled_align;
-//    int downscale_align;
-//    bool adaptive_align;
-//    bool keypoints_align;
-//    bool reset_align;
-//    bool genPre_align;
-//    bool refPre_align;
-//    QString preMode_align;
-
-//    bool enable_USGS;
-//    double recPerc_USGS;
-//    double recAbs_USGS;
-//    double projPerc_USGS;
-//    double projAbs_USGS;
-//    double reprojPerc_USGS;
-//    double reprojAbs_USGS;
-
-//    bool enable_opt;
-//    bool adaptive_opt;
-
-//    bool enable_cloud;
-//    double downscale_cloud;
-//    QString filter_cloud;
-//    bool reuse_cloud;
-//    bool keep_cloud;
-//    int maxneighbors_cloud;
-//    bool classify_cloud;
-//    bool export_cloud;
-//    QString classes_cloud;
-
-//    double angle_classify;
-//    double distance_classify;
-//    double cell_classify;
-
-//    bool enable_DEM;
-//    bool classify_DEM;
-//    QString type_DEM;
-//    bool export_DEM;
-//    bool big_DEM;
-//    bool tiled_DEM;
-//    int nodata_DEM;
-//    bool overviews_DEM;
-
-//    bool enable_ortho;
-//    QString surface_ortho;
-//    QString path_ortho;
-//    QString crs_ortho;
-//    QString blending_ortho;
-//    bool holes_ortho;
-//    bool seamlines_ortho;
-//    bool export_ortho;
-//    bool big_ortho;
-//    bool tiled_ortho;
-//    int nodata_ortho;
-//    bool overviews_ortho;
-
-
-
-
-
     // PAGE 1
     QLabel *label;
     QLabel *photo_label;
@@ -221,7 +149,6 @@ public slots:
     void openProject();
     void saveProject();
 
-    void onNextButtonCliked();
     void onFinishButtonCliked();    
     void setSettings();
 };
