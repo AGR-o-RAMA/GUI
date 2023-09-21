@@ -5,6 +5,8 @@
 #include <QtWidgets>
 #include <QPixmap>
 #include <QPalette>
+#include "ArcGISRuntimeEnvironment.h"
+#include "settings.h"
 
 
 MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent){}
@@ -770,8 +772,7 @@ void MenuActions::onFinishButtonCliked(){
     Settings::nodata_ortho = nodataOrtho->value();
     Settings::overviews_ortho = (((overviewsOrtho->currentText()) == QString("True")) ? true : false);
 
-
-    qDebug() << Settings::nodata_ortho;
+    Esri::ArcGISRuntime::ArcGISRuntimeEnvironment::setApiKey(Settings::api_key);
 }
 
 void MenuActions::setSettings(){
@@ -896,4 +897,6 @@ void MenuActions::onCreateFinished()
     p = Settings::pathJoin(elems);
 
     Settings::dumpToYaml(p);
+
+    Esri::ArcGISRuntime::ArcGISRuntimeEnvironment::setApiKey(Settings::api_key);
 }

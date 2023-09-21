@@ -13,7 +13,6 @@
 #include <QDoubleSpinBox>
 #include <QScrollArea>
 #include <QMessageBox>
-#include "settings.h"
 
 class MenuActions : public QTabWidget
 {
