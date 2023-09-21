@@ -153,7 +153,6 @@ public:
 public slots:
     void newProject();
     void openProject();
-    void saveProject();
 
     void onFinishButtonCliked();    
     void setSettings();

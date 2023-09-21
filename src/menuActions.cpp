@@ -106,26 +106,6 @@ void MenuActions::openProject(){
     }
 }
 
-
-void MenuActions::saveProject(){
-    QString fileName = QFileDialog::getSaveFileName(this);
-    if (!fileName.isEmpty()){
-        QFile file(fileName);
-
-        if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::information(this, tr("Unable to open file"), file.errorString());
-            return;
-        }
-
-//        QDataStream out(&file);
-//        out << photo_path.toString();
-//        out << project_path.toString();
-//        out << output_path.toString();
-//        out << api_key;
-    }
-
-}
-
 void MenuActions::setProjectUrl(){
     QUrl url = QFileDialog::getExistingDirectory(this,
                                                  tr("Open Directory"),

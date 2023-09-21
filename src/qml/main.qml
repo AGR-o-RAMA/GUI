@@ -29,25 +29,18 @@ ApplicationWindow {
             Layout.alignment: Qt.AlignTop
 
             Menu {
-                title: qsTr("&File")
+                title: qsTr("&Project")
                 Action { text: qsTr("&New...")
                     onTriggered: MenuActions.newProject();
                 }
                 Action { text: qsTr("&Open...")
                     onTriggered: MenuActions.openProject()}
-                Action { text: qsTr("&Save")
-                    onTriggered: MenuActions.saveProject()}
                 MenuSeparator { }
                 Action { text: qsTr("&Quit")
                     onTriggered: window.close()
                 }
             }
-            Menu {
-                title: qsTr("&Edit")
-                Action { text: qsTr("&Cut") }
-                Action { text: qsTr("&Copy") }
-                Action { text: qsTr("&Paste") }
-            }
+
             Menu {
                 title: qsTr("&Configure")
                 Action { text: qsTr("&Settings")
