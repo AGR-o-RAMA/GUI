@@ -80,7 +80,7 @@ void TilesHandler::generateCsv()
     if (!sanitizedPath.endsWith('/'))
         sanitizedPath += '/';
 
-    std::vector<QString> elems = {Settings::project_path.toString(), Settings::guiSubDir, Settings::csvName+".csv"};
+    std::vector<QString> elems = {Settings::project_path.toString(), Settings::guiSubDir, Settings::csvName};
     QString p = Settings::pathJoin(elems);
 
     f.open(p.toStdString(), std::ios::trunc);
