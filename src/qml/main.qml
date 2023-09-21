@@ -394,6 +394,8 @@ ApplicationWindow {
                 Layout.preferredWidth: parent.width*0.9
                 Layout.fillHeight: true
 
+                onActiveFocusChanged: MapForm.forceActiveFocus();
+
                 MapGrid{
                     id: grid
                     anchors.fill: parent
