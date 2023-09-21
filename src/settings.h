@@ -9,6 +9,9 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QScrollArea>
+#include <yaml-cpp/yaml.h>
+#include <QFile>
+#include <QTextStream>
 
 class Settings : public QWidget
 {
@@ -25,8 +28,10 @@ public:
 
     // ADVANCED PROPERTIES
 
+    inline static QString run_name;
     inline static QString project_crs;
     inline static bool subdivide_task;
+    inline static bool use_cuda;
 
     inline static bool enabled_align;
     inline static int downscale_align;
@@ -83,6 +88,8 @@ public:
     inline static bool tiled_ortho;
     inline static int nodata_ortho;
     inline static bool overviews_ortho;
+
+    static void dumpToYaml(QString path);
 };
 
 #endif // SETTINGS_H

@@ -12,7 +12,7 @@ MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent), guiSubDir(GUI_SU
 void MenuActions::newProject()
 {
     // PAGE 1
-    QWizardPage *page = new QWizardPage;
+    NewWizardPage *page = new NewWizardPage();
     page->setTitle("Settings");
 
     label = new QLabel("Set all the infromation fields below.");
@@ -31,9 +31,13 @@ void MenuActions::newProject()
     api_label->setWordWrap(true);
 
     photo_line = new QLineEdit();
+    photo_line->setObjectName("photo_line");
     project_line = new QLineEdit();
+    project_line->setObjectName("project_line");
     output_line = new QLineEdit();
+    output_line->setObjectName("output_line"),
     api_line = new QLineEdit();
+    api_line->setObjectName("api_line");
 
     button_photo = new QPushButton("&Open...", this);
     connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoUrl);
@@ -69,8 +73,8 @@ void MenuActions::newProject()
     wizard_settings->setOptions(QWizard::NoBackButtonOnLastPage);
     wizard_settings->show();
 
-    connect(wizard_settings->button(QWizard::FinishButton),
-            SIGNAL(clicked()),this,SLOT(onCreateFinished()));
+    connect(page,
+            SIGNAL(sanityCheckPassedSignal()),this,SLOT(onCreateFinished()));
 
 }
 
@@ -825,17 +829,6 @@ void MenuActions::setSettings(){
     button_output = new QPushButton("&Open...", this);
     connect(button_output, &QPushButton::released, this, &MenuActions::setOutputUrl);
 
-    // register url values in fields
-//    QString photo_field = QString("photo_field");
-//    QString project_field = QString("project_field");
-//    QString output_field = QString("output_field");
-//    QString api_field = QString("api_field");
-//    page->registerField("photo_field", photo_url);
-//    page->registerField("project_field",  project_url);
-//    page->registerField("output_field", output_url);
-//    page->registerField("api_field", api_url);
-
-
     QGridLayout *layout = new QGridLayout;
     layout->addWidget(label, 0, 1);
     layout->addWidget(photo_label, 1,0);
@@ -909,19 +902,17 @@ void MenuActions::setSettings(){
 
 void MenuActions::onCreateFinished()
 {
-    // TODO: sanity check
-    // QDir("Folder").exists();
     Settings::photo_path = QUrl(photo_line->text());
     Settings::project_path = QUrl(project_line->text());
     Settings::output_path = QUrl(output_line->text());
     Settings::api_key = api_line->text();
 
+    QString sanitizedPath = Settings::project_path.toString();
+    if (!sanitizedPath.endsWith('/'))
+        sanitizedPath += '/';
 
+    QString path = sanitizedPath + guiSubDir.toString();
+    QDir().mkpath(path);
 
-//    qDebug() << Settings::project_path.toString();
-    QUrl path = Settings::project_path.resolved(guiSubDir);
-    QDir().mkpath(path.toString());
-    qDebug() << path.toString();
-
-    // TODO: scrivi yaml save
+    Settings::dumpToYaml(path+"/save.yaml");
 }

@@ -16,6 +16,7 @@
 
 #define GUI_SUB_PATH "gui"
 
+
 class MenuActions : public QTabWidget
 {
     Q_OBJECT
@@ -156,6 +157,60 @@ public slots:
     void onFinishButtonCliked();    
     void setSettings();
     void onCreateFinished();
+};
+
+class NewWizardPage : public QWizardPage {
+    Q_OBJECT
+
+signals:
+    void sanityCheckPassedSignal();
+
+public:
+    NewWizardPage(QWidget* parent = nullptr) : QWizardPage(parent){}
+
+    bool validatePage() override {
+        QLineEdit* photoLineEdit = findChild<QLineEdit*>("photo_line");
+        QLineEdit* projectLineEdit = findChild<QLineEdit*>("project_line");
+        QLineEdit* outputLineEdit = findChild<QLineEdit*>("output_line");
+        QLineEdit* apiLineEdit = findChild<QLineEdit*>("api_line");
+
+        photoLineEdit->setStyleSheet("");
+        projectLineEdit->setStyleSheet("");
+        outputLineEdit->setStyleSheet("");
+        apiLineEdit->setStyleSheet("");
+
+        QString photo = (photoLineEdit) ? photoLineEdit->text() : "";
+        QString project = (projectLineEdit) ? projectLineEdit->text() : "";
+        QString output = (outputLineEdit) ? outputLineEdit->text() : "";
+        QString api = (apiLineEdit) ? apiLineEdit->text() : "";
+
+        bool res = true;
+
+        if (photo.isEmpty() || !QDir(photo).exists()){
+            photoLineEdit->setStyleSheet("border: 2px solid red;");
+            res = false;
+        }
+
+        if (project.isEmpty() || !QDir(project).exists()){
+            projectLineEdit->setStyleSheet("border: 2px solid red;");
+            res = false;
+        }
+
+        if (output.isEmpty() || !QDir(output).exists()){
+            outputLineEdit->setStyleSheet("border: 2px solid red;");
+            res = false;
+        }
+
+        if (api.isEmpty()){
+            apiLineEdit->setStyleSheet("border: 2px solid red;");
+            res = false;
+        }
+
+        if(res)
+            emit sanityCheckPassedSignal();
+
+        return res;
+    }
 };
 
 #endif // MENUACTIONS_H

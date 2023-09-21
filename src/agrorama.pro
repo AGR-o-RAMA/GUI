@@ -38,6 +38,8 @@ equals(QT_MAJOR_VERSION, 6) {
 ARCGIS_RUNTIME_VERSION = 200.2.0
 include($$PWD/arcgisruntime.pri)
 
+LIBS += -lyaml-cpp
+
 HEADERS += \
     geoCoordinate.h \
     menuActions.h \

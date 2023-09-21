@@ -15,8 +15,10 @@ Settings::Settings(QWidget *parent) : QWidget(parent){
 
     // ADVANCED PROPERTIES
 
+    run_name = QString("run-001");
     project_crs = QString("EPSG::4326");
     subdivide_task = true;
+    use_cuda = true;
 
     enabled_align = true;
     downscale_align = 2;
@@ -73,5 +75,106 @@ Settings::Settings(QWidget *parent) : QWidget(parent){
     tiled_ortho = false;
     nodata_ortho = -32767;
     overviews_ortho = true;
+}
+
+void Settings::dumpToYaml(QString path)
+{
+    YAML::Node yamlNode;
+
+    yamlNode["load_project"] = "";
+    yamlNode["photo_path"] = photo_path.toString().toStdString();
+    yamlNode["output_path"] = output_path.toString().toStdString();
+    yamlNode["project_path"] = project_path.toString().toStdString();
+    yamlNode["run_name"] = run_name.toStdString();
+    yamlNode["project_crs"] = project_crs.toStdString();
+    yamlNode["subdivide_task"] = subdivide_task;
+    yamlNode["use_cuda"] = use_cuda;
+
+    YAML::Node alignPhotosNode;
+    alignPhotosNode["enabled"] = enabled_align;
+    alignPhotosNode["downscale"] = downscale_align;
+    alignPhotosNode["adaptive_fitting"] = adaptive_align;
+    alignPhotosNode["keep_keypoints"] = keypoints_align;
+    alignPhotosNode["reset_alignment"] = reset_align;
+    alignPhotosNode["generic_preselection"] = genPre_align;
+    alignPhotosNode["reference_preselection"] = refPre_align;
+    alignPhotosNode["reference_preselection_mode"] = preMode_align.toStdString();
+
+    yamlNode["alignPhotos"] = alignPhotosNode;
+
+    YAML::Node filterPointsNode;
+    filterPointsNode["enabled"] = enable_USGS;
+    filterPointsNode["rec_thresh_percent"] = recPerc_USGS;
+    filterPointsNode["rec_thresh_absolute"] = recAbs_USGS;
+    filterPointsNode["proj_thresh_percent"] = projPerc_USGS;
+    filterPointsNode["proj_thresh_absolute"] = projAbs_USGS;
+    filterPointsNode["reproj_thresh_percent"] = reprojPerc_USGS;
+    filterPointsNode["reproj_thresh_absolute"] = reprojAbs_USGS;
+
+    yamlNode["filterPointsUSGS"] = filterPointsNode;
+
+    YAML::Node optimizeCamerasNode;
+    optimizeCamerasNode["enabled"] = enable_opt;
+    optimizeCamerasNode["adaptive_fitting"] = adaptive_opt;
+
+    yamlNode["optimizeCameras"] = optimizeCamerasNode;
+
+    YAML::Node pointCloudNode;
+    pointCloudNode["enabled"] = enable_cloud;
+    pointCloudNode["downscale"] = downscale_cloud;
+    pointCloudNode["filter_mode"] = filter_cloud.toStdString();
+    pointCloudNode["reuse_depth"] = reuse_cloud;
+    pointCloudNode["keep_depth"] = keep_cloud;
+    pointCloudNode["max_neighbors"] = maxneighbors_cloud;
+    pointCloudNode["classify_ground_points"] = classify_cloud;
+    pointCloudNode["export"] = export_cloud;
+    pointCloudNode["classes"] = classes_cloud.toStdString();
+
+    yamlNode["buildPointCloud"] = pointCloudNode;
+
+    YAML::Node groundPointsNode;
+    groundPointsNode["max_angle"] = angle_classify;
+    groundPointsNode["max_distance"] = distance_classify;
+    groundPointsNode["cell_size"] = cell_classify;
+
+    yamlNode["classifyGroundPoints"] = groundPointsNode;
+
+    YAML::Node buildDemNode;
+    buildDemNode["enabled"] = enable_DEM;
+    buildDemNode["classify_ground_points"] = classify_DEM;
+    buildDemNode["type"] = type_DEM.toStdString();
+    buildDemNode["export"] = export_DEM;
+    buildDemNode["tiff_big"] = big_DEM;
+    buildDemNode["tiff_tiled"] = tiled_DEM;
+    buildDemNode["nodata"] = nodata_DEM;
+    buildDemNode["tiff_overviews"] = overviews_DEM;
+
+    yamlNode["buildDem"] = buildDemNode;
+
+    YAML::Node orthomosaicNode;
+    orthomosaicNode["enabled"] = enable_ortho;
+    orthomosaicNode["surface"] = surface_ortho.toStdString();
+    orthomosaicNode["usgs_dem_path"] = path_ortho.toStdString();
+    orthomosaicNode["usgs_dem_crs"] = crs_ortho.toStdString();
+    orthomosaicNode["blending"] = blending_ortho.toStdString();
+    orthomosaicNode["fill_holes"] = holes_ortho;
+    orthomosaicNode["refine_seamlines"] = seamlines_ortho;
+    orthomosaicNode["export"] = export_ortho;
+    orthomosaicNode["tiff_big"] = big_ortho;
+    orthomosaicNode["tiff_tiled"] = tiled_ortho;
+    orthomosaicNode["nodata"] = nodata_ortho;
+    orthomosaicNode["tiff_overviews"] = overviews_ortho;
+
+    yamlNode["buildOrthomosaic"] = orthomosaicNode;
+
+    QFile file(path);
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+        qDebug() << "Failed to open file for writing.";
+        return;
+    }
+
+    QTextStream out(&file);
+    out << QString::fromStdString(YAML::Dump(yamlNode));
+    file.close();
 }
 
