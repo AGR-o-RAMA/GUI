@@ -13,6 +13,11 @@
 #include <QFile>
 #include <QTextStream>
 
+#define GUI_SUB_PATH "gui"
+#define CSV_NAME "mapping.csv"
+#define YAML_PARAMS_NAME "params.yaml"
+#define YAML_SAVE_NAME "save.yaml"
+
 class Settings : public QWidget
 {
     Q_OBJECT
@@ -89,7 +94,20 @@ public:
     inline static int nodata_ortho;
     inline static bool overviews_ortho;
 
+    inline static QString guiSubDir;
+    inline static QString csvName;
+    inline static QString yamlParamsName;
+    inline static QString yamlSaveName;
+
+public slots:
+    static void setUse_cuda(bool newUse_cuda);
+    static QString getProject_path();
+    static QString getYamlParamsName();
+    static QString getGuiSubDir();
+    static QString getYamlSaveName();
+
     static void dumpToYaml(QString path);
+    static QString pathJoin(std::vector<QString> paths);
 };
 
 #endif // SETTINGS_H

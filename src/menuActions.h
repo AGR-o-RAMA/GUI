@@ -15,15 +15,10 @@
 #include <QMessageBox>
 #include "settings.h"
 
-#define GUI_SUB_PATH "gui"
-
-
 class MenuActions : public QTabWidget
 {
     Q_OBJECT
 private:
-    QUrl guiSubDir;
-
     // PAGE 1
     QLabel *label;
     QLabel *photo_label;

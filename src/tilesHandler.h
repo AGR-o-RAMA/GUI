@@ -7,6 +7,7 @@
 #include <inttypes.h>
 #include <fstream>
 #include "tile.h"
+#include "settings.h"
 
 using u16 = uint16_t;
 

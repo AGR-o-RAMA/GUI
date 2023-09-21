@@ -75,6 +75,36 @@ Settings::Settings(QWidget *parent) : QWidget(parent){
     tiled_ortho = false;
     nodata_ortho = -32767;
     overviews_ortho = true;
+
+    guiSubDir = QString(GUI_SUB_PATH);
+    csvName = QString(CSV_NAME);
+    yamlParamsName = QString(YAML_PARAMS_NAME);
+    yamlSaveName = QString(YAML_SAVE_NAME);
+}
+
+QString Settings::getYamlSaveName()
+{
+    return yamlSaveName;
+}
+
+QString Settings::getGuiSubDir()
+{
+    return guiSubDir;
+}
+
+QString Settings::getYamlParamsName()
+{
+    return yamlParamsName;
+}
+
+QString Settings::getProject_path()
+{
+    return project_path.toString();
+}
+
+void Settings::setUse_cuda(bool newUse_cuda)
+{
+    use_cuda = newUse_cuda;
 }
 
 void Settings::dumpToYaml(QString path)
@@ -176,5 +206,23 @@ void Settings::dumpToYaml(QString path)
     QTextStream out(&file);
     out << QString::fromStdString(YAML::Dump(yamlNode));
     file.close();
+}
+
+QString Settings::pathJoin(std::vector<QString> paths)
+{
+    ssize_t n = paths.size();
+
+    auto slash = [](QString param){ return param.endsWith("/") ? param : param + "/"; };
+
+    QString res("");
+
+    for(int i = 0; i < n; ++i){
+        if(i < n-1)
+            res += slash(paths[i]);
+        else
+            res += paths[i];
+    }
+
+    return res;
 }
 

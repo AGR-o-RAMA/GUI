@@ -70,7 +70,20 @@ void TilesHandler::reset()
 void TilesHandler::generateCsv()
 {
     std::ofstream f;
-    f.open("test.csv", std::ios::trunc);
+
+    QString sanitizedPath = Settings::project_path.toString();
+    if (!sanitizedPath.endsWith('/'))
+        sanitizedPath += '/';
+
+    sanitizedPath += Settings::guiSubDir;
+
+    if (!sanitizedPath.endsWith('/'))
+        sanitizedPath += '/';
+
+    std::vector<QString> elems = {Settings::project_path.toString(), Settings::guiSubDir, Settings::csvName+".csv"};
+    QString p = Settings::pathJoin(elems);
+
+    f.open(p.toStdString(), std::ios::trunc);
 
     u16 rows = this->tilesMatrix.size();
     assert(rows > 0);

@@ -7,7 +7,7 @@
 #include <QPalette>
 
 
-MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent), guiSubDir(GUI_SUB_PATH){}
+MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent){}
 
 void MenuActions::newProject()
 {
@@ -887,12 +887,13 @@ void MenuActions::onCreateFinished()
     Settings::output_path = QUrl(output_line->text());
     Settings::api_key = api_line->text();
 
-    QString sanitizedPath = Settings::project_path.toString();
-    if (!sanitizedPath.endsWith('/'))
-        sanitizedPath += '/';
+    std::vector<QString> elems = {Settings::project_path.toString(), Settings::guiSubDir};
+    QString p = Settings::pathJoin(elems);
 
-    QString path = sanitizedPath + guiSubDir.toString();
-    QDir().mkpath(path);
+    QDir().mkpath(p);
 
-    Settings::dumpToYaml(path+"/save.yaml");
+    elems.push_back(Settings::yamlSaveName);
+    p = Settings::pathJoin(elems);
+
+    Settings::dumpToYaml(p);
 }

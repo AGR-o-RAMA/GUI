@@ -53,8 +53,9 @@ ApplicationWindow {
                 MenuItem {
                     id: useCuda
                     text: "Use Cuda"
+                    checked: true
                     checkable: true
-                    onCheckedChanged: {}
+                    onCheckedChanged: YamlSettings.setUse_cuda(useCuda.checked);
                 }
             }
 
@@ -240,6 +241,10 @@ ApplicationWindow {
                             onClicked: {
                                 orthomap.enabled = true;
                                 TilesHandler.generateCsv();
+                                let path = YamlSettings.pathJoin([YamlSettings.getProject_path(), YamlSettings.getYamlParamsName()]);
+                                YamlSettings.dumpToYaml(path);
+                                path = YamlSettings.pathJoin([YamlSettings.getProject_path(), YamlSettings.getGuiSubDir(), YamlSettings.getYamlSaveName()]);
+                                YamlSettings.dumpToYaml(path);
                             }
                         }
 
@@ -266,7 +271,7 @@ ApplicationWindow {
                                     loader.loadTif()
                                 }
                                 else {
-                                    console.error("Process terminated with error: " + exitCode);
+                                    console.error("Process terminated with error: " + exitCode);             
                                     // TODO: Rendere piu palese che qualcosa è andato storto (magari un equivalente dell'alert js?)
                                 }
                             }

@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
     MenuActions* menuActions = new MenuActions;
     root -> setContextProperty("MenuActions",menuActions);
     Settings* settings = new Settings;
-    root -> setContextProperty("Settings", settings);
+    root -> setContextProperty("YamlSettings", settings);
     window->show();
     return app.exec();
 }
