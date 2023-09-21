@@ -12,6 +12,7 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QScrollArea>
+#include <QMessageBox>
 #include "settings.h"
 
 #define GUI_SUB_PATH "gui"
@@ -208,6 +209,8 @@ public:
 
         if(res)
             emit sanityCheckPassedSignal();
+        else
+            QMessageBox::critical(this, "Error", "Sanity check failed. Please correct the input.");
 
         return res;
     }
