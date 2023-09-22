@@ -101,6 +101,7 @@ public:
 
 public slots:
     static void setUse_cuda(bool newUse_cuda);
+    static bool getUse_cuda();
     static QString getProject_path();
     static QString getYamlParamsName();
     static QString getGuiSubDir();

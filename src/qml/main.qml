@@ -34,7 +34,11 @@ ApplicationWindow {
                     onTriggered: MenuActions.newProject();
                 }
                 Action { text: qsTr("&Open...")
-                    onTriggered: MenuActions.openProject()}
+                    onTriggered: {
+                        MenuActions.openProject();
+                        useCuda.checked = YamlSettings.getUse_cuda();
+                    }
+                }
                 MenuSeparator { }
                 Action { text: qsTr("&Quit")
                     onTriggered: window.close()

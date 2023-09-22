@@ -82,6 +82,11 @@ Settings::Settings(QWidget *parent) : QWidget(parent){
     yamlSaveName = QString(YAML_SAVE_NAME);
 }
 
+bool Settings::getUse_cuda()
+{
+    return use_cuda;
+}
+
 QString Settings::getYamlSaveName()
 {
     return yamlSaveName;
