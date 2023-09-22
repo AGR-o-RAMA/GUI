@@ -11,8 +11,9 @@
 
 MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent){}
 
-void MenuActions::newProject()
+void MenuActions::newProject(QQuickItem* leftWindow)
 {
+    this->leftWindow = leftWindow;
     // PAGE 1
     NewWizardPage *page = new NewWizardPage();
     page->setTitle("Settings");
@@ -80,10 +81,10 @@ void MenuActions::newProject()
 
 }
 
-void MenuActions::openProject(){
+void MenuActions::openProject(QQuickItem* leftWindow){
 
     QUrl url = QFileDialog::getExistingDirectory(this,
-                                                 tr("Select the porject directory"),
+                                                 tr("Select the project directory"),
                                                  ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
     QString dirName = url.toString();
@@ -156,6 +157,7 @@ void MenuActions::openProject(){
     Settings::tiled_ortho = saveFile["buildOrthomosaic"]["tiff_tiled"].as<bool>();
     Settings::nodata_ortho = saveFile["buildOrthomosaic"]["nodata"].as<int>();
     Settings::overviews_ortho = saveFile["buildOrthomosaic"]["tiff_overviews"].as<bool>();
+    leftWindow->setEnabled(true);
 }
 
 void MenuActions::setProjectUrl(){
@@ -949,4 +951,5 @@ void MenuActions::onCreateFinished()
     Settings::dumpToYaml(p);
 
     Esri::ArcGISRuntime::ArcGISRuntimeEnvironment::setApiKey(Settings::api_key);
+    leftWindow->setEnabled(true);
 }

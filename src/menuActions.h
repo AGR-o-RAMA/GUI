@@ -13,12 +13,15 @@
 #include <QDoubleSpinBox>
 #include <QScrollArea>
 #include <QMessageBox>
+#include <QQuickItem>
 
 class MenuActions : public QTabWidget
 {
     Q_OBJECT
 private:
     // PAGE 1
+    QQuickItem *leftWindow;
+
     QLabel *label;
     QLabel *photo_label;
     QLabel *project_label;
@@ -145,8 +148,8 @@ public:
     MenuActions(QWidget *parent = nullptr);
 
 public slots:
-    void newProject();
-    void openProject();
+    void newProject(QQuickItem* leftWindow);
+    void openProject(QQuickItem* leftWindow);
 
     void onFinishButtonCliked();    
     void setSettings();

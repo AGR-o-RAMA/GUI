@@ -31,11 +31,11 @@ ApplicationWindow {
             Menu {
                 title: qsTr("&Project")
                 Action { text: qsTr("&New...")
-                    onTriggered: MenuActions.newProject();
+                    onTriggered:MenuActions.newProject(leftWindow);
                 }
                 Action { text: qsTr("&Open...")
                     onTriggered: {
-                        MenuActions.openProject();
+                        MenuActions.openProject(leftWindow);
                         useCuda.checked = YamlSettings.getUse_cuda();
                     }
                 }
@@ -81,6 +81,7 @@ ApplicationWindow {
                 Layout.preferredHeight: parent.height
                 Layout.preferredWidth: parent.width * 0.1
                 spacing: 0
+                enabled: false
 
                 Rectangle{
                     id: editModeBox
