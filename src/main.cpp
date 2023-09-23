@@ -22,15 +22,7 @@ int main(int argc, char *argv[])
 
     //Engine that binds c++ and qml files
     ApplicationEngine engine = ApplicationEngine();
-    if (!apikey.isKeySet())
-        QObject::connect(&apikey,SIGNAL(keySetSignal(QString)),&engine,SLOT(setup(QString)));
-    else
-        engine.setup(apikey.getValue());
+    QObject::connect(&apikey,SIGNAL(keySetSignal(QString)),&engine,SLOT(setup(QString)));
 
     return app.exec();
-
-//    if (apiKey.isEmpty()){
-//        qWarning() << "";
-//    }
-
 }

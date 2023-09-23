@@ -48,15 +48,12 @@ QString ApiKey::readKey(){
 
 void ApiKey::receiveKey(){
     QString key = readKey();
-    if(key.isEmpty() || true){
-        resize(1000,100);
-        setWindowTitle("Use of Esri location services, including basemaps, requires you to set the API Key");
-        show();
-        setInputMode(QInputDialog::TextInput);
-        connect(this, SIGNAL(textValueSelected(QString)), this, SLOT(setKey(QString)));
-    } else {
-        setKey(key);
-    }
+    resize(1000,100);
+    setWindowTitle("Use of Esri location services, including basemaps, requires you to set the API Key");
+    show();
+    setInputMode(QInputDialog::TextInput);
+    setTextValue(key);
+    connect(this, SIGNAL(textValueSelected(QString)), this, SLOT(setKey(QString)));
 }
 
 //AAPKaee6e86df5054d838ca028100d788f8b7C1W1Equqmh_6BP-VdUGO7bZv2T70-GHdf4JbvDUP7IqRV9azY6QpRtjmZJENMP2
