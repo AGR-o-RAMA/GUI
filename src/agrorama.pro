@@ -41,6 +41,8 @@ include($$PWD/arcgisruntime.pri)
 LIBS += -lyaml-cpp
 
 HEADERS += \
+    api_key.h \
+    application_engine.h \
     geoCoordinate.h \
     menuActions.h \
     operation.h \
@@ -50,6 +52,8 @@ HEADERS += \
     tilesHandler.h
 
 SOURCES += \
+    api_key.cpp \
+    application_engine.cpp \
     main.cpp \
     menuActions.cpp \
     processfactory.cpp \

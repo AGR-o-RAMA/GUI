@@ -11,7 +11,7 @@ ApplicationWindow {
     id: window
     width: Screen.width
     height: Screen.height
-    visible: true
+    visible: false
     title: "Agrorama"
 
     LoadingScreen{

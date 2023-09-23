@@ -26,12 +26,10 @@ private:
     QLabel *photo_label;
     QLabel *project_label;
     QLabel *output_label;
-    QLabel *api_label;
 
     QLineEdit *photo_line;
     QLineEdit *project_line;
     QLineEdit *output_line;
-    QLineEdit *api_line;
 
     QPushButton *button_photo;
     QPushButton *button_project;
@@ -169,17 +167,14 @@ public:
         QLineEdit* photoLineEdit = findChild<QLineEdit*>("photo_line");
         QLineEdit* projectLineEdit = findChild<QLineEdit*>("project_line");
         QLineEdit* outputLineEdit = findChild<QLineEdit*>("output_line");
-        QLineEdit* apiLineEdit = findChild<QLineEdit*>("api_line");
 
         photoLineEdit->setStyleSheet("");
         projectLineEdit->setStyleSheet("");
         outputLineEdit->setStyleSheet("");
-        apiLineEdit->setStyleSheet("");
 
         QString photo = (photoLineEdit) ? photoLineEdit->text() : "";
         QString project = (projectLineEdit) ? projectLineEdit->text() : "";
         QString output = (outputLineEdit) ? outputLineEdit->text() : "";
-        QString api = (apiLineEdit) ? apiLineEdit->text() : "";
 
         bool res = true;
 
@@ -195,11 +190,6 @@ public:
 
         if (output.isEmpty() || !QDir(output).exists()){
             outputLineEdit->setStyleSheet("border: 2px solid red;");
-            res = false;
-        }
-
-        if (api.isEmpty()){
-            apiLineEdit->setStyleSheet("border: 2px solid red;");
             res = false;
         }
 

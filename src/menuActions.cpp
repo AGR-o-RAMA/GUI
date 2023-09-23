@@ -1,4 +1,4 @@
-#include "menuActions.h"
+﻿#include "menuActions.h"
 
 #include <QDebug>
 #include <QQmlProperty>
@@ -30,17 +30,12 @@ void MenuActions::newProject(QQuickItem* leftWindow)
     output_label = new QLabel("Output path: ");
     output_label->setWordWrap(true);
 
-    api_label = new QLabel("API Key: ");
-    api_label->setWordWrap(true);
-
     photo_line = new QLineEdit();
     photo_line->setObjectName("photo_line");
     project_line = new QLineEdit();
     project_line->setObjectName("project_line");
     output_line = new QLineEdit();
     output_line->setObjectName("output_line"),
-    api_line = new QLineEdit();
-    api_line->setObjectName("api_line");
 
     button_photo = new QPushButton("&Open...", this);
     connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoUrl);
@@ -65,8 +60,6 @@ void MenuActions::newProject(QQuickItem* leftWindow)
     layout->addWidget(output_line, 3, 1);
     layout->addWidget(button_output, 3, 2);
 
-    layout->addWidget(api_label, 4, 0);
-    layout->addWidget(api_line, 4, 1);
     page->setLayout(layout);
 
     wizard_settings = new QWizard();
@@ -763,7 +756,6 @@ void MenuActions::onFinishButtonCliked(){
     Settings::photo_path = QUrl(photo_line->text());
     Settings::project_path = QUrl(project_line->text());
     Settings::output_path = QUrl(output_line->text());
-    Settings::api_key = api_line->text();
 
     Settings::project_crs = crs_line->text();
     Settings::subdivide_task = (((task_box->currentText()) == QString("True")) ? true : false);
@@ -823,8 +815,6 @@ void MenuActions::onFinishButtonCliked(){
     Settings::tiled_ortho = (((tiledOrtho->currentText()) == QString("True")) ? true : false);
     Settings::nodata_ortho = nodataOrtho->value();
     Settings::overviews_ortho = (((overviewsOrtho->currentText()) == QString("True")) ? true : false);
-
-    Esri::ArcGISRuntime::ArcGISRuntimeEnvironment::setApiKey(Settings::api_key);
 }
 
 void MenuActions::setSettings(){
@@ -845,13 +835,9 @@ void MenuActions::setSettings(){
     output_label = new QLabel("Output path: ");
     output_label->setWordWrap(true);
 
-    api_label = new QLabel("API Key: ");
-    api_label->setWordWrap(true);
-
     photo_line = new QLineEdit(Settings::photo_path.toString());
     project_line = new QLineEdit(Settings::project_path.toString());
     output_line = new QLineEdit(Settings::output_path.toString());
-    api_line = new QLineEdit(Settings::api_key);
 
     button_photo = new QPushButton("&Open...", this);
     connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoUrl);
@@ -876,8 +862,6 @@ void MenuActions::setSettings(){
     layout->addWidget(output_line, 3, 1);
     layout->addWidget(button_output, 3, 2);
 
-    layout->addWidget(api_label, 4, 0);
-    layout->addWidget(api_line, 4, 1);
     page->setLayout(layout);
 
 
@@ -938,7 +922,6 @@ void MenuActions::onCreateFinished()
     Settings::photo_path = QUrl(photo_line->text());
     Settings::project_path = QUrl(project_line->text());
     Settings::output_path = QUrl(output_line->text());
-    Settings::api_key = api_line->text();
 
     std::vector<QString> elems = {Settings::project_path.toString(), Settings::guiSubDir};
     QString p = Settings::pathJoin(elems);
@@ -949,7 +932,5 @@ void MenuActions::onCreateFinished()
     p = Settings::pathJoin(elems);
 
     Settings::dumpToYaml(p);
-
-    Esri::ArcGISRuntime::ArcGISRuntimeEnvironment::setApiKey(Settings::api_key);
     leftWindow->setEnabled(true);
 }
