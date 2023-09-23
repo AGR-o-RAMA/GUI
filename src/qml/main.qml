@@ -18,6 +18,11 @@ ApplicationWindow {
         id: loadingScreen
     }
 
+    SystemPalette {
+        id: myPalette;
+        colorGroup: SystemPalette.Active
+    }
+
     ColumnLayout{
         anchors.fill: parent
         id: mainScreen
@@ -138,7 +143,7 @@ ApplicationWindow {
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 font.pointSize: 14
-                                color: "white"
+                                color: myPalette.text
                                 opacity: enabled ? 1.0 : 0.3
                                 elide: Text.ElideRight
                             }
@@ -192,7 +197,7 @@ ApplicationWindow {
                             id: meters
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            color: "white"
+                            color: myPalette.text
                             font.pointSize: 14
                         }
                     }
@@ -354,7 +359,7 @@ ApplicationWindow {
                             Layout.preferredHeight: 0.1 * parent.height
                             verticalAlignment: Text.AlignBottom
                             horizontalAlignment: Text.AlignHCenter
-                            color: "white"
+                            color: myPalette.text
                             font.pointSize: 10
                             text: qsTr("Layer Opacity")
                         }
