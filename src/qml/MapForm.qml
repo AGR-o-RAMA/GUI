@@ -6,9 +6,7 @@ import QtQuick.Dialogs
 
 
 Item {
-
-    property var currentLayer: null
-    property var currentRaster: null
+    id: root
 
     MapView {
         id: mapView
@@ -48,58 +46,62 @@ Item {
         }
     }
 
-    function addLayer(clear){
-        if (clear)
-            map.operationalLayers.clear();
-        map.operationalLayers.append(currentLayer);
-        currentLayer.loadStatusChanged.connect(zoomToLayer);
+
+    property RasterLayer rasterLayer: null
+    property Raster raster: null
+    property KmlLayer kmlLayer: null
+
+    function zoomToRaster(){
+        mapView.setViewpointCenterAndScale(rasterLayer.fullExtent.center, 80000);
     }
 
-    function zoomToLayer(){
-        if (currentLayer == null)
-            return;
-
-        if (currentLayer.loadStatus !== Enums.LoadStatusLoaded)
-            return;
-
-        mapView.setViewpointCenterAndScale(currentLayer.fullExtent.center, 80000);
+    function zoomToKml(){
+        mapView.setViewpointCenterAndScale(kmlLayer.fullExtent.center, 8000);
     }
 
     function getOpacity(){
-        if (!currentLayer) return 1
-        return currentLayer.opacity;
+        if (!rasterLayer) return 1
+        return rasterLayer.opacity;
     }
 
     function setOpacity(value){
-        if (!currentLayer) return
-        currentLayer.opacity = value;
+        if (!rasterLayer) return
+        rasterLayer.opacity = value;
     }
 
     function createAndAddRasterLayer(rasterUrl) {
-       currentRaster = ArcGISRuntimeEnvironment.createObject("Raster", {path: rasterUrl});
-       currentRaster.path = rasterUrl
-       currentLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: currentRaster});
-       addLayer(true);
+        const index = map.operationalLayers.indexOf(rasterLayer);
+        raster = ArcGISRuntimeEnvironment.createObject("Raster", {path: rasterUrl});
+        raster.path = rasterUrl;
+        rasterLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: raster});
+        map.operationalLayers.remove(index);
+        map.operationalLayers.append(rasterLayer);
+        rasterLayer.onLoadStatusChanged.connect(zoomToRaster);
     }
 
     function createAndAddKmlLayer(kmlUrl) {
-        // create the dataset from a local file
+        const index = map.operationalLayers.indexOf(kmlLayer);
         const kmlDataset = ArcGISRuntimeEnvironment.createObject("KmlDataset", {url: kmlUrl});
-        // create the layer
-        currentLayer = ArcGISRuntimeEnvironment.createObject("KmlLayer", {dataset: kmlDataset});
-        addLayer(true);
+        kmlLayer = ArcGISRuntimeEnvironment.createObject("KmlLayer", {dataset: kmlDataset});
+        map.operationalLayers.remove(index);
+        map.operationalLayers.append(kmlLayer);
+        kmlLayer.onLoadStatusChanged.connect(zoomToKml);
     }
 
     function applyRasterFunction() {
         // create the raster function
         const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: "file:///home/flavio/Code/agrorama/examples/color.json"});
-        rasterFunction.arguments.setRaster("raster", currentRaster);
-        rasterFunction.arguments.setRaster("raster", currentRaster); //don't know why the raster has to be added twice, but once doesn't work
+        rasterFunction.arguments.setRaster("raster", theRaster);
+        rasterFunction.arguments.setRaster("raster", theRaster); //don't know why the raster has to be added twice, but once doesn't work
 
         // create the raster from the raster function
-        currentRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
-        currentLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: currentRaster});
-        addLayer(true);
+        theFunctionRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
+        theFunctionLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: theFunctionRaster});
+
+        //add the layer
+        map.operationalLayers.append(theFunctionLayer);
+        currentLayer = theFunctionLayer;
+        currentLayer.loadStatusChanged.connect(zoomToLayer);
     }
 
     function disableDragDrop(){

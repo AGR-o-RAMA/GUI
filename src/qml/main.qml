@@ -19,7 +19,7 @@ ApplicationWindow {
     }
 
     SystemPalette {
-        id: myPalette;
+        id: systemPalette;
         colorGroup: SystemPalette.Active
     }
 
@@ -143,7 +143,7 @@ ApplicationWindow {
                                 horizontalAlignment: Text.AlignHCenter
                                 verticalAlignment: Text.AlignVCenter
                                 font.pointSize: 14
-                                color: myPalette.text
+                                color: systemPalette.text
                                 opacity: enabled ? 1.0 : 0.3
                                 elide: Text.ElideRight
                             }
@@ -197,7 +197,7 @@ ApplicationWindow {
                             id: meters
                             verticalAlignment: Text.AlignVCenter
                             horizontalAlignment: Text.AlignHCenter
-                            color: myPalette.text
+                            color: systemPalette.text
                             font.pointSize: 14
                         }
                     }
@@ -359,7 +359,7 @@ ApplicationWindow {
                             Layout.preferredHeight: 0.1 * parent.height
                             verticalAlignment: Text.AlignBottom
                             horizontalAlignment: Text.AlignHCenter
-                            color: myPalette.text
+                            color: systemPalette.text
                             font.pointSize: 10
                             text: qsTr("Layer Opacity")
                         }
