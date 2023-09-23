@@ -149,7 +149,8 @@ public slots:
     void newProject(QQuickItem* leftWindow);
     void openProject(QQuickItem* leftWindow);
 
-    void onFinishButtonCliked();    
+    void onFinishButtonClicked();
+    void onNextButtonClicked();
     void setSettings();
     void onCreateFinished();
 };
@@ -200,6 +201,144 @@ public:
 
         return res;
     }
+};
+
+class SettingsWizardPage : public QWizardPage {
+    Q_OBJECT
+
+signals:
+    void sanitySettingsCheckPassedSignal();
+
+public:
+    SettingsWizardPage(QWidget* parent = nullptr) : QWizardPage(parent){}
+
+    bool validatePage() override {
+
+
+        QLineEdit* photoLineEdit = findChild<QLineEdit*>("photo_line");
+        QLineEdit* projectLineEdit = findChild<QLineEdit*>("project_line");
+        QLineEdit* outputLineEdit = findChild<QLineEdit*>("output_line");
+
+
+        bool res = true;
+
+        if(projectLineEdit!=nullptr){
+
+            photoLineEdit->setStyleSheet("");
+            projectLineEdit->setStyleSheet("");
+            outputLineEdit->setStyleSheet("");
+
+            QString photo = (photoLineEdit) ? photoLineEdit->text() : "";
+            QString project = (projectLineEdit) ? projectLineEdit->text() : "";
+            QString output = (outputLineEdit) ? outputLineEdit->text() : "";
+
+
+            if (photo.isEmpty() || !QDir(photo).exists()){
+                photoLineEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+
+            if (project.isEmpty() || !QDir(project).exists()){
+                projectLineEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+
+            if (output.isEmpty() || !QDir(output).exists()){
+                outputLineEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+
+
+            if(res)
+                emit sanitySettingsCheckPassedSignal();
+            else
+                QMessageBox::critical(this, "Error", "Sanity check failed. Please correct the input.");
+
+            return res;
+
+        }
+        else{
+
+            QLineEdit* crsLineEdit = findChild<QLineEdit*>("crs_line");
+
+            QLineEdit* preModeAlignEdit = findChild<QLineEdit*>("preModeAlign");
+            QLineEdit* filterCloudEdit = findChild<QLineEdit*>("filterCloud");
+            QLineEdit* classesCloudEdit = findChild<QLineEdit*>("classesCloud");
+            QLineEdit* typeDEMEdit = findChild<QLineEdit*>("typeDEM");
+            QLineEdit* surfaceOrthoEdit = findChild<QLineEdit*>("surfaceOrtho");
+            QLineEdit* pathOrthoEdit = findChild<QLineEdit*>("pathOrtho");
+            QLineEdit* crsOrthoEdit = findChild<QLineEdit*>("crsOrtho");
+            QLineEdit* blendingOrthoEdit = findChild<QLineEdit*>("blendingOrtho");
+
+
+            crsLineEdit->setStyleSheet("");
+            preModeAlignEdit->setStyleSheet("");
+            filterCloudEdit->setStyleSheet("");
+            classesCloudEdit->setStyleSheet("");
+            typeDEMEdit->setStyleSheet("");
+            surfaceOrthoEdit->setStyleSheet("");
+            pathOrthoEdit->setStyleSheet("");
+            crsOrthoEdit->setStyleSheet("");
+            blendingOrthoEdit->setStyleSheet("");
+
+            QString crs = (crsLineEdit) ? crsLineEdit->text() : "";
+            qDebug() << (crs);
+            QString preMode = (preModeAlignEdit) ? preModeAlignEdit->text() : "";
+            QString filter = (filterCloudEdit) ? filterCloudEdit->text() : "";
+            QString classes = (classesCloudEdit) ? classesCloudEdit->text() : "";
+            QString type = (typeDEMEdit) ? typeDEMEdit->text() : "";
+            QString surfaceO = (surfaceOrthoEdit) ? surfaceOrthoEdit->text() : "";
+            QString path = (pathOrthoEdit) ? pathOrthoEdit->text() : "";
+            QString crsO = (crsOrthoEdit) ? crsOrthoEdit->text() : "";
+            QString blending = (blendingOrthoEdit) ? blendingOrthoEdit->text() : "";
+
+            if (crs.isEmpty()){
+                crsLineEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (preMode.isEmpty()){
+                preModeAlignEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (filter.isEmpty()){
+                filterCloudEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (classes.isEmpty()){
+                classesCloudEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (type.isEmpty()){
+                typeDEMEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (surfaceO.isEmpty()){
+                surfaceOrthoEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (path.isEmpty()){
+                pathOrthoEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (crsO.isEmpty()){
+                crsOrthoEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+            if (blending.isEmpty()){
+                blendingOrthoEdit->setStyleSheet("border: 2px solid red;");
+                res = false;
+            }
+
+            if(res)
+                emit sanitySettingsCheckPassedSignal();
+            else
+                QMessageBox::critical(this, "Error", "Sanity check failed. Please correct the input.");
+
+
+            return res;
+        }
+    }
+
 };
 
 #endif // MENUACTIONS_H

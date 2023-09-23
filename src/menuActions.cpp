@@ -30,6 +30,7 @@ void MenuActions::newProject(QQuickItem* leftWindow)
     output_label = new QLabel("Output path: ");
     output_label->setWordWrap(true);
 
+
     photo_line = new QLineEdit();
     photo_line->setObjectName("photo_line");
     project_line = new QLineEdit();
@@ -59,7 +60,6 @@ void MenuActions::newProject(QQuickItem* leftWindow)
     layout->addWidget(output_label, 3,0);
     layout->addWidget(output_line, 3, 1);
     layout->addWidget(button_output, 3, 2);
-
     page->setLayout(layout);
 
     wizard_settings = new QWizard();
@@ -204,6 +204,8 @@ void MenuActions::create_preliminary(){
 
     QLabel *crs_label = new QLabel("Coordinate Reference System: ");
     crs_line = new QLineEdit(Settings::project_crs);
+    crs_line->setObjectName("crs_line");
+
 
     QLabel *task_label = new QLabel("Subdivide task: ");
     task_box = new QComboBox();
@@ -289,6 +291,8 @@ void MenuActions::create_alignPhotos(){
     }
     QLabel *preModeAlign_label = new QLabel("Reference Preselection Mode: ");
     preModeAlign = new QLineEdit("Metashape.ReferencePreselectionSource");
+    preModeAlign->setObjectName("preModeAlign");
+
 
 
     QGridLayout* layoutAlign = new QGridLayout;
@@ -432,6 +436,8 @@ void MenuActions::create_pointCloud(){
 
     QLabel* filterCloud_label = new QLabel("Filter Mode: ");
     filterCloud = new QLineEdit(Settings::filter_cloud);
+    filterCloud->setObjectName("filterCloud");
+
 
     QLabel* reuseCloud_label = new QLabel("Reuse depth: ");
     reuseCloud = new QComboBox();
@@ -479,6 +485,8 @@ void MenuActions::create_pointCloud(){
 
     QLabel* classesCloud_label = new QLabel("Classes: ");
     classesCloud = new QLineEdit(Settings::classes_cloud);
+    classesCloud->setObjectName("classesCloud");
+
 
     QGridLayout* layoutCloud = new QGridLayout;
     layoutCloud->addWidget(enableCloud_label, 0, 0);
@@ -554,7 +562,9 @@ void MenuActions::create_DEM(){
         classifyDEM->addItem(QString("True"));
     }
     QLabel* typeDEM_label = new QLabel("Type: ");
-    typeDEM = new QLineEdit();
+    typeDEM = new QLineEdit(Settings::type_DEM);
+    typeDEM->setObjectName("typeDEM");
+
 
     QLabel* exportDEM_label = new QLabel("Export: ");
     exportDEM = new QComboBox();
@@ -645,15 +655,22 @@ void MenuActions::create_orthomosaic(){
 
     QLabel* surfaceOrtho_label = new QLabel("Surface: ");
     surfaceOrtho = new QLineEdit(Settings::surface_ortho);
+    surfaceOrtho->setObjectName("surfaceOrtho");
+
 
     QLabel* pathOrtho_label = new QLabel("Path: ");
     pathOrtho = new QLineEdit(Settings::path_ortho);
+    pathOrtho->setObjectName("pathOrtho");
+
 
     QLabel* crsOrtho_label = new QLabel("CRS: ");
     crsOrtho = new QLineEdit(Settings::crs_ortho);
+    crsOrtho->setObjectName("crsOrtho");
+
 
     QLabel* blendingOrtho_label = new QLabel("Blending: ");
     blendingOrtho = new QLineEdit(Settings::blending_ortho);
+    blendingOrtho->setObjectName("blendingOrtho");
 
     QLabel* holesOrtho_label = new QLabel("Fill Holes: ");
     holesOrtho = new QComboBox();
@@ -749,13 +766,15 @@ void MenuActions::create_orthomosaic(){
     ortho_box->setLayout(layoutOrtho);
 }
 
-
-
-void MenuActions::onFinishButtonCliked(){
-// SET ALL SETTINGS PARAMETERS
+void MenuActions::onNextButtonClicked(){
     Settings::photo_path = QUrl(photo_line->text());
     Settings::project_path = QUrl(project_line->text());
     Settings::output_path = QUrl(output_line->text());
+
+}
+
+void MenuActions::onFinishButtonClicked(){
+// SET ALL SETTINGS PARAMETERS
 
     Settings::project_crs = crs_line->text();
     Settings::subdivide_task = (((task_box->currentText()) == QString("True")) ? true : false);
@@ -820,7 +839,7 @@ void MenuActions::onFinishButtonCliked(){
 void MenuActions::setSettings(){
 
     // PAGE 1
-    QWizardPage *page = new QWizardPage;
+    SettingsWizardPage *page = new SettingsWizardPage;
     page->setTitle("Settings");
 
     label = new QLabel("Set all the infromation fields below.");
@@ -836,8 +855,13 @@ void MenuActions::setSettings(){
     output_label->setWordWrap(true);
 
     photo_line = new QLineEdit(Settings::photo_path.toString());
+    photo_line->setObjectName("photo_line");
+
     project_line = new QLineEdit(Settings::project_path.toString());
+    project_line->setObjectName("project_line");
+
     output_line = new QLineEdit(Settings::output_path.toString());
+    output_line->setObjectName("output_line");
 
     button_photo = new QPushButton("&Open...", this);
     connect(button_photo, &QPushButton::released, this, &MenuActions::setPhotoUrl);
@@ -866,7 +890,7 @@ void MenuActions::setSettings(){
 
 
     // PAGE 2
-    QWizardPage *page2 = new QWizardPage;
+    SettingsWizardPage *page2 = new SettingsWizardPage;
     scrollArea = new QScrollArea;
 
     page2->setTitle("Advanced Settings");
@@ -911,10 +935,13 @@ void MenuActions::setSettings(){
     wizard_settings = new QWizard();
     wizard_settings->addPage(page);
     wizard_settings->addPage(page2);
-    connect(wizard_settings->button(QWizard::FinishButton),
-            SIGNAL(clicked()),this,SLOT(onFinishButtonCliked()));
+    connect(page,
+            SIGNAL(sanitySettingsCheckPassedSignal()),this,SLOT(onNextButtonClicked()));
+    connect(page2,
+            SIGNAL(sanitySettingsCheckPassedSignal()),this,SLOT(onFinishButtonClicked()));
     wizard_settings->setWindowTitle("Configure");
     wizard_settings->show();
+
 }
 
 void MenuActions::onCreateFinished()
@@ -930,7 +957,7 @@ void MenuActions::onCreateFinished()
 
     elems.push_back(Settings::yamlSaveName);
     p = Settings::pathJoin(elems);
-
+    qDebug() << p;
     Settings::dumpToYaml(p);
     leftWindow->setEnabled(true);
 }
