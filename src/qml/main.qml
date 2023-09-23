@@ -339,15 +339,54 @@ ApplicationWindow {
                             }
                         }
 
-                        Button {
-                            id: colorTif
+                        SwitchDelegate {
+                            id: colorMode
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 0.06 * leftWindow.height
-                            text: qsTr("Color Raster")
-                            font.pointSize: 13
-                            enabled: true
-                            onClicked: {
-                                map.applyRasterFunction();
+                            Layout.preferredHeight: 0.35 * parent.height
+                            text: qsTr("Color")
+                            contentItem: Text {
+                                rightPadding: colorMode.indicator.width + colorMode.spacing
+                                text: colorMode.text
+                                horizontalAlignment: Text.AlignHCenter
+                                verticalAlignment: Text.AlignVCenter
+                                font.pointSize: 14
+                                color: systemPalette.text
+                                opacity: enabled ? 1.0 : 0.3
+                                elide: Text.ElideRight
+                            }
+                            indicator: Rectangle {
+                                implicitWidth: 48
+                                implicitHeight: 26
+                                x: colorMode.width - width - colorMode.rightPadding
+                                y: colorMode.height / 2 - height / 2
+                                radius: 13
+                                color: colorMode.checked ? "#17a81a" : "transparent"
+                                border.color: colorMode.checked ? "#17a81a" : "#cccccc"
+
+                                Rectangle {
+                                    x: colorMode.checked ? parent.width - width : 0
+                                    width: 26
+                                    height: 26
+                                    radius: 13
+                                    color: colorMode.down ? "#cccccc" : "#ffffff"
+                                    border.color: colorMode.checked ? (colorMode.down ? "#17a81a" : "#21be2b") : "#999999"
+                                }
+                            }
+                            Rectangle{
+                                id: colorBackground
+                                anchors.fill: parent
+                                color: "transparent"
+                            }
+                            onCheckedChanged: {
+                                if(!checked){
+                                    map.removeRasterFunction();
+                                    colorBackground.color = "transparent"
+                                }
+                                else if (checked){
+                                    map.applyRasterFunction();
+                                    colorBackground.color = "green"
+                                    colorBackground.opacity = 0.1
+                                }
                             }
                         }
 
@@ -361,7 +400,7 @@ ApplicationWindow {
                             horizontalAlignment: Text.AlignHCenter
                             color: systemPalette.text
                             font.pointSize: 10
-                            text: qsTr("Layer Opacity")
+                            text: qsTr("TIF Opacity")
                         }
 
                         Rectangle{

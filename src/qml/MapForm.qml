@@ -49,6 +49,8 @@ Item {
 
     property RasterLayer rasterLayer: null
     property Raster raster: null
+    property RasterLayer tempRasterLayer: null
+    property Raster tempRaster: null
     property KmlLayer kmlLayer: null
 
     function zoomToRaster(){
@@ -91,17 +93,25 @@ Item {
     function applyRasterFunction() {
         // create the raster function
         const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: "file:///home/flavio/Code/agrorama/examples/color.json"});
-        rasterFunction.arguments.setRaster("raster", theRaster);
-        rasterFunction.arguments.setRaster("raster", theRaster); //don't know why the raster has to be added twice, but once doesn't work
+        rasterFunction.arguments.setRaster("raster", raster);
+        rasterFunction.arguments.setRaster("raster", raster); //don't know why the raster has to be added twice, but once doesn't work
 
         // create the raster from the raster function
-        theFunctionRaster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
-        theFunctionLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: theFunctionRaster});
+        tempRasterLayer = rasterLayer; tempRaster = raster;
+        const index = map.operationalLayers.indexOf(rasterLayer);
+        raster = ArcGISRuntimeEnvironment.createObject("Raster", {rasterFunction: rasterFunction});
+        rasterLayer = ArcGISRuntimeEnvironment.createObject("RasterLayer", {raster: raster});
 
-        //add the layer
-        map.operationalLayers.append(theFunctionLayer);
-        currentLayer = theFunctionLayer;
-        currentLayer.loadStatusChanged.connect(zoomToLayer);
+        //add the layer (removing the underlying raster)
+        map.operationalLayers.remove(index);
+        map.operationalLayers.append(rasterLayer);
+    }
+
+    function removeRasterFunction(){
+        const index = map.operationalLayers.indexOf(rasterLayer);
+        rasterLayer = tempRasterLayer; raster = tempRaster;
+        map.operationalLayers.remove(index);
+        map.operationalLayers.append(rasterLayer);
     }
 
     function disableDragDrop(){
