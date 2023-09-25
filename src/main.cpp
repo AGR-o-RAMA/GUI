@@ -13,6 +13,9 @@ int main(int argc, char *argv[])
     //Main app
     QApplication app(argc, argv);
 
+    //Disable Debug information
+    QLoggingCategory::setFilterRules("*.warning=false\n*.debug=false");
+
     //Read API Key or register it
     ApiKey apikey = ApiKey();
     apikey.receiveKey();
