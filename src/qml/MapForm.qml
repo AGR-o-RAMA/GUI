@@ -92,7 +92,7 @@ Item {
 
     function applyRasterFunction() {
         // create the raster function
-        const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: "file:///home/flavio/Code/agrorama/examples/color.json"});
+        const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: "file://"+CurDirPath+"/color.json"});
         rasterFunction.arguments.setRaster("raster", raster);
         rasterFunction.arguments.setRaster("raster", raster); //don't know why the raster has to be added twice, but once doesn't work
 

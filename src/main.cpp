@@ -2,6 +2,7 @@
 #include "operation.h"
 #include "processfactory.h"
 #include "api_key.h"
+#include "rasterjson.h"
 
 #include <QApplication>
 #include <QCommandLineParser>
@@ -15,6 +16,10 @@ int main(int argc, char *argv[])
     //Read API Key or register it
     ApiKey apikey = ApiKey();
     apikey.receiveKey();
+
+    //Generate Raster JSON
+    RasterJson rj = RasterJson();
+    rj.writeJSON();
 
     //Register QML Types
     qmlRegisterType<ProcessFactory>("ProcessFactory", 1, 0, "ProcessFactory");

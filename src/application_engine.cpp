@@ -36,6 +36,7 @@ int ApplicationEngine::setup(QString api_key){
     Settings* settings = new Settings;
     root -> setContextProperty("YamlSettings", settings);
     settings->api_key = api_key;
+    rootContext()->setContextProperty("CurDirPath", QString(QDir::currentPath()));
 
     window -> show();
     return 0;
