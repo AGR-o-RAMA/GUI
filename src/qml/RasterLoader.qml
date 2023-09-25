@@ -15,7 +15,6 @@ Item {
     FileDialog {
         id: fileDialog
         title: "Please choose a file"
-        currentFolder: "." //TODO: OUTPUT PATH
         onAccepted: {
             loader.rasterFileChosen(fileDialog.selectedFile)
         }
@@ -28,7 +27,6 @@ Item {
     FileDialog {
         id: kmlFileDialog
         title: "Please choose a file"
-        currentFolder: "." // TODO: WHICH PATH?
         onAccepted: {
             loader.kmlFileChosen(kmlFileDialog.selectedFile)
         }
@@ -74,13 +72,15 @@ Item {
         dialog.nameFilters = nameFiltersString;
     }
 
-    function loadTif() {
+    function loadTif(path) {
         setSupportedExtensions(fileDialog, supportedRasterExtensions);
+        fileDialog.currentFolder = "file://" + path;
         fileDialog.open();
     }
 
-    function loadKml() {
+    function loadKml(path) {
         setSupportedExtensions(kmlFileDialog, supportedKmlExtensions);
+        fileDialog.currentFolder = "file://" + path;
         kmlFileDialog.open();
     }
 }
