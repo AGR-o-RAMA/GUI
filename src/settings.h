@@ -9,9 +9,14 @@
 #include <QComboBox>
 #include <QDoubleSpinBox>
 #include <QScrollArea>
-#include <yaml-cpp/yaml.h>
 #include <QFile>
 #include <QTextStream>
+#include <QDebug>
+#include <QQmlProperty>
+#include <QtWidgets>
+#include <QPixmap>
+#include <QPalette>
+#include <yaml-cpp/yaml.h>
 
 #define GUI_SUB_PATH "gui"
 #define CSV_NAME "mapping.csv"

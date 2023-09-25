@@ -17,11 +17,10 @@ Item {
         title: "Please choose a file"
         currentFolder: "." //TODO: OUTPUT PATH
         onAccepted: {
-            console.log("Loading")
             loader.rasterFileChosen(fileDialog.selectedFile)
         }
         onRejected: {
-            console.log("Canceled")
+            console.error("Raster Loading Canceled")
         }
         Component.onCompleted: visible = false
     }
@@ -31,11 +30,10 @@ Item {
         title: "Please choose a file"
         currentFolder: "." // TODO: WHICH PATH?
         onAccepted: {
-            console.log("Loading")
             loader.kmlFileChosen(kmlFileDialog.selectedFile)
         }
         onRejected: {
-            console.log("Canceled")
+            console.error("Raster Loading Canceled")
         }
         Component.onCompleted: visible = false
     }

@@ -4,6 +4,8 @@
 #include <QObject>
 #include <QMetaObject>
 #include <QQuickItem>
+#include <QDebug>
+#include <QQmlProperty>
 #include <inttypes.h>
 #include <fstream>
 #include "tile.h"

@@ -267,7 +267,7 @@ ApplicationWindow {
                             enabled: false
 
                             onClicked:{
-                                procfactory.spawnProcess("../testing/test");
+                                procfactory.spawnProcess("../testing/test"); // TODO: cambiare path del processo
                                 loadingScreen.visible = true;
                             }
                         }
@@ -277,7 +277,6 @@ ApplicationWindow {
                             onProcessTerminated: (exitCode, success) => {
                                 loadingScreen.visible = false;
                                 if (success) {
-                                    console.log("Process terminated successfully with exit code " + exitCode);
                                     loader.loadTif()
                                 }
                                 else {
@@ -456,7 +455,6 @@ ApplicationWindow {
                         map.createAndAddRasterLayer(url);
                     }
                     onKmlFileChosen: url => {
-                        console.log(url)
                         map.createAndAddKmlLayer(url);
                     }
                 }

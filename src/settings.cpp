@@ -1,12 +1,5 @@
 #include "settings.h"
 
-#include <QDebug>
-#include <QQmlProperty>
-#include <QtWidgets>
-#include <QPixmap>
-#include <QPalette>
-
-
 Settings::Settings(QWidget *parent) : QWidget(parent){
     photo_path = QUrl("");
     project_path = QUrl("");
@@ -204,7 +197,7 @@ void Settings::dumpToYaml(QString path)
 
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
-        qDebug() << "Failed to open file for writing.";
+        qCritical() << "Failed to open file for writing.";
         return;
     }
 

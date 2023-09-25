@@ -14,6 +14,13 @@
 #include <QScrollArea>
 #include <QMessageBox>
 #include <QQuickItem>
+#include <QDebug>
+#include <QQmlProperty>
+#include <QtWidgets>
+#include <QPixmap>
+#include <QPalette>
+#include "ArcGISRuntimeEnvironment.h"
+#include "settings.h"
 
 class MenuActions : public QTabWidget
 {
@@ -282,7 +289,6 @@ public:
             blendingOrthoEdit->setStyleSheet("");
 
             QString crs = (crsLineEdit) ? crsLineEdit->text() : "";
-            qDebug() << (crs);
             QString preMode = (preModeAlignEdit) ? preModeAlignEdit->text() : "";
             QString filter = (filterCloudEdit) ? filterCloudEdit->text() : "";
             QString classes = (classesCloudEdit) ? classesCloudEdit->text() : "";

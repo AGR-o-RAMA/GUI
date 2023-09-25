@@ -1,14 +1,5 @@
 ﻿#include "menuActions.h"
 
-#include <QDebug>
-#include <QQmlProperty>
-#include <QtWidgets>
-#include <QPixmap>
-#include <QPalette>
-#include "ArcGISRuntimeEnvironment.h"
-#include "settings.h"
-
-
 MenuActions::MenuActions(QWidget *parent) : QTabWidget(parent){}
 
 void MenuActions::newProject(QQuickItem* leftWindow)
@@ -159,14 +150,12 @@ void MenuActions::setProjectUrl(){
                                                  ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    if (!url.isValid()) {
-        qDebug("Invalid URL: %s", qUtf8Printable(url.toString()));
-    }
+    if (!url.isValid())
+        qCritical("Invalid URL: %s", qUtf8Printable(url.toString()));
+    
     project_line->selectAll();
     project_line->del();
     project_line->insert(url.toString());
-    qDebug() << project_line->text();
-
 }
 void MenuActions::setOutputUrl(){
     QUrl url = QFileDialog::getExistingDirectory(this,
@@ -174,14 +163,12 @@ void MenuActions::setOutputUrl(){
                                                  ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    if (!url.isValid()) {
-        qDebug("Invalid URL: %s", qUtf8Printable(url.toString()));
-    }
+    if (!url.isValid()) 
+        qCritical("Invalid URL: %s", qUtf8Printable(url.toString()));
+    
     output_line->selectAll();
     output_line->del();
     output_line->insert(url.toString());
-    qDebug() << output_line->text();
-
 }
 void MenuActions::setPhotoUrl(){
     QUrl url = QFileDialog::getExistingDirectory(this,
@@ -189,13 +176,12 @@ void MenuActions::setPhotoUrl(){
                                                  ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 
-    if (!url.isValid()) {
-        qDebug("Invalid URL: %s", qUtf8Printable(url.toString()));
-    }
+    if (!url.isValid()) 
+        qCritical("Invalid URL: %s", qUtf8Printable(url.toString()));
+    
     photo_line->selectAll();
     photo_line->del();
     photo_line->insert(url.toString());
-    qDebug() << photo_line->text();
 }
 
 
@@ -957,7 +943,6 @@ void MenuActions::onCreateFinished()
 
     elems.push_back(Settings::yamlSaveName);
     p = Settings::pathJoin(elems);
-    qDebug() << p;
     Settings::dumpToYaml(p);
     leftWindow->setEnabled(true);
 }

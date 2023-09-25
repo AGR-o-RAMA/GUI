@@ -2,6 +2,13 @@
 #define APPLICATION_ENGINE_H
 
 #include <QQmlApplicationEngine>
+#include <QQuickWindow>
+#include <QQmlContext>
+#include "tilesHandler.h"
+#include "menuActions.h"
+#include "operation.h"
+
+#include "ArcGISRuntimeEnvironment.h"
 
 class ApplicationEngine : public QQmlApplicationEngine{
     Q_OBJECT

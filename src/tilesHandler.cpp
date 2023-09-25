@@ -1,8 +1,5 @@
 #include "tilesHandler.h"
 
-#include <QDebug>
-#include <QQmlProperty>
-
 TilesHandler::TilesHandler(QQuickItem *map_view, QObject *parent)
     : QObject{parent}, map_view(map_view) {}
 

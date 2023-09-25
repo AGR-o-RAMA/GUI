@@ -3,6 +3,8 @@
 
 #include <QInputDialog>
 #include <QObject>
+#include <QFile>
+#include "ArcGISRuntimeEnvironment.h"
 
 class ApiKey : public QInputDialog
 {

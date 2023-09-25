@@ -1,13 +1,5 @@
 #include "application_engine.h"
 
-#include "tilesHandler.h"
-#include "menuActions.h"
-#include "operation.h"
-
-#include "ArcGISRuntimeEnvironment.h"
-#include <QQuickWindow>
-#include <QQmlContext>
-
 using namespace Esri::ArcGISRuntime;
 
 ApplicationEngine::ApplicationEngine(QQmlApplicationEngine *parent) : QQmlApplicationEngine(parent){}

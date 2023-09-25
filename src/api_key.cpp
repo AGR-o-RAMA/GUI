@@ -1,8 +1,5 @@
 #include "api_key.h"
 
-#include "ArcGISRuntimeEnvironment.h"
-#include <QFile>
-
 using namespace Esri::ArcGISRuntime;
 
 ApiKey::ApiKey(QInputDialog *parent) : QInputDialog{parent}{}
