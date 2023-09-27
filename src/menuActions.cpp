@@ -71,77 +71,79 @@ void MenuActions::openProject(QQuickItem* leftWindow){
                                                  tr("Select the project directory"),
                                                  ".",
                                                  QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-    QString dirName = url.toString();
-    std::vector<QString> vs = {dirName, Settings::guiSubDir, Settings::yamlSaveName};
-    QString fileName = Settings::pathJoin(vs);
+    if(!url.isEmpty()){
+        QString dirName = url.toString();
+        std::vector<QString> vs = {dirName, Settings::guiSubDir, Settings::yamlSaveName};
+        QString fileName = Settings::pathJoin(vs);
 
-    YAML::Node saveFile = YAML::LoadFile(fileName.toStdString());
+        YAML::Node saveFile = YAML::LoadFile(fileName.toStdString());
 
-    Settings::photo_path = QUrl(saveFile["photo_path"].as<std::string>().c_str());
-    Settings::project_path = QUrl(saveFile["project_path"].as<std::string>().c_str());
-    Settings::output_path = QUrl(saveFile["output_path"].as<std::string>().c_str());
+        Settings::photo_path = QUrl(saveFile["photo_path"].as<std::string>().c_str());
+        Settings::project_path = QUrl(saveFile["project_path"].as<std::string>().c_str());
+        Settings::output_path = QUrl(saveFile["output_path"].as<std::string>().c_str());
 
-    Settings::run_name = QString(saveFile["run_name"].as<std::string>().c_str());
-    Settings::project_crs = QString(saveFile["project_crs"].as<std::string>().c_str());
-    Settings::subdivide_task = saveFile["subdivide_task"].as<bool>();
-    Settings::use_cuda = saveFile["use_cuda"].as<bool>();
+        Settings::run_name = QString(saveFile["run_name"].as<std::string>().c_str());
+        Settings::project_crs = QString(saveFile["project_crs"].as<std::string>().c_str());
+        Settings::subdivide_task = saveFile["subdivide_task"].as<bool>();
+        Settings::use_cuda = saveFile["use_cuda"].as<bool>();
 
-    Settings::enabled_align = saveFile["alignPhotos"]["enabled"].as<bool>();
-    Settings::downscale_align = saveFile["alignPhotos"]["downscale"].as<int>();
-    Settings::adaptive_align = saveFile["alignPhotos"]["adaptive_fitting"].as<bool>();
-    Settings::keypoints_align = saveFile["alignPhotos"]["keep_keypoints"].as<bool>();
-    Settings::reset_align = saveFile["alignPhotos"]["reset_alignment"].as<bool>();
-    Settings::genPre_align = saveFile["alignPhotos"]["generic_preselection"].as<bool>();
-    Settings::refPre_align = saveFile["alignPhotos"]["reference_preselection"].as<bool>();
-    Settings::preMode_align = QString(saveFile["alignPhotos"]["reference_preselection_mode"].as<std::string>().c_str());
+        Settings::enabled_align = saveFile["alignPhotos"]["enabled"].as<bool>();
+        Settings::downscale_align = saveFile["alignPhotos"]["downscale"].as<int>();
+        Settings::adaptive_align = saveFile["alignPhotos"]["adaptive_fitting"].as<bool>();
+        Settings::keypoints_align = saveFile["alignPhotos"]["keep_keypoints"].as<bool>();
+        Settings::reset_align = saveFile["alignPhotos"]["reset_alignment"].as<bool>();
+        Settings::genPre_align = saveFile["alignPhotos"]["generic_preselection"].as<bool>();
+        Settings::refPre_align = saveFile["alignPhotos"]["reference_preselection"].as<bool>();
+        Settings::preMode_align = QString(saveFile["alignPhotos"]["reference_preselection_mode"].as<std::string>().c_str());
 
-    Settings::enable_USGS = saveFile["filterPointsUSGS"]["enabled"].as<bool>();
-    Settings::recPerc_USGS = saveFile["filterPointsUSGS"]["rec_thresh_percent"].as<double>();
-    Settings::recAbs_USGS = saveFile["filterPointsUSGS"]["rec_thresh_absolute"].as<double>();
-    Settings::projPerc_USGS = saveFile["filterPointsUSGS"]["proj_thresh_percent"].as<double>();
-    Settings::projAbs_USGS = saveFile["filterPointsUSGS"]["proj_thresh_absolute"].as<double>();
-    Settings::reprojPerc_USGS = saveFile["filterPointsUSGS"]["reproj_thresh_percent"].as<double>();
-    Settings::reprojAbs_USGS = saveFile["filterPointsUSGS"]["reproj_thresh_absolute"].as<double>();
+        Settings::enable_USGS = saveFile["filterPointsUSGS"]["enabled"].as<bool>();
+        Settings::recPerc_USGS = saveFile["filterPointsUSGS"]["rec_thresh_percent"].as<double>();
+        Settings::recAbs_USGS = saveFile["filterPointsUSGS"]["rec_thresh_absolute"].as<double>();
+        Settings::projPerc_USGS = saveFile["filterPointsUSGS"]["proj_thresh_percent"].as<double>();
+        Settings::projAbs_USGS = saveFile["filterPointsUSGS"]["proj_thresh_absolute"].as<double>();
+        Settings::reprojPerc_USGS = saveFile["filterPointsUSGS"]["reproj_thresh_percent"].as<double>();
+        Settings::reprojAbs_USGS = saveFile["filterPointsUSGS"]["reproj_thresh_absolute"].as<double>();
 
-    Settings::enable_opt = saveFile["optimizeCameras"]["enabled"].as<bool>();
-    Settings::adaptive_opt = saveFile["optimizeCameras"]["adaptive_fitting"].as<bool>();
+        Settings::enable_opt = saveFile["optimizeCameras"]["enabled"].as<bool>();
+        Settings::adaptive_opt = saveFile["optimizeCameras"]["adaptive_fitting"].as<bool>();
 
-    Settings::enable_cloud = saveFile["buildPointCloud"]["enabled"].as<bool>();
-    Settings::downscale_cloud = saveFile["buildPointCloud"]["downscale"].as<double>();
-    Settings::filter_cloud = QString(saveFile["buildPointCloud"]["filter_mode"].as<std::string>().c_str());
-    Settings::reuse_cloud = saveFile["buildPointCloud"]["reuse_depth"].as<bool>();
-    Settings::keep_cloud = saveFile["buildPointCloud"]["keep_depth"].as<bool>();
-    Settings::maxneighbors_cloud = saveFile["buildPointCloud"]["max_neighbors"].as<int>();
-    Settings::classify_cloud = saveFile["buildPointCloud"]["classify_ground_points"].as<bool>();
-    Settings::export_cloud = saveFile["buildPointCloud"]["export"].as<bool>();
-    Settings::classes_cloud = QString(saveFile["buildPointCloud"]["classes"].as<std::string>().c_str());
+        Settings::enable_cloud = saveFile["buildPointCloud"]["enabled"].as<bool>();
+        Settings::downscale_cloud = saveFile["buildPointCloud"]["downscale"].as<double>();
+        Settings::filter_cloud = QString(saveFile["buildPointCloud"]["filter_mode"].as<std::string>().c_str());
+        Settings::reuse_cloud = saveFile["buildPointCloud"]["reuse_depth"].as<bool>();
+        Settings::keep_cloud = saveFile["buildPointCloud"]["keep_depth"].as<bool>();
+        Settings::maxneighbors_cloud = saveFile["buildPointCloud"]["max_neighbors"].as<int>();
+        Settings::classify_cloud = saveFile["buildPointCloud"]["classify_ground_points"].as<bool>();
+        Settings::export_cloud = saveFile["buildPointCloud"]["export"].as<bool>();
+        Settings::classes_cloud = QString(saveFile["buildPointCloud"]["classes"].as<std::string>().c_str());
 
-    Settings::angle_classify = saveFile["classifyGroundPoints"]["max_angle"].as<double>();
-    Settings::distance_classify = saveFile["classifyGroundPoints"]["max_distance"].as<double>();
-    Settings::cell_classify = saveFile["classifyGroundPoints"]["cell_size"].as<double>();
+        Settings::angle_classify = saveFile["classifyGroundPoints"]["max_angle"].as<double>();
+        Settings::distance_classify = saveFile["classifyGroundPoints"]["max_distance"].as<double>();
+        Settings::cell_classify = saveFile["classifyGroundPoints"]["cell_size"].as<double>();
 
-    Settings::enable_DEM = saveFile["buildDem"]["enabled"].as<bool>();
-    Settings::classify_DEM = saveFile["buildDem"]["classify_ground_points"].as<bool>();
-    Settings::type_DEM = QString(saveFile["buildDem"]["type"].as<std::string>().c_str());
-    Settings::export_DEM = saveFile["buildDem"]["export"].as<bool>();
-    Settings::big_DEM = saveFile["buildDem"]["tiff_big"].as<bool>();
-    Settings::tiled_DEM = saveFile["buildDem"]["tiff_tiled"].as<bool>();
-    Settings::nodata_DEM = saveFile["buildDem"]["nodata"].as<int>();
-    Settings::overviews_DEM = saveFile["buildDem"]["tiff_overviews"].as<bool>();
+        Settings::enable_DEM = saveFile["buildDem"]["enabled"].as<bool>();
+        Settings::classify_DEM = saveFile["buildDem"]["classify_ground_points"].as<bool>();
+        Settings::type_DEM = QString(saveFile["buildDem"]["type"].as<std::string>().c_str());
+        Settings::export_DEM = saveFile["buildDem"]["export"].as<bool>();
+        Settings::big_DEM = saveFile["buildDem"]["tiff_big"].as<bool>();
+        Settings::tiled_DEM = saveFile["buildDem"]["tiff_tiled"].as<bool>();
+        Settings::nodata_DEM = saveFile["buildDem"]["nodata"].as<int>();
+        Settings::overviews_DEM = saveFile["buildDem"]["tiff_overviews"].as<bool>();
 
-    Settings::enable_ortho = saveFile["buildOrthomosaic"]["enabled"].as<bool>();
-    Settings::surface_ortho = QString(saveFile["buildOrthomosaic"]["surface"].as<std::string>().c_str());
-    Settings::path_ortho = QString(saveFile["buildOrthomosaic"]["usgs_dem_path"].as<std::string>().c_str());
-    Settings::crs_ortho = QString(saveFile["buildOrthomosaic"]["usgs_dem_crs"].as<std::string>().c_str());
-    Settings::blending_ortho = QString(saveFile["buildOrthomosaic"]["blending"].as<std::string>().c_str());
-    Settings::holes_ortho = saveFile["buildOrthomosaic"]["fill_holes"].as<bool>();
-    Settings::seamlines_ortho = saveFile["buildOrthomosaic"]["refine_seamlines"].as<bool>();
-    Settings::export_ortho = saveFile["buildOrthomosaic"]["export"].as<bool>();
-    Settings::big_ortho = saveFile["buildOrthomosaic"]["tiff_big"].as<bool>();
-    Settings::tiled_ortho = saveFile["buildOrthomosaic"]["tiff_tiled"].as<bool>();
-    Settings::nodata_ortho = saveFile["buildOrthomosaic"]["nodata"].as<int>();
-    Settings::overviews_ortho = saveFile["buildOrthomosaic"]["tiff_overviews"].as<bool>();
-    leftWindow->setEnabled(true);
+        Settings::enable_ortho = saveFile["buildOrthomosaic"]["enabled"].as<bool>();
+        Settings::surface_ortho = QString(saveFile["buildOrthomosaic"]["surface"].as<std::string>().c_str());
+        Settings::path_ortho = QString(saveFile["buildOrthomosaic"]["usgs_dem_path"].as<std::string>().c_str());
+        Settings::crs_ortho = QString(saveFile["buildOrthomosaic"]["usgs_dem_crs"].as<std::string>().c_str());
+        Settings::blending_ortho = QString(saveFile["buildOrthomosaic"]["blending"].as<std::string>().c_str());
+        Settings::holes_ortho = saveFile["buildOrthomosaic"]["fill_holes"].as<bool>();
+        Settings::seamlines_ortho = saveFile["buildOrthomosaic"]["refine_seamlines"].as<bool>();
+        Settings::export_ortho = saveFile["buildOrthomosaic"]["export"].as<bool>();
+        Settings::big_ortho = saveFile["buildOrthomosaic"]["tiff_big"].as<bool>();
+        Settings::tiled_ortho = saveFile["buildOrthomosaic"]["tiff_tiled"].as<bool>();
+        Settings::nodata_ortho = saveFile["buildOrthomosaic"]["nodata"].as<int>();
+        Settings::overviews_ortho = saveFile["buildOrthomosaic"]["tiff_overviews"].as<bool>();
+        leftWindow->setEnabled(true);
+    }
 }
 
 void MenuActions::setProjectUrl(){
