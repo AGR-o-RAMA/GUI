@@ -9,7 +9,8 @@ class Operation
 {
     Q_GADGET
 public:
-    enum Value {
+    enum Value
+    {
         ActivateTiles,
         SelectTile,
         DeselectTile,

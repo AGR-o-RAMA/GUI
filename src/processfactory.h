@@ -20,8 +20,7 @@ signals:
     void processTerminated(int exitCode, bool success);
 
 private:
-    QProcess* m_process;
-
+    QProcess *m_process;
 };
 
 #endif // PROCESSFACTORY_H

@@ -21,8 +21,8 @@ private:
     std::vector<std::vector<Tile>> tilesMatrix;
     u16 size_px;
     float size_m;
-    QQuickItem* map_view;
-    std::pair<u16,u16> pixelToIdx(u16 x_px, u16 y_px);
+    QQuickItem *map_view;
+    std::pair<u16, u16> pixelToIdx(u16 x_px, u16 y_px);
 
 public:
     explicit TilesHandler(QQuickItem *map_view, QObject *parent = nullptr);
@@ -43,5 +43,3 @@ public slots:
 };
 
 #endif // TILESHANDLER_H
-
-

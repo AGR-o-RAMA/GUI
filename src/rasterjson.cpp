@@ -2,7 +2,7 @@
 
 RasterJson::RasterJson(QWidget *parent) : QWidget(parent)
 {
-    name=QString(JSON_NAME);
+    name = QString(JSON_NAME);
     json_string = QString(R"({
     "raster_function_arguments": {
         "raster": {
@@ -227,7 +227,8 @@ RasterJson::RasterJson(QWidget *parent) : QWidget(parent)
 void RasterJson::writeJSON()
 {
     QFile file(name);
-    if(file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)){
+    if (file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    {
         QTextStream stream(&file);
         stream << json_string;
         file.close();

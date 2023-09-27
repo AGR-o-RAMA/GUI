@@ -4,7 +4,7 @@ ProcessFactory::ProcessFactory(QObject *parent)
     : QObject{parent}
 {
     m_process = new QProcess(this);
-    connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(processFinished(int,QProcess::ExitStatus)));
+    connect(m_process, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processFinished(int, QProcess::ExitStatus)));
 }
 
 void ProcessFactory::spawnProcess(QString path)

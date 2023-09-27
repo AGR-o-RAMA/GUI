@@ -50,7 +50,7 @@ private:
     QLineEdit *crs_line;
 
     QComboBox *task_box;
-///////////////////////
+    ///////////////////////
 
     QGroupBox *alignPhotos_box;
     QComboBox *enableAlign;
@@ -62,7 +62,7 @@ private:
     QComboBox *refPreAlign;
     QLineEdit *preModeAlign;
 
-///////////////////////
+    ///////////////////////
 
     QGroupBox *filterUSGS_box;
     QComboBox *enableUSGS;
@@ -73,65 +73,64 @@ private:
     QDoubleSpinBox *reprojPercUSGS;
     QDoubleSpinBox *reprojAbsUSGS;
 
-//////////////////////
+    //////////////////////
 
     QGroupBox *optimizeCamera_box;
     QComboBox *enableOpt;
     QComboBox *adaptiveOpt;
 
-//////////////////////
+    //////////////////////
 
-    QGroupBox* pointCloud_box;
-    QComboBox* enableCloud;
-    QDoubleSpinBox* downscaleCloud;
-    QLineEdit* filterCloud;
-    QComboBox* reuseCloud;
-    QComboBox* keepCloud;
-    QDoubleSpinBox* maxneighborsCloud;
-    QComboBox* classifyCloud;
-    QComboBox* exportCloud;
-    QLineEdit* classesCloud;
+    QGroupBox *pointCloud_box;
+    QComboBox *enableCloud;
+    QDoubleSpinBox *downscaleCloud;
+    QLineEdit *filterCloud;
+    QComboBox *reuseCloud;
+    QComboBox *keepCloud;
+    QDoubleSpinBox *maxneighborsCloud;
+    QComboBox *classifyCloud;
+    QComboBox *exportCloud;
+    QLineEdit *classesCloud;
 
-////////////////////////////////
+    ////////////////////////////////
 
-    QGroupBox* classifyGround_box;
-    QDoubleSpinBox* angleClassify;
-    QDoubleSpinBox* distanceClassify;
-    QDoubleSpinBox* cellClassify;
+    QGroupBox *classifyGround_box;
+    QDoubleSpinBox *angleClassify;
+    QDoubleSpinBox *distanceClassify;
+    QDoubleSpinBox *cellClassify;
 
-///////////////////////////////
+    ///////////////////////////////
 
-    QGroupBox* dem_box;
-    QComboBox* enableDEM;
-    QComboBox* classifyDEM;
-    QLineEdit* typeDEM;
-    QComboBox* exportDEM;
-    QComboBox* bigDEM;
-    QComboBox* tiledDEM;
-    QDoubleSpinBox* nodataDEM;
-    QComboBox* overviewsDEM;
+    QGroupBox *dem_box;
+    QComboBox *enableDEM;
+    QComboBox *classifyDEM;
+    QLineEdit *typeDEM;
+    QComboBox *exportDEM;
+    QComboBox *bigDEM;
+    QComboBox *tiledDEM;
+    QDoubleSpinBox *nodataDEM;
+    QComboBox *overviewsDEM;
 
-///////////////////////////////
+    ///////////////////////////////
 
-    QGroupBox* ortho_box;
-    QComboBox* enableOrtho;
-    QLineEdit* surfaceOrtho;
-    QLineEdit* pathOrtho;
-    QLineEdit* crsOrtho;
-    QLineEdit* blendingOrtho;
-    QComboBox* holesOrtho;
-    QComboBox* seamlinesOrtho;
-    QComboBox* exportOrtho;
-    QComboBox* bigOrtho;
-    QComboBox* tiledOrtho;
-    QDoubleSpinBox* nodataOrtho;
-    QComboBox* overviewsOrtho;
+    QGroupBox *ortho_box;
+    QComboBox *enableOrtho;
+    QLineEdit *surfaceOrtho;
+    QLineEdit *pathOrtho;
+    QLineEdit *crsOrtho;
+    QLineEdit *blendingOrtho;
+    QComboBox *holesOrtho;
+    QComboBox *seamlinesOrtho;
+    QComboBox *exportOrtho;
+    QComboBox *bigOrtho;
+    QComboBox *tiledOrtho;
+    QDoubleSpinBox *nodataOrtho;
+    QComboBox *overviewsOrtho;
 
-///////////////////////////////
+    ///////////////////////////////
 
-    QScrollArea* scrollArea;
-    QWizard* wizard_settings;
-
+    QScrollArea *scrollArea;
+    QWizard *wizard_settings;
 
     void handlePhotoButton();
     void handleProjectButton();
@@ -153,8 +152,8 @@ public:
     MenuActions(QWidget *parent = nullptr);
 
 public slots:
-    void newProject(QQuickItem* leftWindow);
-    void openProject(QQuickItem* leftWindow);
+    void newProject(QQuickItem *leftWindow);
+    void openProject(QQuickItem *leftWindow);
 
     void onFinishButtonClicked();
     void onNextButtonClicked();
@@ -162,19 +161,21 @@ public slots:
     void onCreateFinished();
 };
 
-class NewWizardPage : public QWizardPage {
+class NewWizardPage : public QWizardPage
+{
     Q_OBJECT
 
 signals:
     void sanityCheckPassedSignal();
 
 public:
-    NewWizardPage(QWidget* parent = nullptr) : QWizardPage(parent){}
+    NewWizardPage(QWidget *parent = nullptr) : QWizardPage(parent) {}
 
-    bool validatePage() override {
-        QLineEdit* photoLineEdit = findChild<QLineEdit*>("photo_line");
-        QLineEdit* projectLineEdit = findChild<QLineEdit*>("project_line");
-        QLineEdit* outputLineEdit = findChild<QLineEdit*>("output_line");
+    bool validatePage() override
+    {
+        QLineEdit *photoLineEdit = findChild<QLineEdit *>("photo_line");
+        QLineEdit *projectLineEdit = findChild<QLineEdit *>("project_line");
+        QLineEdit *outputLineEdit = findChild<QLineEdit *>("output_line");
 
         photoLineEdit->setStyleSheet("");
         projectLineEdit->setStyleSheet("");
@@ -186,22 +187,25 @@ public:
 
         bool res = true;
 
-        if (photo.isEmpty() || !QDir(photo).exists()){
+        if (photo.isEmpty() || !QDir(photo).exists())
+        {
             photoLineEdit->setStyleSheet("border: 2px solid red;");
             res = false;
         }
 
-        if (project.isEmpty() || !QDir(project).exists()){
+        if (project.isEmpty() || !QDir(project).exists())
+        {
             projectLineEdit->setStyleSheet("border: 2px solid red;");
             res = false;
         }
 
-        if (output.isEmpty() || !QDir(output).exists()){
+        if (output.isEmpty() || !QDir(output).exists())
+        {
             outputLineEdit->setStyleSheet("border: 2px solid red;");
             res = false;
         }
 
-        if(res)
+        if (res)
             emit sanityCheckPassedSignal();
         else
             QMessageBox::critical(this, "Error", "Sanity check failed. Please correct the input.");
@@ -210,26 +214,27 @@ public:
     }
 };
 
-class SettingsWizardPage : public QWizardPage {
+class SettingsWizardPage : public QWizardPage
+{
     Q_OBJECT
 
 signals:
     void sanitySettingsCheckPassedSignal();
 
 public:
-    SettingsWizardPage(QWidget* parent = nullptr) : QWizardPage(parent){}
+    SettingsWizardPage(QWidget *parent = nullptr) : QWizardPage(parent) {}
 
-    bool validatePage() override {
+    bool validatePage() override
+    {
 
-
-        QLineEdit* photoLineEdit = findChild<QLineEdit*>("photo_line");
-        QLineEdit* projectLineEdit = findChild<QLineEdit*>("project_line");
-        QLineEdit* outputLineEdit = findChild<QLineEdit*>("output_line");
-
+        QLineEdit *photoLineEdit = findChild<QLineEdit *>("photo_line");
+        QLineEdit *projectLineEdit = findChild<QLineEdit *>("project_line");
+        QLineEdit *outputLineEdit = findChild<QLineEdit *>("output_line");
 
         bool res = true;
 
-        if(projectLineEdit!=nullptr){
+        if (projectLineEdit != nullptr)
+        {
 
             photoLineEdit->setStyleSheet("");
             projectLineEdit->setStyleSheet("");
@@ -239,44 +244,44 @@ public:
             QString project = (projectLineEdit) ? projectLineEdit->text() : "";
             QString output = (outputLineEdit) ? outputLineEdit->text() : "";
 
-
-            if (photo.isEmpty() || !QDir(photo).exists()){
+            if (photo.isEmpty() || !QDir(photo).exists())
+            {
                 photoLineEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
 
-            if (project.isEmpty() || !QDir(project).exists()){
+            if (project.isEmpty() || !QDir(project).exists())
+            {
                 projectLineEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
 
-            if (output.isEmpty() || !QDir(output).exists()){
+            if (output.isEmpty() || !QDir(output).exists())
+            {
                 outputLineEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
 
-
-            if(res)
+            if (res)
                 emit sanitySettingsCheckPassedSignal();
             else
                 QMessageBox::critical(this, "Error", "Sanity check failed. Please correct the input.");
 
             return res;
-
         }
-        else{
+        else
+        {
 
-            QLineEdit* crsLineEdit = findChild<QLineEdit*>("crs_line");
+            QLineEdit *crsLineEdit = findChild<QLineEdit *>("crs_line");
 
-            QLineEdit* preModeAlignEdit = findChild<QLineEdit*>("preModeAlign");
-            QLineEdit* filterCloudEdit = findChild<QLineEdit*>("filterCloud");
-            QLineEdit* classesCloudEdit = findChild<QLineEdit*>("classesCloud");
-            QLineEdit* typeDEMEdit = findChild<QLineEdit*>("typeDEM");
-            QLineEdit* surfaceOrthoEdit = findChild<QLineEdit*>("surfaceOrtho");
-            QLineEdit* pathOrthoEdit = findChild<QLineEdit*>("pathOrtho");
-            QLineEdit* crsOrthoEdit = findChild<QLineEdit*>("crsOrtho");
-            QLineEdit* blendingOrthoEdit = findChild<QLineEdit*>("blendingOrtho");
-
+            QLineEdit *preModeAlignEdit = findChild<QLineEdit *>("preModeAlign");
+            QLineEdit *filterCloudEdit = findChild<QLineEdit *>("filterCloud");
+            QLineEdit *classesCloudEdit = findChild<QLineEdit *>("classesCloud");
+            QLineEdit *typeDEMEdit = findChild<QLineEdit *>("typeDEM");
+            QLineEdit *surfaceOrthoEdit = findChild<QLineEdit *>("surfaceOrtho");
+            QLineEdit *pathOrthoEdit = findChild<QLineEdit *>("pathOrtho");
+            QLineEdit *crsOrthoEdit = findChild<QLineEdit *>("crsOrtho");
+            QLineEdit *blendingOrthoEdit = findChild<QLineEdit *>("blendingOrtho");
 
             crsLineEdit->setStyleSheet("");
             preModeAlignEdit->setStyleSheet("");
@@ -298,53 +303,60 @@ public:
             QString crsO = (crsOrthoEdit) ? crsOrthoEdit->text() : "";
             QString blending = (blendingOrthoEdit) ? blendingOrthoEdit->text() : "";
 
-            if (crs.isEmpty()){
+            if (crs.isEmpty())
+            {
                 crsLineEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (preMode.isEmpty()){
+            if (preMode.isEmpty())
+            {
                 preModeAlignEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (filter.isEmpty()){
+            if (filter.isEmpty())
+            {
                 filterCloudEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (classes.isEmpty()){
+            if (classes.isEmpty())
+            {
                 classesCloudEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (type.isEmpty()){
+            if (type.isEmpty())
+            {
                 typeDEMEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (surfaceO.isEmpty()){
+            if (surfaceO.isEmpty())
+            {
                 surfaceOrthoEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (path.isEmpty()){
+            if (path.isEmpty())
+            {
                 pathOrthoEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (crsO.isEmpty()){
+            if (crsO.isEmpty())
+            {
                 crsOrthoEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
-            if (blending.isEmpty()){
+            if (blending.isEmpty())
+            {
                 blendingOrthoEdit->setStyleSheet("border: 2px solid red;");
                 res = false;
             }
 
-            if(res)
+            if (res)
                 emit sanitySettingsCheckPassedSignal();
             else
                 QMessageBox::critical(this, "Error", "Sanity check failed. Please correct the input.");
 
-
             return res;
         }
     }
-
 };
 
 #endif // MENUACTIONS_H

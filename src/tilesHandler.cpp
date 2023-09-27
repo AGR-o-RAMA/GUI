@@ -5,25 +5,28 @@ TilesHandler::TilesHandler(QQuickItem *map_view, QObject *parent)
 
 std::pair<u16, u16> TilesHandler::pixelToIdx(u16 x_px, u16 y_px)
 {
-    uint half_size = this->size_px/2;
-    u16 c = (x_px + half_size)/this->size_px;
-    u16 r = (y_px + half_size)/this->size_px;
-    return std::make_pair(r,c);
+    uint half_size = this->size_px / 2;
+    u16 c = (x_px + half_size) / this->size_px;
+    u16 r = (y_px + half_size) / this->size_px;
+    return std::make_pair(r, c);
 }
 
-float TilesHandler::getSize_m() {return size_m;}
+float TilesHandler::getSize_m() { return size_m; }
 
-void TilesHandler::generateGrid(uint size, uint map_w, uint map_h){
+void TilesHandler::generateGrid(uint size, uint map_w, uint map_h)
+{
 
     this->tilesMatrix.clear();
 
     this->size_px = size;
 
-    uint half_size = size/2;
-    for(uint r = 0; r < map_h; r+=size){
+    uint half_size = size / 2;
+    for (uint r = 0; r < map_h; r += size)
+    {
         std::vector<Tile> row;
-        for(uint c = 0; c < map_w; c+=size){
-            QPoint point(c+half_size, r+half_size);
+        for (uint c = 0; c < map_w; c += size)
+        {
+            QPoint point(c + half_size, r + half_size);
             QVariant res;
             QMetaObject::invokeMethod(map_view, "generateCoordinates", Q_RETURN_ARG(QVariant, res), Q_ARG(QVariant, point));
             GeoCoordinate coord(res);
@@ -89,10 +92,13 @@ void TilesHandler::generateCsv()
 
     f << "metrics_x, metrics_y, coordinate_lat, coordinate_long\n";
 
-    for(int r = rows-1; r >= 0; --r){
-        for(int c = 0; c < cols; ++c){
-            if(this->tilesMatrix[r][c].isSelected()){
-                u16 shift_r = rows-r-1;
+    for (int r = rows - 1; r >= 0; --r)
+    {
+        for (int c = 0; c < cols; ++c)
+        {
+            if (this->tilesMatrix[r][c].isSelected())
+            {
+                u16 shift_r = rows - r - 1;
                 GeoCoordinate centroid = this->tilesMatrix[r][c].getCentroid_coord();
                 f << c << ", "
                   << shift_r << ", "
@@ -104,5 +110,3 @@ void TilesHandler::generateCsv()
     }
     f.close();
 }
-
-

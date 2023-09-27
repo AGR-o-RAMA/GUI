@@ -11,6 +11,7 @@ private:
     QPoint centroid_px;
     GeoCoordinate centroid_coord;
     bool selected;
+
 public:
     Tile(QPoint centroid_px, GeoCoordinate centroid_coord);
     Tile(QPoint centroid_px, GeoCoordinate centroid_coord, bool selected);

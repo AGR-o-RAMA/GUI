@@ -10,7 +10,8 @@
 
 #include "ArcGISRuntimeEnvironment.h"
 
-class ApplicationEngine : public QQmlApplicationEngine{
+class ApplicationEngine : public QQmlApplicationEngine
+{
     Q_OBJECT
 
 public:

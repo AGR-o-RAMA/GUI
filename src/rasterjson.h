@@ -10,6 +10,7 @@ class RasterJson : public QWidget
 private:
     QString name;
     QString json_string;
+
 public:
     RasterJson(QWidget *parent = nullptr);
 public slots:

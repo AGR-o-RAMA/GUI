@@ -1,6 +1,7 @@
 #include "settings.h"
 
-Settings::Settings(QWidget *parent) : QWidget(parent){
+Settings::Settings(QWidget *parent) : QWidget(parent)
+{
     photo_path = QUrl("");
     project_path = QUrl("");
     output_path = QUrl("");
@@ -100,7 +101,8 @@ QString Settings::getProject_path()
     return project_path.toString();
 }
 
-QUrl Settings::getOutputPath(){
+QUrl Settings::getOutputPath()
+{
     return output_path;
 }
 
@@ -199,14 +201,16 @@ void Settings::dumpToYaml(QString path, float tileSize)
 
     yamlNode["buildOrthomosaic"] = orthomosaicNode;
 
-    if (tileSize > 0){
+    if (tileSize > 0)
+    {
         YAML::Node tiles;
         tiles["tile_size"] = tileSize;
-        yamlNode["tile"]=tiles;
+        yamlNode["tile"] = tiles;
     }
 
     QFile file(path);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate))
+    {
         qCritical() << "Failed to open file for writing.";
         return;
     }
@@ -220,12 +224,14 @@ QString Settings::pathJoin(std::vector<QString> paths)
 {
     ssize_t n = paths.size();
 
-    auto slash = [](QString param){ return param.endsWith("/") ? param : param + "/"; };
+    auto slash = [](QString param)
+    { return param.endsWith("/") ? param : param + "/"; };
 
     QString res("");
 
-    for(int i = 0; i < n; ++i){
-        if(i < n-1)
+    for (int i = 0; i < n; ++i)
+    {
+        if (i < n - 1)
             res += slash(paths[i]);
         else
             res += paths[i];
@@ -233,4 +239,3 @@ QString Settings::pathJoin(std::vector<QString> paths)
 
     return res;
 }
-
