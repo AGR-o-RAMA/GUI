@@ -76,6 +76,11 @@ void MenuActions::openProject(QQuickItem* leftWindow){
         std::vector<QString> vs = {dirName, Settings::guiSubDir, Settings::yamlSaveName};
         QString fileName = Settings::pathJoin(vs);
 
+        if(!QFile::exists(fileName)){
+            QMessageBox::critical(this, "Error", "Invalid project directory");
+            return;
+        }
+
         YAML::Node saveFile = YAML::LoadFile(fileName.toStdString());
 
         Settings::photo_path = QUrl(saveFile["photo_path"].as<std::string>().c_str());
