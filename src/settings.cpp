@@ -100,6 +100,10 @@ QString Settings::getProject_path()
     return project_path.toString();
 }
 
+QUrl Settings::getOutputPath(){
+    return output_path;
+}
+
 void Settings::setUse_cuda(bool newUse_cuda)
 {
     use_cuda = newUse_cuda;

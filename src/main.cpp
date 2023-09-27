@@ -1,6 +1,7 @@
 #include "application_engine.h"
 #include "operation.h"
 #include "processfactory.h"
+#include "settings.h"
 #include "api_key.h"
 #include "rasterjson.h"
 

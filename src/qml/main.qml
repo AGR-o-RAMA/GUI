@@ -128,7 +128,7 @@ ApplicationWindow {
                             font.pointSize: 13
                             enabled: true
                             onClicked: {
-                                loader.loadKml();
+                                loader.loadKml(YamlSettings.getOutputPath());
                             }
                         }
 
@@ -277,7 +277,7 @@ ApplicationWindow {
                             onProcessTerminated: (exitCode, success) => {
                                 loadingScreen.visible = false;
                                 if (success) {
-                                    loader.loadTif()
+                                    loader.loadTif(YamlSettings.getOutputPath())
                                 }
                                 else {
                                     console.error("Process terminated with error: " + exitCode);             
@@ -334,7 +334,7 @@ ApplicationWindow {
                             font.pointSize: 13
                             enabled: true
                             onClicked: {
-                                loader.loadTif();
+                                loader.loadTif(YamlSettings.getOutputPath());
                             }
                         }
 
