@@ -4,6 +4,7 @@ import QtQuick.Window
 import QtQuick.Layouts
 import QtLocation
 import QtPositioning
+import QtQuick.Dialogs
 import Esri.ArcGISRuntime
 import ProcessFactory 1.0
 
@@ -18,11 +19,20 @@ ApplicationWindow {
         id: loadingScreen
     }
 
+    MessageDialog {
+        id: errorOrthomap
+        title: "Orthomap Generation Failure"
+        text: "The orthomap generation process encountered an unexpected failure."
+        visible: false;
+        onAccepted: {
+            visible = false;
+        }
+    }
+
     SystemPalette {
         id: systemPalette;
         colorGroup: SystemPalette.Active
     }
-
     ColumnLayout{
         anchors.fill: parent
         id: mainScreen
@@ -282,7 +292,7 @@ ApplicationWindow {
                                 }
                                 else {
                                     console.error("Process terminated with error: " + exitCode);             
-                                    // TODO: Rendere piu palese che qualcosa è andato storto (magari un equivalente dell'alert js?)
+                                    errorOrthomap.visible=true;
                                 }
                             }
                         }
