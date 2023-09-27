@@ -83,6 +83,15 @@ void MenuActions::openProject(QQuickItem* leftWindow){
 
         YAML::Node saveFile = YAML::LoadFile(fileName.toStdString());
 
+        QDir photop(QString::fromStdString(saveFile["photo_path"].as<std::string>()));
+        QDir projectp(QString::fromStdString(saveFile["project_path"].as<std::string>()));
+        QDir outputp(QString::fromStdString(saveFile["output_path"].as<std::string>()));
+
+        if (!photop.exists() || !projectp.exists() || !outputp.exists()){
+            QMessageBox::critical(this, "Error", "Invalid project: One of the project paths no longer exists.");
+            return;
+        }
+
         Settings::photo_path = QUrl(saveFile["photo_path"].as<std::string>().c_str());
         Settings::project_path = QUrl(saveFile["project_path"].as<std::string>().c_str());
         Settings::output_path = QUrl(saveFile["output_path"].as<std::string>().c_str());
