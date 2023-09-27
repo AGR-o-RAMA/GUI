@@ -109,7 +109,7 @@ void Settings::setUse_cuda(bool newUse_cuda)
     use_cuda = newUse_cuda;
 }
 
-void Settings::dumpToYaml(QString path)
+void Settings::dumpToYaml(QString path, float tileSize)
 {
     YAML::Node yamlNode;
 
@@ -198,6 +198,12 @@ void Settings::dumpToYaml(QString path)
     orthomosaicNode["tiff_overviews"] = overviews_ortho;
 
     yamlNode["buildOrthomosaic"] = orthomosaicNode;
+
+    if (tileSize > 0){
+        YAML::Node tiles;
+        tiles["tile_size"] = tileSize;
+        yamlNode["tile"]=tiles;
+    }
 
     QFile file(path);
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Truncate)) {

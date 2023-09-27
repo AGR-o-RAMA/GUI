@@ -112,7 +112,7 @@ public slots:
     static QString getGuiSubDir();
     static QString getYamlSaveName();
     static QUrl getOutputPath();
-    static void dumpToYaml(QString path);
+    static void dumpToYaml(QString path, float tileSize=-1.f);
     static QString pathJoin(std::vector<QString> paths);
 };
 

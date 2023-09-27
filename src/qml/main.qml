@@ -252,7 +252,8 @@ ApplicationWindow {
                                 orthomap.enabled = true;
                                 TilesHandler.generateCsv();
                                 let path = YamlSettings.pathJoin([YamlSettings.getProject_path(), YamlSettings.getYamlParamsName()]);
-                                YamlSettings.dumpToYaml(path);
+                                YamlSettings.dumpToYaml(path, TilesHandler.getSize_m());
+
                                 path = YamlSettings.pathJoin([YamlSettings.getProject_path(), YamlSettings.getGuiSubDir(), YamlSettings.getYamlSaveName()]);
                                 YamlSettings.dumpToYaml(path);
                             }
