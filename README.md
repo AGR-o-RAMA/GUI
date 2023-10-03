@@ -24,12 +24,16 @@ To satisfy the user interface dependencies, follow these steps:
 2. **Install ArcGIS**: link all'installazione e due parole su come installarlo.
 
 ## Projects
-Inserire due parole sulla schermata API key. Non so dove metterlo per ora
+When the program is launched, the API key for ArcGIS is requested. If it is correct, the main window with the map will be showm. Otherwise, the main window will be shown, but the map will not be loaded.
+The API keythat is inserted is saved in a file in the $arcgis$ folder, so the next times the porgeam is launched, the key is automatically recovered from the file.
+
 
 ### New Project
+To create a new project, click **Project** > **New** and fill all required informations.
 ### Open Project
+To open a project, click **Project** > **Open** and choose a YAML file to open,
 ### Settings 
-
+To change the information fields will be written in the YAML file, click **Configure** > **Settings**.
 ## Map
 
 Spiegare tutti gli shortcut. Alcuni che mi ricordo sono: 
