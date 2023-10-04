@@ -48,7 +48,19 @@ Spiegare tutti gli shortcut. Alcuni che mi ricordo sono:
 ## Control Panel
 
 ### Mission Planning
-Spiegare tutti gli step fino a generate orthomap (compreso il resize delle celle dalla slidebar e il campo use cuda). Se trovate un titolo migliore cambiatelo pure
+The right order of steps from the creation of a project to the generation of the orthomap is the following one:
+1. Create a new project (or open an existing one)
+2. (Optional) Load a KML file
+3. Zoom in/out according to the desired size of the map
+4. Activate the Edit Mode
+5. Resize the size of the tiles as you want, through the slider on the right side of the screen
+6. Select the desired tiles
+   (**N.B.** If you increase/decrease the tiles size while the edit mode is activated, the previous selected tiles will be deleted)
+7. (Optional) Change settings
+8. (Optional) Activate $use$ $cuda$ flag, clicking on **Options** > **use cuda**
+9. Click **Generate** to generate CSV and YAML files
+10. Click **Orthomap** to render images
+11. Wait until the process is ended
 
 ### Results Visualization
 Spiegare come visualizzare i risultati ecc..
