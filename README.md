@@ -90,7 +90,7 @@ The right order of steps from the creation of a project to the generation of the
 - Once the orthomap has been generated, it can be visualized on top of the map and also on top of the .kml layer. When clicking on the TIF button, the $output$ folder will be opened and the images can be selected. Only one tif at a time can be visualized on the map.
 - The orthomap can also be colored, to show altitude features, through the switch
 - Through the slider at the bottom, you can adjust the opacity of the .tif image, to check if the reconstruction is accurate based on the underlying data
-![tif-kml](images/tif-kml.png)  
+![picture 3](images/867203a8869717df7bcadc7e787b327bdc2337b660664d07620db055dcc105a3.png)  
 
 ## UI Elements
 
