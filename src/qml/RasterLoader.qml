@@ -80,7 +80,7 @@ Item {
 
     function loadKml(path) {
         setSupportedExtensions(kmlFileDialog, supportedKmlExtensions);
-        fileDialog.currentFolder = "file://" + path;
+        kmlFileDialog.currentFolder = "file://" + path;
         kmlFileDialog.open();
     }
 }
