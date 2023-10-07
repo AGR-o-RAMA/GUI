@@ -7,6 +7,7 @@
 #include "tilesHandler.h"
 #include "menuActions.h"
 #include "operation.h"
+#include "coord_input.h"
 
 #include "ArcGISRuntimeEnvironment.h"
 

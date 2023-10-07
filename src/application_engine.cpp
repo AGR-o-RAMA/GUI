@@ -29,6 +29,8 @@ int ApplicationEngine::setup(QString api_key)
     Settings *settings = new Settings;
     root->setContextProperty("YamlSettings", settings);
     settings->api_key = api_key;
+    CoordInput* coord_input = new CoordInput;
+    root->setContextProperty("CoordInput", coord_input);
     rootContext()->setContextProperty("CurDirPath", QString(QDir::currentPath()));
 
     window->show();

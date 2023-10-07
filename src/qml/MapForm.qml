@@ -4,9 +4,9 @@ import Esri.ArcGISRuntime
 import Esri.ArcGISExtras
 import QtQuick.Dialogs
 
-
 Item {
     id: root
+    signal viewPointChanged;
 
     MapView {
         id: mapView
@@ -15,6 +15,10 @@ Item {
 
         Component.onCompleted: {
             forceActiveFocus();
+        }
+
+        onViewpointChanged: {
+            root.viewPointChanged();
         }
 
         Map {
@@ -38,7 +42,6 @@ Item {
             }
         }
 
-
         function generateCoordinates(point){
             const c = mapView.screenToLocation(point.x, point.y);
             const projected = GeometryEngine.project(c, Factory.SpatialReference.createWgs84());
@@ -46,6 +49,11 @@ Item {
         }
     }
 
+    function printCenter(){
+        const center = mapView.currentViewpointCenter.center;
+        const projected = GeometryEngine.project(center, Factory.SpatialReference.createWgs84());
+        return projected.x.toFixed(2) + ", " + projected.y.toFixed(2);
+    }
 
     property RasterLayer rasterLayer: null
     property Raster raster: null
@@ -53,12 +61,16 @@ Item {
     property Raster tempRaster: null
     property KmlLayer kmlLayer: null
 
+    function zoomToPoint(point){
+        mapView.setViewpointCenterAndScale(point,1000);
+    }
+
     function zoomToRaster(){
-        mapView.setViewpointCenterAndScale(rasterLayer.fullExtent.center, 80000);
+        mapView.setViewpointCenterAndScale(rasterLayer.fullExtent.center, 1000);
     }
 
     function zoomToKml(){
-        mapView.setViewpointCenterAndScale(kmlLayer.fullExtent.center, 8000);
+        mapView.setViewpointCenterAndScale(kmlLayer.fullExtent.center, 1000);
     }
 
     function getOpacity(){
@@ -93,6 +105,10 @@ Item {
     function applyRasterFunction() {
         // create the raster function
         const rasterFunction = ArcGISRuntimeEnvironment.createObject("RasterFunction", {path: "file://"+CurDirPath+"/color.json"});
+
+        if (!rasterFunction)
+            return;
+
         rasterFunction.arguments.setRaster("raster", raster);
         rasterFunction.arguments.setRaster("raster", raster); //don't know why the raster has to be added twice, but once doesn't work
 

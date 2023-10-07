@@ -43,6 +43,7 @@ LIBS += -lyaml-cpp
 HEADERS += \
     api_key.h \
     application_engine.h \
+    coord_input.h \
     geoCoordinate.h \
     menuActions.h \
     operation.h \
@@ -55,6 +56,7 @@ HEADERS += \
 SOURCES += \
     api_key.cpp \
     application_engine.cpp \
+    coord_input.cpp \
     main.cpp \
     menuActions.cpp \
     processfactory.cpp \

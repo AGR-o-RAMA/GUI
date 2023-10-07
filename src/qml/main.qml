@@ -33,6 +33,7 @@ ApplicationWindow {
         id: systemPalette;
         colorGroup: SystemPalette.Active
     }
+
     ColumnLayout{
         anchors.fill: parent
         id: mainScreen
@@ -99,8 +100,75 @@ ApplicationWindow {
                 enabled: false
 
                 Rectangle{
+                    id: coordinateInfoBox
+                    Layout.preferredHeight: 0.15 * parent.height
+                    Layout.fillWidth: true
+                    color: "transparent"
+
+                    ColumnLayout{
+                        anchors.fill: parent
+                        spacing: 0
+
+                        Rectangle{
+                            id: title_0
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 0.05 * leftWindow.height
+                            color: "transparent"
+                            Rectangle{
+                                width: parent.width
+                                height: 0.04 * leftWindow.height
+                                anchors.centerIn: parent
+                                color: "#1E1C0B"
+                                Text {
+                                    anchors.fill: parent
+                                    verticalAlignment: Text.AlignVCenter
+                                    horizontalAlignment: Text.AlignHCenter
+                                    font.family: "Inter"
+                                    color: "white"
+                                    font.pointSize: 15
+                                    text: qsTr("Coordinate Info")
+                                }
+                            }
+                        }
+
+                        Button {
+                            id: coordinateInput
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 0.06 * leftWindow.height
+                            text: qsTr("Jump to Coordinate")
+                            font.pointSize: 13
+                            enabled: true
+                            onClicked: {
+                                var point = CoordInput.getPoint();
+                                var manual_point = ArcGISRuntimeEnvironment.createObject("Point",{x = point.x, y = point.y},leftWindow);
+                                var projected = GeometryEngine.project(manual_point, Factory.SpatialReference.createWgs84());
+                                map.zoomToPoint(projected);
+                            }
+                        }
+
+                        TextEdit {
+                            readOnly: true
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 0.5 * parent.height
+                            id: coordinate
+                            verticalAlignment: Text.AlignVCenter
+                            horizontalAlignment: Text.AlignHCenter
+                            color: systemPalette.text
+                            font.pointSize: 14
+                        }
+                    }
+                }
+
+                Rectangle{
+                    Layout.preferredHeight: 0.02 * parent.height
+                    Layout.fillWidth: true
+                    color: "transparent"
+                    id: separator_0
+                }
+
+                Rectangle{
                     id: editModeBox
-                    Layout.preferredHeight: 0.3 * parent.height
+                    Layout.preferredHeight: 0.25 * parent.height
                     Layout.fillWidth: true
                     color: "transparent"
 
@@ -145,7 +213,7 @@ ApplicationWindow {
                         SwitchDelegate {
                             id: editMode
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 0.35 * parent.height
+                            Layout.preferredHeight: 0.25 * parent.height
                             text: qsTr("Edit Mode")
                             contentItem: Text {
                                 rightPadding: editMode.indicator.width + editMode.spacing
@@ -214,7 +282,7 @@ ApplicationWindow {
                 }
 
                 Rectangle{
-                    Layout.preferredHeight: 0.05 * parent.height
+                    Layout.preferredHeight: 0.02 * parent.height
                     Layout.fillWidth: true
                     color: "transparent"
                     id: separator_1
@@ -300,7 +368,7 @@ ApplicationWindow {
                 }
 
                 Rectangle{
-                    Layout.preferredHeight: 0.05 * parent.height
+                    Layout.preferredHeight: 0.02 * parent.height
                     Layout.fillWidth: true
                     color: "transparent"
                     id: separator_2
@@ -352,7 +420,7 @@ ApplicationWindow {
                         SwitchDelegate {
                             id: colorMode
                             Layout.fillWidth: true
-                            Layout.preferredHeight: 0.35 * parent.height
+                            Layout.preferredHeight: 0.25 * parent.height
                             text: qsTr("Color")
                             contentItem: Text {
                                 rightPadding: colorMode.indicator.width + colorMode.spacing
@@ -454,6 +522,7 @@ ApplicationWindow {
                 Layout.fillHeight: true
 
                 onActiveFocusChanged: MapForm.forceActiveFocus();
+                onViewPointChanged: coordinate.text = "Long, Lat \n" + map.printCenter();
 
                 MapGrid{
                     id: grid
