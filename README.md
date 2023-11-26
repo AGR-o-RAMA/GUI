@@ -81,10 +81,7 @@ It can be in two modes: normal mode or edit mode. In the latter, you can select 
 
 - <kbd>left mouse click</kbd> &rarr; select a tile
 - <kbd>right mouse click</kbd> &rarr; deselect a tile
-- Slider on the right to increase (knob up) or decrease (knob down) the tile size, as shown in the two pictures below.
-
-![small-tiles](images/Small_tiles.png)
-![big-tiles](images/big_tiles.png)
+- Slider on the right to increase (knob up) or decrease (knob down) the tile size.
 
 
 ## Control Panel
