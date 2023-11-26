@@ -106,6 +106,7 @@ The right order of steps from the creation of a project to the generation of the
 
 ![waiting](https://raw.githubusercontent.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/main/images/crop.gif?token=GHSAT0AAAAAABL3TS2K7F232XUSNTWIYEA2ZLDZFPA)
 
+
 ### Results Visualization
 
 - Once the orthomap has been generated, it can be visualized on top of the map and also on top of the .kml layer. When clicking on the TIF button, the $output$ folder will be opened and the images can be selected. Only one tif at a time can be visualized on the map.
