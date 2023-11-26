@@ -5,8 +5,8 @@ Welcome to the AGR-o-RAMA User Interface Usage Documentation. This guide provide
 ## Table of Contents
 
 - [AGR-o-RAMA-GUI](#agr-o-rama-gui)
-  - [Table of Contents](#table-of-contents)
   - [Install](#install)
+  - [Run](#run)
   - [Overview](#overview)
   - [Projects](#projects)
     - [New Project](#new-project)
@@ -18,15 +18,29 @@ Welcome to the AGR-o-RAMA User Interface Usage Documentation. This guide provide
   - [Control Panel](#control-panel)
     - [Mission Planning](#mission-planning)
     - [Results Visualization](#results-visualization)
-  - [UI Elements](#ui-elements)
 
 ## Install
 
 To satisfy the user interface dependencies, follow these steps:
 
-1. **Install Qt 6.5.1 (or higher)**: metti link e roba varia. Se diventa corposo, facciamo una sotto sezione ###
+**Install Qt 6.5 (or higher)**:
 
-2. **Install ArcGIS**: link all'installazione e due parole su come installarlo.
+- [Download the installer at this link](https://www.qt.io/download-qt-installer-oss?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4)
+- Run the downloaded file:
+  - Select the downloaded file and open its properties with <kbd>Ctrl</kbd> + <kbd>i</kbd>
+  - Go to permissions and select **Allow executing file as a program**
+  - Execute the file either with double-click or by terminal
+- Select custom installation and select any Qt version above 6.5
+- **Important** : don't change the installation folder
+- Install other dependencies with the following command
+```  
+sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libyaml-cpp-dev 
+```
+
+## Run
+
+- Download the release and execute the script agrorama.sh in the build folder
+
 
 ## Overview
 
@@ -91,8 +105,4 @@ The right order of steps from the creation of a project to the generation of the
 - Once the orthomap has been generated, it can be visualized on top of the map and also on top of the .kml layer. When clicking on the TIF button, the $output$ folder will be opened and the images can be selected. Only one tif at a time can be visualized on the map.
 - The orthomap can also be colored, to show altitude features, through the switch
 - Through the slider at the bottom, you can adjust the opacity of the .tif image, to check if the reconstruction is accurate based on the underlying data
-![tif-kml](https://github.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/assets/38572113/b5dc02ff-09e9-44c9-843b-e4a047361af6)
-
-## UI Elements
-
-Spiegare tutte le cose che rimangono (boh tipo light/dark mode e la sezione Help>About). Se trovate un titolo migliore cambiatelo pure.
+![tif-kml](images/tif-kml.png)
