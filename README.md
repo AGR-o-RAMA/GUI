@@ -98,7 +98,9 @@ The right order of steps from the creation of a project to the generation of the
 6. (Optional) Activate $use$ $cuda$ flag, clicking on **Options** > **use cuda**
 7. Click **Generate** to generate CSV and YAML files
 8. Click **Orthomap** to render images
-9. Wait until the process is ended
+9. Wait until the process is ended (during this process the GUI is locked and there is the following animation until the orthomaps are generated)
+![waiting](images/crop.gif)  
+
 
 ### Results Visualization
 
