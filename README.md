@@ -81,7 +81,11 @@ It can be in two modes: normal mode or edit mode. In the latter, you can select 
 
 - <kbd>left mouse click</kbd> &rarr; select a tile
 - <kbd>right mouse click</kbd> &rarr; deselect a tile
-- Slider on the right to increase (knob up) or decrease (knob down) the tile size
+- Slider on the right to increase (knob up) or decrease (knob down) the tile size, as shown in the two pictures below.
+
+![small-tiles](https://raw.githubusercontent.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/main/images/Small_tiles.png?token=GHSAT0AAAAAABL3TS2KPLC7RMRGJDJ23J7CZLDZOXQ)
+![big-tiles](https://raw.githubusercontent.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/main/images/big_tiles.png?token=GHSAT0AAAAAABL3TS2KUCFR2OAEKQ2YPKLOZLDZPHQ)
+
 
 ## Control Panel
 
@@ -99,8 +103,8 @@ The right order of steps from the creation of a project to the generation of the
 7. Click **Generate** to generate CSV and YAML files
 8. Click **Orthomap** to render images
 9. Wait until the process is ended (during this process the GUI is locked and there is the following animation until the orthomaps are generated)
-![waiting](images/crop.gif)  
 
+![waiting](https://raw.githubusercontent.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/main/images/crop.gif?token=GHSAT0AAAAAABL3TS2K7F232XUSNTWIYEA2ZLDZFPA)
 
 ### Results Visualization
 
