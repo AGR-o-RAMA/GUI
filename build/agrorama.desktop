@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Agrorama
+Comment=The best Qt Application Ever
+Exec=./agrorama.sh
+Terminal=false
+Categories=Office;

@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<RCC>
+    <qresource prefix="/qml">
+        <file alias="main.qml">../src/qml/main.qml</file>
+        <file alias="MapForm.qml">../src/qml/MapForm.qml</file>
+        <file alias="MapGrid.qml">../src/qml/MapGrid.qml</file>
+        <file alias="RasterLoader.qml">../src/qml/RasterLoader.qml</file>
+        <file alias="LoadingScreen.qml">../src/qml/LoadingScreen.qml</file>
+    </qresource>
+    <qresource prefix="/"/>
+</RCC>
