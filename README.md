@@ -92,6 +92,7 @@ It can be in two modes: normal mode or edit mode. In the latter, you can select 
 - <kbd>right mouse click</kbd> &rarr; deselect a tile
 - Slider on the right to increase (knob up) or decrease (knob down) the tile size.
 
+![planning](images/planning.png)
 
 ## Control Panel
 
