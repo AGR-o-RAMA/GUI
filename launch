@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/arcgis/maps_sdk/qt200.2.0/sdk/linux/x64/lib
+cd ~/agrorama/bin
+./agrorama

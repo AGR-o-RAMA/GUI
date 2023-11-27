@@ -1,0 +1,312 @@
+#!/bin/bash
+# Script to launch the ArcGIS Maps SDK for Qt installer
+# Date: 10/11/2022
+
+# Product Info
+ProductVersion=200.2.0
+MajorVersion=` echo -n ${ProductVersion} | cut -f1 -d'.' `
+ProductName="ArcGIS Maps SDK ${ProductVersion} for Qt"
+product="ArcGISMapsSDKQt"
+Esri_Hostname=`hostname`; export Esri_Hostname
+platform=Linux
+
+# Installer configuration
+locale -a | grep "^en_US.utf8$" >/dev/null 2>&1
+if [ "$?" = "0" ]
+then
+    LANG=en_US.UTF-8; export LANG
+    LC_CTYPE=en_US.UTF-8; export LC_CTYPE
+fi
+
+# File Information
+ScriptDir=`dirname "$0"`
+ScriptName=`basename "$0"`
+if echo ${ScriptDir} | grep '^./' >/dev/null 2>&1
+then
+    CD_ROOT=`pwd``echo ${ScriptDir} | cut -d '.' -f2-`
+elif echo ${ScriptDir} | grep '^/' >/dev/null 2>&1
+then
+    CD_ROOT=${ScriptDir}
+elif [ "${ScriptDir}" = "." ]
+then
+    CD_ROOT=`pwd`
+else
+    CD_ROOT=`pwd`/${ScriptDir}
+fi
+export CD_ROOT
+
+error_header() {
+    echo "[$ProductName Setup Error]" >&2
+}
+
+warning_header() {
+    echo "[$ProductName Setup Warning]"
+}
+
+create_prop_file() {
+    # Create the temp file using mktemp
+    Esri_Silent_Property_File=`mktemp`
+
+    # Set the file to be removed on exiting the script
+    trap 'rm -f $Esri_Silent_Property_File' EXIT
+
+    # Check that file exists
+    if [ ! -f $Esri_Silent_Property_File ]
+    then
+        error_header
+        echo "Could not create temporary file for silent install." >&2
+        echo "Please check that your user id has file creation permissions for the mktemp utility." >&2
+        echo "Exiting." >&2
+        exit 1;
+    fi
+
+    # Check that file is writeable
+    if [ -w $Esri_Silent_Property_File ]
+    then
+        # Create our temp prop file to pass in to installer
+cat << EOF >> $Esri_Silent_Property_File
+# Esri $ProductName Silent Install Property File
+USER_INSTALL_DIR=$Esri_Install_Directory
+CHOSEN_INSTALL_SET=$Esri_Install_Type
+EOF
+    else
+        error_header
+        echo "Could not write to temporary file $Esri_Silent_Property_File for silent install." >&2
+        echo "Exiting." >&2
+        exit 1;
+    fi
+}
+
+append_to_install_dir() {
+    # Strip any / from end of string
+    Esri_Install_Directory=`echo $Esri_Install_Directory | sed "s;/$;;"`
+
+    # Check if it ends with /arcgis
+    echo $Esri_Install_Directory | grep -e "\/arcgis$" >/dev/null 2>&1
+
+    # If so, append /maps_sdk/qt200.2.0
+    if [ "$?" = "0" ]
+    then
+        Esri_Install_Directory="${Esri_Install_Directory}/maps_sdk/qt${ProductVersion}"
+    fi
+
+    # Check now if it ends with /arcgis/maps_sdk/qt<Version>
+    echo $Esri_Install_Directory | grep -e "\/arcgis\/maps_sdk\/qt${ProductVersion}$" >/dev/null 2>&1
+
+    # If not, append /arcgis/maps_sdk/qt<Version>
+    if [ "$?" != "0" ]
+    then
+        Esri_Install_Directory="${Esri_Install_Directory}/arcgis/maps_sdk/qt${ProductVersion}"
+    fi
+}
+
+check_valid_install_dir() {
+    # Check for / at start of string
+    echo $Esri_Install_Directory | grep -e "^\/" >/dev/null 2>&1
+
+    if [ "$?" != "0" ]
+    then
+        error_header
+        echo "Invalid argument to -d or --directory. The install directory" >&2
+        echo "must be an absolute path. It should start with the / character." >&2
+        echo "Exiting." >&2
+        exit 1
+    fi
+
+    Check_Dir=$Esri_Install_Directory
+    # Strip any / from end of string
+    Check_Dir=`echo $Check_Dir | sed "s;/$;;"`
+
+    # Check that this user can write to the directory
+    if [ -d $Check_Dir ]
+    then
+        if [ ! -w $Check_Dir ]
+        then
+            error_header
+            echo "This user does not have write permissions to the install directory provided." >&2
+            echo "Please change the permissions or choose a different install directory." >&2
+            echo >&2
+            echo "User................`id -u -n`" >&2
+            echo "Install Directory...$Check_Dir" >&2
+            exit 1
+        fi
+    else
+        # /maps_sdk/qt${ProductVersion} dir doesn't exist, check for arcgis/
+        Check_Dir=`echo $Check_Dir | sed "s;/maps_sdk/qt${ProductVersion};;"`
+        if [ -d $Check_Dir ]
+        then
+            if [ ! -w $Check_Dir ]
+            then
+                error_header
+                echo "This user does not have write permissions to the install directory provided." >&2
+                echo "Please change the permissions or choose a different install directory." >&2
+                echo >&2
+                echo "User................`id -u -n`" >&2
+                echo "Install Directory...$Check_Dir" >&2
+                exit 1
+            fi
+        else
+            # /arcgis dir doesn't exist, check next level up
+            Check_Dir=`echo $Check_Dir | sed "s;/arcgis$;;"`
+            if [ -d $Check_Dir ]
+            then
+                if [ ! -w $Check_Dir ]
+                then
+                    error_header
+                    echo "This user does not have write permissions to the install directory provided." >&2
+                    echo "Please change the permissions or choose a different install directory." >&2
+                    echo >&2
+                    echo "User................`id -u -n`" >&2
+                    echo "Install Directory...$Check_Dir" >&2
+                    exit 1
+                fi
+            else
+                # Appended /arcgis & /maps_sdk/qt${ProductVersion} dir don't exist, and their parent doesn't exist. This directory must exist before the setup is run.
+                error_header
+                echo "Install directory [$Check_Dir] does not exist. Please create this directory first." >&2
+                echo "Exiting." >&2
+                exit 1
+            fi
+        fi
+    fi
+}
+
+# Pre-requisite checks
+
+# OS must be Linux
+case `uname` in
+    Linux)   platform=Linux;;
+    *)       error_header
+             echo "The $ProductName setup is only supported on Linux." >&2
+             echo "Exiting." >&2
+             exit 1;;
+esac
+
+# User must not be root
+if [ `id -u` -eq 0 ]
+then
+    error_header
+    echo "The $ProductName setup cannot run as the root user. Please switch to another user and run this setup again." >&2
+    echo "Exiting." >&2
+    exit 1
+fi
+
+# check for existing installs
+for CheckVersion in ${ProductVersion} 10.2.5
+do
+    Existing_Prop_File="$HOME/.ESRI.properties.` uname -n `.${CheckVersion}"
+    if [ -f $Existing_Prop_File ]
+    then
+        ExistingInstallDir=` grep Z_ArcGISMapsSDKQt_INSTALL_DIR ${Existing_Prop_File} | cut -f2 -d= `
+        if [ -f ${ExistingInstallDir}/.Setup/.32 ] || [ -f ${ExistingInstallDir}/.Setup/.64 ] || [ -f ${ExistingInstallDir}/.Setup/.Qt4 ] || [ -f ${ExistingInstallDir}/.Setup/.Qt5 ]
+        then
+            raise_error=true;
+            if [ "${ProductVersion}" = "${CheckVersion}" ]
+            then
+                pbuildno=`cat ${ScriptDir}/setup_resources/build_number | cut -d. -f4`
+                ibuildno=`cat ${ExistingInstallDir}/.Setup/build_number | cut -d. -f4`
+                if [ ${pbuildno} -gt ${ibuildno} ]; then raise_error=false; fi
+                  
+            fi
+            if [ "${raise_error}" = "true" ]
+            then
+                # existing install detected, do not overwrite
+                error_header
+                echo "An existing install was detected at ${ExistingInstallDir}."
+                echo "Please uninstall it and run this setup again." >&2
+                echo "Or run this setup as a different user." >&2
+                echo "Exiting." >&2
+                exit 1
+            fi
+        fi
+    fi
+done
+
+# check for installing on unmatched OS
+if [ ` uname -m | grep -c 64 ` -eq 0 ] && [ -f ${CD_ROOT}/setup_resources/.64 ]
+then
+    echo "The 64-bit $ProductName setup cannot be installed on a 32-bit OS." >&2
+    echo "Exiting." >&2
+    exit 1
+fi
+
+#ESRI_Maps_PassedSetupChecks="true"; export ESRI_Maps_PassedSetupChecks
+ESRI_Runtime_PassedSetupChecks="true"; export ESRI_Runtime_PassedSetupChecks
+
+# Parse command line arguments
+# Set defaults
+Esri_UI_Mode=gui
+Esri_Install_Directory=$HOME
+
+# Get args
+while [[ $1 = -* ]]; do
+  case "$1" in
+    -s|--silent)
+      Esri_UI_Mode=silent
+      Esri_Install_Type=Complete
+      shift 1
+      ;;
+    -d|--directory)
+      if [ -z "$2" ] || [[ $2 = -* ]]
+      then
+        error_header
+        echo "Empty or invalid argument to -d or --directory detected. See --help option for more details." >&2
+        echo "Exiting." >&2
+        exit 1
+      else
+        Esri_Install_Directory="$2"
+        append_to_install_dir
+        check_valid_install_dir # This call should be after append_to_install_dir so we know that /arcgis/${product}${ProductVersion} is at end of string
+        shift 2
+      fi
+      ;;
+    *)
+      error_header
+      echo "Error: Unknown option: $1" >&2
+      exit 1
+      ;;
+  esac
+done
+
+# Installer configuration
+InstallerLoc="$CD_ROOT/setup_resources/Disk1/InstData/VM/install.bin"
+if [ -f "$InstallerLoc" ]
+then
+    # Launch the setup
+    if [ "$Esri_UI_Mode" = "silent" ]
+    then
+        append_to_install_dir
+        check_valid_install_dir # This call should be after append_to_install_dir so we know that /arcgis/${product}${ProductVersion} is at end of string
+        create_prop_file
+        echo "Starting silent installation of ${ProductName}..."
+        sh "$InstallerLoc" -i silent -f "$Esri_Silent_Property_File"
+        InstallLogResult=` grep "Installation: " ${Esri_Install_Directory}/.Setup/${product}_InstallLog.log | tr -d '\n' `
+        if [ "${InstallLogResult}" = "Installation: Successful." ] 
+        then
+            echo "...${ProductName} installation is complete."
+            echo "Please run ${Esri_Install_Directory}/postInstaller."
+        else
+            echo "...${ProductName} installation failed or had warnings."
+            echo "Please check ${Esri_Install_Directory}/.Setup/${product}_InstallLog.log."
+        fi
+    else
+        # validate the current DISPLAY
+        if [ -z "$DISPLAY" ]
+        then
+            echo >&2
+            echo "WARNING:  This shell's DISPLAY variable has not been set." >&2
+            echo "This setup requires a valid display. Please set the DISPLAY" >&2
+            echo "variable to your local UNIX host, or execute this setup" >&2
+            echo "from a UNIX host which has the DISPLAY variable set." >&2
+            echo >&2
+            exit 1
+        fi
+
+        sh "$InstallerLoc" -i gui
+    fi
+else
+    error_header
+    echo "Setup files missing. Please make sure the file setup_resources directory and its contents are present and run the Setup script again." >&2
+    echo "Exiting." >&2
+    exit 1
+fi
