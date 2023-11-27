@@ -53,35 +53,26 @@ When the program is launched, the API key for ArcGIS is requested. If it is corr
 The API key is saved in a file in the $arcgis$ folder, so that the next time the program is launched, the key is automatically retrieved from that file. 
 The Menu Bar is situated at the top of the Application Window. Its purpose is to enable users to handle/create projects. Each project is uniquely identified by a photo, project, and output path. Specifically, the `project` contains GUI data, while `photo` and `output` are necessary for third-party software. The Menu Bar consists of four sections:
 
-- **Project**: for creating or opening projects
-- **Configure**: for modifying default parameters once a project is properly loaded
-- **Options**: miscellaneous options (currently only CUDA)
-- **Help**: providing a reference to this guide
+- **Project**: For creating or opening projects
+- **Configure**: For modifying default parameters once a project is properly loaded
+- **Options**: Miscellaneous options (currently only CUDA)
+- **Help**: Provide a reference to this guide
 
 ### Project
   This section contains two main subsections:
   - *New*: Creates a new project. During this process, you are required to define and select three directories: photo, project, and output. If any issues arise, an error message will be displayed, and the project creation will be aborted.
 
-TODO PIC
+![new-projecte](images/new-project.png)  
 
   - *Open*: Allows the user to open an already existing project. To do this, the user needs to select a valid project folder, which should contain a `params.yaml` file (as illustrated in the example picture). If the selected folder is valid, the photo and output paths will be retrieved accordingly; otherwise, an error message will be displayed.
 
-TODO PIC  
+![open-project](images/open-project.png)  
+
 
 ### Configure
+  If a project is opened correctly, it's possible to modify all the advanced settings related to the project which affects the orthomap generation as well. 
 
 
-### New Project
-
-To create a new project, click **Project** > **New** and fill in all the required information.
-
-### Open Project
-
-To open a project, click **Project** > **Open** and choose a YAML file to open.
-
-### Settings
-
-To change the information fields will populate the YAML file, click **Configure** > **Settings**.
 
 ## Map
 
