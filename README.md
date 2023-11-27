@@ -72,7 +72,7 @@ The Menu Bar is situated at the top of the Application Window. Its purpose is to
 ### Configure
   If a project is opened correctly, it's possible to modify all the advanced settings related to the project which affects the orthomap generation as well. 
 
-![advanced-settings](images/advanced-setting)
+![advanced-settings](images/advanced-settings.png)
 
 ## Map
 
