@@ -22,23 +22,20 @@ Welcome to the AGR-o-RAMA User Interface Usage Documentation. This guide provide
 
 To satisfy the user interface dependencies, follow these steps:
 
-**Install Qt 6.5 (or higher)**:
-
-- [Download the installer at this link](https://www.qt.io/download-qt-installer-oss?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4)
-- Run the downloaded file:
-  - Select the downloaded file and open its properties with <kbd>Ctrl</kbd> + <kbd>i</kbd>
-  - Go to permissions and select **Allow executing file as a program**
-  - Execute the file either with double-click or by terminal
+- Download the release and execute the script **setup** that will launch two installers of Qt 6.5 (or higher) and Arcgis Maps SDK
 - Select custom installation and select any Qt version above 6.5
+- Follow the steps of both installers
 - **Important** : don't change the installation folder
 - Install other dependencies with the following command
 ```  
 sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libyaml-cpp-dev 
 ```
 
+- If you don't want to execute the script, you can use the links for [Qt](https://www.qt.io/download-qt-installer-oss?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4) and [Arcgis](https://developers.arcgis.com/qt/install-and-set-up/)
+
 ## Run
 
-- Download the release and execute the script agrorama.sh in the build folder
+Execute the program either by the script **launch** or by the desktop file
 
 
 ## Overview
