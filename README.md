@@ -47,10 +47,29 @@ sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev 
 The user interface lets you interact asynchronously with the drones, sending requests in the form of waypoints selected on a map, in order to adequately record the field from different points of view and ultimately reconstruct a 3D view of it and identify features of interest. After that, you can visualize the reconstructed orthomap on top of the map. The graphical interface is made of three main parts: the menu bar at the top (for projects and settings), the control panel on the left and, finally, the map.
 ![edit-mode](images/edit-mode.png)  
 
-## Projects
+## GUI Projects
 
 When the program is launched, the API key for ArcGIS is requested. If it is correct, the main window with the map will be shown. Otherwise, the main window will still be shown, but the map will not be loaded.
-The API key is saved in a file in the $arcgis$ folder, so that the next time the program is launched, the key is automatically retrieved from that file.
+The API key is saved in a file in the $arcgis$ folder, so that the next time the program is launched, the key is automatically retrieved from that file. 
+The Menu Bar is situated at the top of the Application Window. Its purpose is to enable users to handle/create projects. Each project is uniquely identified by a photo, project, and output path. Specifically, the `project` contains GUI data, while `photo` and `output` are necessary for third-party software. The Menu Bar consists of four sections:
+
+- **Project**: for creating or opening projects
+- **Configure**: for modifying default parameters once a project is properly loaded
+- **Options**: miscellaneous options (currently only CUDA)
+- **Help**: providing a reference to this guide
+
+### Project
+  This section contains two main subsections:
+  - *New*: Creates a new project. During this process, you are required to define and select three directories: photo, project, and output. If any issues arise, an error message will be displayed, and the project creation will be aborted.
+
+TODO PIC
+
+  - *Open*: Allows the user to open an already existing project. To do this, the user needs to select a valid project folder, which should contain a `params.yaml` file (as illustrated in the example picture). If the selected folder is valid, the photo and output paths will be retrieved accordingly; otherwise, an error message will be displayed.
+
+TODO PIC  
+
+### Configure
+
 
 ### New Project
 
@@ -110,8 +129,5 @@ The right order of steps from the creation of a project to the generation of the
 - The orthomap can also be colored, to show altitude features, through the switch
 - Through the slider at the bottom, you can adjust the opacity of the .tif image, to check if the reconstruction is accurate based on the underlying data.
 
-
 ![tif-kml](https://github.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/assets/38572113/d03ce605-0221-413f-9319-47ea4a04bde4)
-
-  
 
