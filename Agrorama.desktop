@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Agrorama
-Exec="/home/$USER/agrorama/launch"
-Icon="/home/$USER/agrorama/bin/drone.jpeg"
+Exec="/home/$USER/.agrorama/launch"
+Icon="/home/$USER/.agrorama/bin/drone.jpeg"
 Terminal=false
 Type=Application
