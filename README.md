@@ -120,5 +120,5 @@ The right order of steps from the creation of a project to the generation of the
 - The orthomap can also be colored, to show altitude features, through the switch
 - Through the slider at the bottom, you can adjust the opacity of the .tif image, to check if the reconstruction is accurate based on the underlying data.
 
-![tif-kml](https://github.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI/assets/38572113/d03ce605-0221-413f-9319-47ea4a04bde4)
+![Alt text](images/tif-kml.png)
 
