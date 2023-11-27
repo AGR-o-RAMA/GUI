@@ -1,0 +1,20 @@
+#!/bin/bash
+
+script_path="$(cd "$(dirname $0)" && pwd)"
+
+#qt installer
+cd /tmp
+wget https://d13lb3tujbc8s0.cloudfront.net/onlineinstallers/qt-unified-linux-x64-4.6.1-online.run
+chmod +x ./qt*.run
+./qt*.run
+
+#arcgis installer
+$script_path/arcgis/Setup
+
+git clone METTERE LINK DEL BRANCH
+
+desktop_file="$script_path/Agrorama.desktop"
+
+# Make the desktop file executable
+sudo chmod +x $desktop_file
+sudo cp $desktop_file /usr/share/applications/

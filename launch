@@ -1,6 +1,0 @@
-#!/bin/bash
-
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:~/arcgis/maps_sdk/qt200.2.0/sdk/linux/x64/lib
-script_path="$(cd "$(dirname $0)" && pwd)"
-cd $script_path/bin
-./agrorama
