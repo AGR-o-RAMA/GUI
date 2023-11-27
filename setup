@@ -11,7 +11,7 @@ chmod +x ./qt*.run
 #arcgis installer
 $script_path/arcgis/Setup
 
-git clone METTERE LINK DEL BRANCH
+git clone -b release https://github.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI.git ~/.agrorama
 
 desktop_file="$script_path/Agrorama.desktop"
 
