@@ -26,10 +26,6 @@ To satisfy the user interface dependencies, follow these steps:
 - Select custom installation and select any Qt version above 6.5
 - Follow the steps of both installers
 - **Important** : don't change the installation folder
-- Install other dependencies with the following command
-```  
-sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libyaml-cpp-dev 
-```
 
 ## Run
 
