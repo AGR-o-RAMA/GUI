@@ -31,8 +31,6 @@ To satisfy the user interface dependencies, follow these steps:
 sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libyaml-cpp-dev 
 ```
 
-- If you don't want to execute the script, you can use the links for [Qt](https://www.qt.io/download-qt-installer-oss?hsCtaTracking=99d9dd4f-5681-48d2-b096-470725510d34%7C074ddad0-fdef-4e53-8aa8-5e8a876d6ab4) and [Arcgis](https://developers.arcgis.com/qt/install-and-set-up/)
-
 ## Run
 
 Execute the program either by the script **launch** or by the desktop file
