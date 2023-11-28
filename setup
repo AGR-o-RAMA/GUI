@@ -1,6 +1,7 @@
 #!/bin/bash
 
-sudo apt install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libyaml-cpp-dev 
+#dependencies
+sudo apt install patchelf '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev libyaml-cpp-dev 
 
 script_path="$(cd "$(dirname $0)" && pwd)"
 
@@ -13,10 +14,11 @@ chmod +x ./qt*.run
 #arcgis installer
 $script_path/arcgis/Setup
 
+#launch script
 git clone -b release https://github.com/Lab-RoCoCo-Sapienza/AGR-o-RAMA-GUI.git ~/.agrorama
-
-desktop_file="$script_path/Agrorama.desktop"
+cp ~/.agrorama/launch ~/Desktop/agrorama
 
 # Make the desktop file executable
+desktop_file="$script_path/Agrorama.desktop"
 sudo chmod +x $desktop_file
 sudo cp $desktop_file /usr/share/applications/
