@@ -29,7 +29,7 @@ To satisfy the user interface dependencies, follow these steps:
 
 ## Run
 
-Execute the program either by the script **agrorama** on the Desktop
+Execute the program by the script **agrorama** on the Desktop
 
 
 ## Overview
